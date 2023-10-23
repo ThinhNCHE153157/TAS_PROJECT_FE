@@ -5,6 +5,7 @@ function TextInput({ id, label, onChange }) {
   const [value, setValue] = useState("");
   const handleChange = (e) => {
     setValue(e.target.value)
+    console.log(e.target.name, ": ", e.target.value)
     onChange({ [e.target.name]: e.target.value })
   };
 

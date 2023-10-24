@@ -1,7 +1,7 @@
 import React from 'react'
 import TextInput from '../common/TextField'
 
-export default function Userdetail() {
+export default function UserDetail() {
   const handleOnchange = (e) => {
     console.log(e)
   }

@@ -1,2 +1,2 @@
 import axios from 'axios';
-const fetchData = async () => 
+// const fetchData = async () => 

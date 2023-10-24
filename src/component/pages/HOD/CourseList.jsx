@@ -69,6 +69,11 @@ const CourseList = () => {
           </div>
         );
       }
+    },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      flex: 0.5,
     }
 
   ], [])

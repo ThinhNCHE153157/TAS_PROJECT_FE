@@ -14,19 +14,18 @@ import Login from '../pages/commonUser/pages/Login';
 const TheRouter = () => {
   return (
     <Routes>
-      //#region Admin
+      {/* Admin */}
       <Route path='/Admin/Dashboard' exact element={<Dashboard />} />
       <Route path='/Admin/CourseList' exact element={<CourseList />} />
       <Route path='/Admin/ClassList' exact element={<ClassList />} />
       <Route path='/Admin/UserList' exact element={<UserList />} />
       <Route path='/Admin' exact element={<Dashboard />} />
       <Route path='/Admin' exact element={<Header />} />
-    //#endregion
 
-        //#region Common
-            <Route path="/commonUser/register" exact element={<Register />} />
-            <Route path="/commonUser/Login" exact element={<Login />} />
-        //#endregion
+      {/* Common */}
+      <Route path="/commonUser/Register" exact element={<Register />} />
+      <Route path="/commonUser/Login" exact element={<Login />} />
+
 
     </Routes>
   )

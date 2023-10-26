@@ -26,6 +26,22 @@ function SignUp() {
     const [PasswordError, setPasswordError] = useState('');
     const [ConfirmPasswordError, setConfirmPasswordError] = useState('');
 
+    const RegisterUser = (data) => {
+        fetch('https://localhost:5000/api/Account/UserRegister', {
+            method: 'POST',
+            body: JSON.stringify({
+                Email: data.Email,
+                FirstName: data.Firstname,
+                LastName: data.Lastname,
+                Phone: data.Phone,
+                Password: data.Password,
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        });
+    };
+
     const handleFormSubmit = (data) => {
         console.log(data);
         if (data.Firstname === '') {
@@ -45,6 +61,8 @@ function SignUp() {
         }
         if (data.ConfirmPassword === '') {
             setConfirmPasswordError('Confirm Password should be same as password');
+        } else {
+            RegisterUser(data);
         }
     };
 
@@ -187,7 +205,7 @@ function SignUp() {
                         gutterBottom
                     >
                         Already have an account ?{' '}
-                        <Link sx={{ fontWeight: 'bold' }} href="#">
+                        <Link sx={{ fontWeight: 'bold' }} href="/commonUser/Login">
                             Sign In
                         </Link>
                     </Typography>

@@ -9,6 +9,8 @@ import NavBar from '../pages/HOD/layout/NavBar';
 import Register from '../pages/commonUser/pages/Register';
 import Login from '../pages/commonUser/pages/Login';
 import UserProfile from '../pages/commonUser/pages/UserProfile';
+import EditUserProfile from '../pages/commonUser/pages/EditUserProfile';
+import UserManagement from '../pages/commonUser/pages/UserManagement';
 
 const TheRouter = () => {
     return (
@@ -24,6 +26,8 @@ const TheRouter = () => {
             <Route path="/commonUser/register" exact element={<Register />} />
             <Route path="/commonUser/Login" exact element={<Login />} />
             <Route path="/commonUser/userprofile" exact element={<UserProfile />} />
+            <Route path="/commonUser/userprofile/edit" exact element={<EditUserProfile />} />
+            <Route path="/commonUser/usermanagement" exact element={<UserManagement />} />
             //#endregion
         </Routes>
     );

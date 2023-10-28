@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 
-function TextInput({ id, label, onChange }) {
-  const [value, setValue] = useState("");
+function TextFieldBase({ id, name, label, onChange, disable, defaultValue }) {
+  const [value, setValue] = useState(defaultValue || '');
   const handleChange = (e) => {
     setValue(e.target.value)
     console.log(e.target.name, ": ", e.target.value)
     onChange({ [e.target.name]: e.target.value })
   };
-
   return (
     <TextField
       onChange={handleChange}
       value={value}
-      name={id}
-      id={id}
-      size="small"
+      name={name}
+      // id={id}
+      size="Large"
       fullWidth
       label={label}
-      variant="outlined"
+      // variant="outlined"
+      disabled={disable}
     />
   );
 }
 
-export default TextInput;
+export default TextFieldBase;

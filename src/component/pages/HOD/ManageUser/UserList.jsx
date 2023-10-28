@@ -1,11 +1,12 @@
 import React, { useMemo, useState } from 'react'
-import { Avatar, Box, Button } from '@mui/material'
+import { Avatar, Box, Button, IconButton, Typography } from '@mui/material'
 import Sidebar from '../layout/Sidebar'
 import NavBar from '../layout/NavBar'
 import DataGridBase from '../../common/DataGridBase'
 import EditIcon from '@mui/icons-material/Edit';
 import UserEditionModal from './UserEditionModal'
-
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import UserAdditionModal from './UserAdditionModal'
 
 const statusOptions = {
   0: 'Hoạt động',
@@ -93,6 +94,7 @@ const getColor = (value) => {
 }
 const UserList = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [rows, setRows] = useState(forRows);
   const columns = useMemo(() => [
@@ -166,6 +168,19 @@ const UserList = () => {
     }
   };
 
+  const addRowData = (addData) => {
+    // const data_id_max_row = data.find(item => item.data_id === Math.max(...data.map(item => item.data_id)));
+    console.log(addData)
+    const data_id_max = Math.max(...data.map(item => item.data_id)) + 1;
+    addData = { ...addData, 'id': data_id_max, 'data_id': data_id_max, 'avatar': '' }
+    const updateRows = [...rows]
+    console.log('UpdateRow:', updateRows)
+    updateRows.push(addData)
+    console.log('UpdateRow:', updateRows)
+    console.log('AddData:', addData)
+    setRows(updateRows)
+
+  };
   // useEffect(() => {
   //   // Lấy dữ liệu từ database hoặc từ một nguồn khác
   //   setRows(rows);
@@ -177,7 +192,24 @@ const UserList = () => {
       <Box sx={{ display: 'flex' }}>
         <Sidebar />
         <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
-          <DataGridBase columns={columns} rows={rows} pageName='User management' />
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <IconButton
+              color="primary"
+              cursor="pointer"
+              sx={{ position: 'absolute', top: '25%', right: '7%', cursor: 'pointer', zIndex: 1 }}
+              onClick={() => {
+                setIsAddModalOpen(true);
+              }}
+            >
+              <PersonAddAltIcon />
+              <Typography variant="body2" sx={{ marginLeft: 1 }}>
+                Thêm user
+              </Typography>
+            </IconButton>
+            <DataGridBase columns={columns} rows={rows} pageName='User manager' columnsToSearch={['username']} />
+          </Box>
+
+          {/* Edit modal */}
           <UserEditionModal
             open={isEditModalOpen}
             onClose={() => {
@@ -186,6 +218,15 @@ const UserList = () => {
             }}
             rowToEdit={selectedRow}
             onSave={updateRowData}
+          />
+
+          {/* Add modal */}
+          <UserAdditionModal
+            open={isAddModalOpen}
+            onClose={() => {
+              setIsAddModalOpen(false);
+            }}
+            onSubmit={addRowData}
           />
         </Box>
       </Box>

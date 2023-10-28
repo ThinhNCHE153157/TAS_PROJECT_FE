@@ -1,11 +1,10 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Header from '../layout/Header'
-import UserList from '../pages/HOD/UserList'
+import UserList from '../pages/HOD/ManageUser/UserList'
 import ClassList from '../pages/HOD/ClassList'
 import Dashboard from '../pages/HOD/Dashboard'
-import CourseList from '../pages/HOD/CourseList'
-import NavBar from '../pages/HOD/layout/NavBar'
+import CourseList from '../pages/HOD/ManageCourse/CourseList'
 import Register from '../pages/commonUser/pages/Register';
 import Login from '../pages/commonUser/pages/Login';
 

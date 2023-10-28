@@ -5,7 +5,7 @@ import NavBar from '../layout/NavBar'
 import DataGridBase from '../../common/DataGridBase'
 import EditIcon from '@mui/icons-material/Edit';
 import EditCourseModal from './EditCourseModal'
-
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
 const statusOptions = {
   0: 'Hoạt động',
@@ -177,6 +177,7 @@ const CourseList = () => {
       <Box sx={{ display: 'flex' }}>
         <Sidebar />
         <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
+
           <DataGridBase columns={columns} rows={rows} pageName='Course List' />
           <EditCourseModal
             open={isEditModalOpen}

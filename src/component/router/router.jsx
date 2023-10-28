@@ -5,7 +5,6 @@ import UserList from '../pages/HOD/ManageUser/UserList'
 import ClassList from '../pages/HOD/ClassList'
 import Dashboard from '../pages/HOD/Dashboard'
 import CourseList from '../pages/HOD/ManageCourse/CourseList'
-import NavBar from '../pages/HOD/layout/NavBar'
 import Register from '../pages/commonUser/pages/Register';
 import Login from '../pages/commonUser/pages/Login';
 import UserProfile from '../pages/commonUser/pages/UserProfile';

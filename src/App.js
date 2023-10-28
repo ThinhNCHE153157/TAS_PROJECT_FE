@@ -7,12 +7,8 @@ import TheRouter from './component/router/router';
 function App() {
     return (
         <div className="App">
-            {/* <Header />
-      <Footer /> */}
-            {/* <Sidebar /> */}
-            <demor />
             <Routers>
-                <TheRouter /> {/*Use the renamed component here */}
+                <TheRouter />
             </Routers>
         </div>
     );

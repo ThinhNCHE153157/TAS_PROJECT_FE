@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Container } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
-import Header from '../layout/Header';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
@@ -14,7 +13,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
-import EditNoteIcon from '@mui/icons-material/EditNote';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#ffff',
@@ -26,32 +24,30 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const UserProfile = () => {
     const [data, setData] = useState([
-        { label: 'User Name:', value: 'Data 1', editMode: false },
-        { label: 'Password:', value: 'Data 2', editMode: false },
-        { label: 'Email:', value: 'Data 3', editMode: false },
-        { label: 'Phone:', value: 'Data 4', editMode: false },
-        { label: 'Address:', value: 'Data 5', editMode: false },
-        { label: 'Job:', value: 'Data 6', editMode: false },
-        { label: 'Created Date:', value: 'Data 7', editMode: false },
-        { label: 'Updated Date:', value: 'Data 8', editMode: false },
-        { label: 'Status:', value: 'Data 9', editMode: false },
+        { label: 'User Name:', value: 'Data 1' },
+        { label: 'Password:', value: 'Data 2' },
+        { label: 'Email:', value: 'Data 3' },
+        { label: 'Phone:', value: 'Data 4' },
+        { label: 'Address:', value: 'Data 5' },
+        { label: 'Job:', value: 'Data 6' },
+        { label: 'Created Date:', value: 'Data 7' },
+        { label: 'Updated Date:', value: 'Data 8' },
+        { label: 'Status:', value: 'Data 9' },
     ]);
 
-    const handleEdit = (index) => {
-        const updatedData = [...data];
-        updatedData[index].editMode = true;
-        setData(updatedData);
+    const [editMode, setEditMode] = useState(false);
+
+    const handleEdit = () => {
+        setEditMode(true);
     };
 
-    const handleSave = (index) => {
-        const updatedData = [...data];
-        updatedData[index].editMode = false;
-        setData(updatedData);
+    const handleSave = () => {
+        setEditMode(false);
     };
 
     return (
         <>
-            <Header />
+            {/* <Header /> */}
             <div>
                 <React.Fragment>
                     <CssBaseline />
@@ -77,20 +73,24 @@ const UserProfile = () => {
                                             >
                                                 <AccountBoxIcon sx={{ height: 100, width: 100, textAlign: 'center' }} />
                                                 <div>
-                                                    <span style={{ fontWeight: 'bold' }}>Choose your image....</span>
-                                                    <Button style={{ marginLeft: '10px' }}>Browser</Button>
+                                                    <span style={{ fontWeight: 'bold' }}>Choose other image....</span>
+                                                    <input
+                                                        type="file"
+                                                        style={{ marginLeft: '50px', textAlign: 'center' }}
+                                                    />
                                                 </div>
                                                 <div
                                                     style={{
                                                         fontFamily: 'initial',
                                                         fontWeight: 'bolder',
                                                         fontSize: '20px',
+                                                        marginTop: '20px',
                                                     }}
                                                 >
                                                     <span>Nguyen Van A</span>
                                                 </div>
                                                 <div>
-                                                    <span>Teacher</span>
+                                                    <i>@Teacher</i>
                                                 </div>
                                             </div>
                                         </Item>
@@ -100,13 +100,7 @@ const UserProfile = () => {
                                             <h2 style={{ fontFamily: 'cursive' }}>More Information</h2>
                                             <TableContainer component={Paper}>
                                                 <Table>
-                                                    <TableHead>
-                                                        {/* <TableRow>
-                                                            <TableCell></TableCell>
-                                                            <TableCell></TableCell>
-                                                            <TableCell></TableCell>
-                                                        </TableRow> */}
-                                                    </TableHead>
+                                                    <TableHead></TableHead>
                                                     <TableBody>
                                                         {data.map((row, index) => (
                                                             <TableRow key={index}>
@@ -114,7 +108,7 @@ const UserProfile = () => {
                                                                     {row.label}
                                                                 </TableCell>
                                                                 <TableCell>
-                                                                    {row.editMode ? (
+                                                                    {editMode ? (
                                                                         <input
                                                                             type="text"
                                                                             value={row.value}
@@ -129,23 +123,29 @@ const UserProfile = () => {
                                                                         row.value
                                                                     )}
                                                                 </TableCell>
-                                                                <TableCell>
-                                                                    {row.editMode ? (
-                                                                        <Button
-                                                                            variant="contained"
-                                                                            color="primary"
-                                                                            onClick={() => handleSave(index)}
-                                                                        >
-                                                                            Save
-                                                                        </Button>
-                                                                    ) : (
-                                                                        <EditNoteIcon
-                                                                            onClick={() => handleEdit(index)}
-                                                                        />
-                                                                    )}
-                                                                </TableCell>
                                                             </TableRow>
                                                         ))}
+                                                        <TableRow>
+                                                            <TableCell>
+                                                                {editMode ? (
+                                                                    <Button
+                                                                        variant="contained"
+                                                                        color="primary"
+                                                                        onClick={handleSave}
+                                                                    >
+                                                                        Save
+                                                                    </Button>
+                                                                ) : (
+                                                                    <Button
+                                                                        variant="outlined"
+                                                                        color="primary"
+                                                                        onClick={handleEdit}
+                                                                    >
+                                                                        Edit
+                                                                    </Button>
+                                                                )}
+                                                            </TableCell>
+                                                        </TableRow>
                                                     </TableBody>
                                                 </Table>
                                             </TableContainer>

@@ -6,7 +6,6 @@ import DataGridBase from '../../common/DataGridBase';
 
 const statusOptions = {
     0: 'Hoạt động',
-    //1: 'Chờ xử lý',
     1: 'Ngừng hoạt động',
 };
 

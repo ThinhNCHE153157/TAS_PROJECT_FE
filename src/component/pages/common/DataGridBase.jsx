@@ -2,38 +2,33 @@ import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { DataGrid, GridToolbarQuickFilter } from "@mui/x-data-grid";
 import React, { useState } from "react";
-
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 function QuickSearchToolbar() {
   return (
     <Box
       sx={{
         p: 0.5,
         pb: 0,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginLeft: 2,
+        width: '40%'
       }}
     >
       <GridToolbarQuickFilter
         quickFilterParser={(searchInput) =>
           searchInput
-            .split(',')
+            .split(",")
             .map((value) => value.trim())
-            .filter((value) => value !== '')
+            .filter((value) => value !== "")
         }
       />
     </Box>
   );
 }
 
-// useEffect(() => {
-//   setRows(data);
-// }, [data])
-// const handleOnCellClick = (params) => {
-//   console.log("OnCellClick: ", params.row)
-//   onClick(params.row);
-// }
-
-
-function DataGridBase({ rows, columns, onClick, pageName }) {
-
+function DataGridBase({ rows, columns, pageName }) {
   // const [rows, setRows] = useState(data || []);
   const [pageSize, setPageSize] = useState(5);
 
@@ -50,7 +45,7 @@ function DataGridBase({ rows, columns, onClick, pageName }) {
       >
         {pageName}
       </Typography>
-
+      <Box sx={{ height: 50 }} />
       <DataGrid
         columns={columns}
         rows={rows}
@@ -60,22 +55,7 @@ function DataGridBase({ rows, columns, onClick, pageName }) {
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         rowsPerPageOptions={[5, 10, 20]}
         pagination
-        // slots={{ toolbar: QuickSearchToolbar }}
-        components={{
-          Toolbar: QuickSearchToolbar,
-        }}
-
-      // pageSizeOptions={[5, 10, 25]}
-      // renderRow={(params) => (
-      //   <GridRow {...params} key={params.id} />
-      // )}
-      // pageSize={pageSize || 10}
-      // onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-
-      // getRowId={(row) => row.key}
-      // loading={loopLoading}
-      // onPageChage={(newPage) => setPageState(newPage)}
-      // experimentalFeatures={{ newEditingApi: true }}
+        slots={{ toolbar: QuickSearchToolbar }}
       />
     </Box>
 

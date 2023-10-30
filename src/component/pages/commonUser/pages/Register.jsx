@@ -99,7 +99,7 @@ function SignUp() {
                             error={FirstnameError}
                             style={marginTop}
                             fullWidth
-                            required={true}
+                            required={false}
                             helperText={FirstnameError}
                             label="First Name"
                         ></TextField>
@@ -108,7 +108,7 @@ function SignUp() {
                             pattern="[A-Za-z]{3,20}"
                             error={LastnameError}
                             style={marginTop}
-                            required={true}
+                            required={false}
                             fullWidth
                             helperText={LastnameError}
                             label="Last Name"
@@ -118,7 +118,7 @@ function SignUp() {
                             pattern="0[0-9]{9}"
                             error={PhoneError}
                             style={marginTop}
-                            required={true}
+                            required={false}
                             fullWidth
                             helperText={PhoneError}
                             label="Phone"
@@ -140,7 +140,7 @@ function SignUp() {
                                 {...register('Password')}
                                 pattern=".{8,20}"
                                 error={PasswordError}
-                                required={true}
+                                required={false}
                                 autoComplete="off"
                                 endAdornment={
                                     <InputAdornment position="end">
@@ -179,7 +179,7 @@ function SignUp() {
                                 {...register('ConfirmPassword')}
                                 pattern={PasswordError}
                                 error={ConfirmPasswordError}
-                                required={true}
+                                required={false}
                                 label="Confirm Password"
                             />
                             {ConfirmPasswordError && (

@@ -25,8 +25,8 @@ const UserAdditionModal = ({
 
   const handleSubmit = () => {
     // Thực hiện lưu các thay đổi
-    console.log(editedData)
-    onSubmit(editedData);
+    console.log(addData)
+    onSubmit(addData);
 
     onClose();
   };

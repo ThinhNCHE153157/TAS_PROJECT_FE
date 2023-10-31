@@ -175,6 +175,7 @@ const UserList = () => {
     addData = { ...addData, 'id': data_id_max, 'data_id': data_id_max, 'avatar': '' }
     const updateRows = [...rows]
     updateRows.push(addData)
+
     setRows(updateRows)
 
   };

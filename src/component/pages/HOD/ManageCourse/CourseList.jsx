@@ -5,8 +5,8 @@ import NavBar from '../layout/NavBar';
 import DataGridBase from '../../common/DataGridBase';
 
 const statusOptions = {
-    0: 'Hoạt động',
-    1: 'Ngừng hoạt động',
+    false: 'Hoạt động',
+    true: 'Ngừng hoạt động',
 };
 
 const getValueOption = (value) => {
@@ -15,13 +15,10 @@ const getValueOption = (value) => {
 
 const getColor = (value) => {
     switch (value) {
-        case 0:
+        case false:
             return 'green';
 
-        case 1:
-            return 'blue';
-
-        case 2:
+        case true:
             return 'red';
 
         default:
@@ -40,14 +37,14 @@ const CourseList = () => {
             { field: 'updateDate', headerName: 'Update Date', flex: 1 },
 
             {
-                field: 'status',
+                field: 'isDeleted',
                 headerName: 'Status',
                 editable: true,
                 flex: 1,
                 type: 'singleSelect',
                 valueOptions: [
-                    { value: 0, label: 'Hoạt động' },
-                    { value: 1, label: 'Ngừng hoạt động' },
+                    { value: false, label: 'Hoạt động' },
+                    { value: true, label: 'Ngừng hoạt động' },
                 ],
                 renderCell: (params) => {
                     const color = getColor(params.value);

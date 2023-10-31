@@ -1,3 +1,4 @@
+
 import React, { useMemo, useState } from 'react'
 import { Avatar, Box, Button, IconButton, Typography } from '@mui/material'
 import Sidebar from '../layout/Sidebar'
@@ -170,14 +171,12 @@ const UserList = () => {
 
   const addRowData = (addData) => {
     // const data_id_max_row = data.find(item => item.data_id === Math.max(...data.map(item => item.data_id)));
-    console.log(addData)
+    // console.log(addData)
     const data_id_max = Math.max(...data.map(item => item.data_id)) + 1;
     addData = { ...addData, 'id': data_id_max, 'data_id': data_id_max, 'avatar': '' }
     const updateRows = [...rows]
-    console.log('UpdateRow:', updateRows)
     updateRows.push(addData)
-    console.log('UpdateRow:', updateRows)
-    console.log('AddData:', addData)
+
     setRows(updateRows)
 
   };

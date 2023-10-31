@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -21,50 +21,27 @@ import FolderIcon from '@mui/icons-material/Folder';
 import AddIcon from '@mui/icons-material/AddBox';
 
 const UserManagement = () => {
-    const [data, setData] = useState([
-        {
-            id: 1,
-            name: 'Pham Tien Dat',
-            dateCreated: '27/10/2023',
-            role: 'Teacher',
-            isActive: true,
-        },
-        {
-            id: 2,
-            name: 'Nguyen Van A',
-            dateCreated: '27/10/2023',
-            role: 'Student',
-            isActive: false,
-        },
-        {
-            id: 3,
-            name: 'Nguyen Van C',
-            dateCreated: '27/10/2023',
-            role: 'Enterprise',
-            isActive: false,
-        },
-        {
-            id: 4,
-            name: 'Nguyen Van C',
-            dateCreated: '27/10/2023',
-            role: 'Student',
-            isActive: false,
-        },
-        {
-            id: 5,
-            name: 'Nguyen Van C',
-            dateCreated: '27/10/2023',
-            role: 'Student',
-            isActive: false,
-        },
-        {
-            id: 6,
-            name: 'Nguyen Van C',
-            dateCreated: '27/10/2023',
-            role: 'Student',
-            isActive: false,
-        },
-    ]);
+    const [data, setData] = useState([]);
+    const [listaccount, setListAccount] = useState([]);
+    useEffect(() => {
+        async function fetchData() {
+            const requestUrl = 'https://localhost:5000/api/Account/GetAllAccount';
+
+            try {
+                const response = await fetch(requestUrl);
+                if (response.ok) {
+                    const data = await response.json();
+                    setData(data);
+                } else {
+                    console.error('Failed to fetch data');
+                }
+            } catch (error) {
+                console.error('An error occurred:', error);
+            }
+        }
+
+        fetchData();
+    }, []);
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -81,6 +58,8 @@ const UserManagement = () => {
         setPage(0);
     };
 
+    const [rowStatus, setRowStatus] = useState({});
+
     const handleToggle = (id) => {
         setSelectedId(id);
         setOpenDialog(true);
@@ -91,18 +70,43 @@ const UserManagement = () => {
     };
 
     const handleStatusChange = () => {
-        const updatedData = data.map((item) => {
-            if (item.id === selectedId) {
-                return { ...item, isActive: !item.isActive };
-            }
-            return item;
-        });
-        setData(updatedData);
+        // const updatedData = data.map((item) => {
+        //     if (item.id === selectedId) {
+        //         return { ...item, isActive: !item.isActive };
+        //     }
+        //     return item;
+        // });
+        // setData(updatedData);
+        // setOpenDialog(false);
+        const updatedRowStatus = { ...rowStatus };
+        updatedRowStatus[selectedId] = !rowStatus[selectedId];
+        setRowStatus(updatedRowStatus);
         setOpenDialog(false);
     };
 
     const handleEdit = (id) => {
         // Xử lý sự kiện khi người dùng ấn nút Edit
+    };
+
+    function mapRoleToText(role) {
+        switch (role) {
+            case 1:
+                return 'Admin';
+            case 2:
+                return 'Teacher';
+            case 3:
+                return 'Student';
+            default:
+                return 'Unknown';
+        }
+    }
+
+    const formatCreateDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = date.getMonth() + 1; // Lưu ý rằng tháng bắt đầu từ 0
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
     };
 
     return (
@@ -133,7 +137,9 @@ const UserManagement = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell style={{ fontWeight: 'bold' }}>#</TableCell>
-                            <TableCell style={{ fontWeight: 'bold' }}>Name</TableCell>
+                            <TableCell style={{ fontWeight: 'bold' }}>User Name</TableCell>
+                            <TableCell style={{ fontWeight: 'bold' }}>Email</TableCell>
+                            <TableCell style={{ fontWeight: 'bold' }}>Phone</TableCell>
                             <TableCell style={{ fontWeight: 'bold' }}>Date Created</TableCell>
                             <TableCell style={{ fontWeight: 'bold' }}>Role</TableCell>
                             <TableCell style={{ fontWeight: 'bold' }}>Status</TableCell>
@@ -142,17 +148,19 @@ const UserManagement = () => {
                     </TableHead>
                     <TableBody>
                         {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                            <TableRow key={row.id}>
-                                <TableCell>{row.id}</TableCell>
+                            <TableRow key={row.accountId}>
+                                <TableCell>{row.accountId}</TableCell>
                                 <TableCell>
                                     <img src={`/examples/images/avatar/${row.id}.jpg`} className="avatar" alt="" />
-                                    {row.name}
+                                    {row.username}
                                 </TableCell>
-                                <TableCell>{row.dateCreated}</TableCell>
-                                <TableCell>{row.role}</TableCell>
+                                <TableCell>{row.email}</TableCell>
+                                <TableCell>{row.phone}</TableCell>
+                                <TableCell>{formatCreateDate(row.createDate)}</TableCell>
+                                <TableCell>{mapRoleToText(row.Role)}</TableCell>
                                 <TableCell>
                                     <Switch
-                                        checked={row.isActive}
+                                        checked={!row.isActive}
                                         onChange={() => handleToggle(row.id)}
                                         color="primary"
                                     />

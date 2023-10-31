@@ -12,11 +12,35 @@ import {
     Paper,
     Link,
     Typography,
+    FormHelperText,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { FcGoogle as GoogleIcon } from 'react-icons/fc';
-
+import { useNavigate } from 'react-router-dom';
 function Login() {
+    const navigate = useNavigate();
+
+    const [password, setPassword] = React.useState('');
+    const [passwordError, setPasswordError] = React.useState('');
+    const [userName, setUserName] = React.useState('');
+    const [userNameError, setUserNameError] = React.useState('');
+    const handleUsername = (event) => {
+        if (event.target.value === '') {
+            setUserNameError('Username cant be empty');
+        } else {
+            setUserNameError('');
+            setUserName(event.target.value);
+        }
+    };
+    const handlePassword = (event) => {
+        if (event.target.value === '') {
+            setPasswordError('Password cant be empty');
+        } else {
+            setPasswordError('');
+            setPassword(event.target.value);
+        }
+    };
+
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -33,7 +57,32 @@ function Login() {
         width: '40%',
         borderBottom: '1px solid #000',
     };
+    const LoginAPI = () => {
+        var myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Authorization', 'Bearer {{bearerToken}}');
 
+        var raw = JSON.stringify({
+            userName: userName,
+            password: password,
+        });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow',
+        };
+
+        fetch('https://localhost:5000/api/Account/UserLogin', requestOptions)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data.accessToken);
+                localStorage.setItem('token', data.accessToken);
+                navigate('/Admin/Dashboard');
+            })
+            .catch((error) => console.log('error', error));
+    };
     return (
         <div>
             <Header />
@@ -44,7 +93,14 @@ function Login() {
                     </Grid>
                     <Grid align="center">
                         <form action="">
-                            <TextField style={marginTop} fullWidth label="Email"></TextField>
+                            <TextField
+                                style={marginTop}
+                                fullWidth
+                                error={userNameError}
+                                helperText={userNameError}
+                                onChange={handleUsername}
+                                label="Email"
+                            ></TextField>
                             <FormControl style={marginTop} sx={{ width: '100%' }} variant="outlined">
                                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                 <OutlinedInput
@@ -62,18 +118,25 @@ function Login() {
                                             </IconButton>
                                         </InputAdornment>
                                     }
+                                    error={passwordError}
+                                    required={true}
+                                    onChange={handlePassword}
                                     label="Password"
                                 />
+                                {passwordError && (
+                                    <FormHelperText sx={{ color: 'red' }}>{passwordError}</FormHelperText>
+                                )}
                             </FormControl>
                             <Grid m={1} align="right">
-                                <Link href="/commonUser/FotgotPassword">Forgot password?</Link>
+                                <Link href="#">Forgot password?</Link>
                             </Grid>
                             <Button
                                 style={marginTop}
                                 sx={{ height: '45px', backgroundColor: '#4A3AFF', color: '#fff' }}
                                 fullWidth
-                                type="submit"
+                                type="button"
                                 variant="contained"
+                                onClick={LoginAPI}
                             >
                                 Login
                             </Button>
@@ -91,7 +154,7 @@ function Login() {
                     </Grid>
 
                     <Grid align="center">
-                        Don't have an account? <Link href="/commonUser/register">Register now</Link>
+                        Don't have an account? <Link href="/CommonUser/Register">Register now</Link>
                     </Grid>
                 </Paper>
             </Grid>

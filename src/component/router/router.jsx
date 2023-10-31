@@ -2,7 +2,7 @@ import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Header from '../layout/Header'
 import UserList from '../pages/HOD/ManageUser/UserList'
-import ClassList from '../pages/HOD/ClassList'
+import ClassList from '../pages/HOD/ManageClass/ClassList'
 import Dashboard from '../pages/HOD/Dashboard'
 import CourseList from '../pages/HOD/ManageCourse/CourseList'
 import Register from '../pages/commonUser/pages/Register';
@@ -10,6 +10,8 @@ import Login from '../pages/commonUser/pages/Login';
 import UserProfile from '../pages/commonUser/pages/UserProfile';
 import EditUserProfile from '../pages/commonUser/pages/EditUserProfile';
 import UserManagement from '../pages/commonUser/pages/UserManagement';
+import ClassListComponent from '../pages/HOD/ManageClass/ClassListComponent'
+import ClassDetail from '../pages/HOD/ManageClass/ClassDetail'
 const TheRouter = () => {
   return (
     <Routes>
@@ -20,6 +22,7 @@ const TheRouter = () => {
       <Route path='/Admin/UserList' exact element={<UserList />} />
       <Route path='/Admin' exact element={<Dashboard />} />
       <Route path='/Admin' exact element={<Header />} />
+      <Route path="/Admin/ClassList/Detail/:id" exact element={<ClassDetail />} />
 
       {/* Common */}
       <Route path="/commonUser/Register" exact element={<Register />} />

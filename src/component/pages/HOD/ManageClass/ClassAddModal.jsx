@@ -1,12 +1,12 @@
-import React from 'react'
-import { useState, useEffect } from 'react';
-import { Modal, Box, Button, Grid } from '@mui/material';
-import TextFieldBase from '../../common/TextFieldBase';
+import { Box, Button, Grid, Modal } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import TextFieldBase from '../../common/TextFieldBase'
 
-const UserAdditionModal = ({
+const ClassAddModal = ({
   open,
   onClose,
   onSubmit,
+  errors,
 }) => {
   const [addData, setAddData] = useState({});
 
@@ -25,16 +25,13 @@ const UserAdditionModal = ({
 
   const handleSubmit = () => {
     // Thực hiện lưu các thay đổi
-    console.log(editedData)
-    onSubmit(editedData);
-
-    onClose();
+    console.log(addData)
+    onSubmit(addData);
   };
 
   const handleClose = () => {
     onClose();
   }
-
   return (
     <Modal
       open={open}
@@ -58,22 +55,40 @@ const UserAdditionModal = ({
         <h2 sx={{ m: 2 }} id="edit-modal-title">Thêm user</h2>
         <Grid container spacing={2} rowSpacing={2} justifyContent='flex-start'>
           <Grid item xs={7}>
-            <TextFieldBase label='Email' name='email' onChange={handelOnChange} />
+            <TextFieldBase
+              label='Class name'
+              name='className'
+              onChange={handelOnChange}
+              isRequire={true}
+              error={errors && errors.err_className ? errors.err_className : ''}
+            />
           </Grid>
           <Grid item xs={5}>
-            <TextFieldBase label='Username' name='username' onChange={handelOnChange} />
+            <TextFieldBase
+              label='Course'
+              name='course'
+              onChange={handelOnChange}
+              isRequire={true}
+              error={errors && errors.err_className ? errors.err_course : ''}
+            />
           </Grid>
           <Grid item xs={6}>
-            <TextFieldBase label='Phone' name='phone' onChange={handelOnChange} />
-          </Grid>
-          <Grid item xs={6}>
-            <TextFieldBase label='First Name' name='first_name' onChange={handelOnChange} />
+            <TextFieldBase
+              label='Lecturer'
+              name='lecturer'
+              onChange={handelOnChange}
+              isRequire={true}
+              error={errors && errors.err_className ? errors.err_lecturer : ''}
+            />
           </Grid>
           <Grid item xs={6} >
-            <TextFieldBase label='Last Name' name='last_name' onChange={handelOnChange} />
-          </Grid>
-          <Grid item xs={6}>
-            <TextFieldBase />
+            <TextFieldBase
+              label='Description'
+              name='description'
+              onChange={handelOnChange}
+              isRequire={true}
+              error={errors && errors.err_className ? errors.err_description : ''}
+            />
           </Grid>
           <Grid item container spacing={2}>
             <Grid item xs={3}>
@@ -88,7 +103,7 @@ const UserAdditionModal = ({
 
       </Box>
     </Modal>
-  );
+  )
 }
 
-export default UserAdditionModal
+export default ClassAddModal

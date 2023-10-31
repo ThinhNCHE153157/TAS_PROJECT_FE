@@ -24,6 +24,7 @@ const getColor = (value) => {
         default:
             return 'gray';
     }
+
 };
 const CourseList = () => {
     const columns = useMemo(

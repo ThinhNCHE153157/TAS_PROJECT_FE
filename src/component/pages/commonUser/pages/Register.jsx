@@ -207,7 +207,7 @@ function SignUp() {
                             style={marginTop}
                             sx={{ height: '45px', backgroundColor: '#4A3AFF', color: '#fff' }}
                             fullWidth
-                            type="submit"
+                            type="button"
                             variant="contained"
                             color="primary"
                         >

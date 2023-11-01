@@ -10,9 +10,9 @@ import UserProfile from '../pages/commonUser/pages/UserProfile';
 import EditUserProfile from '../pages/commonUser/pages/EditUserProfile';
 import UserManagement from '../pages/commonUser/pages/UserManagement';
 import ClassDetail from '../pages/HOD/ManageClass/ClassDetail'
-import ClassList from '../pages/HOD/ManageClass/ClassList';
 import CourseDetail from '../pages/HOD/ManageCourse/CourseDetail';
 import ClassList from '../pages/HOD/ManageClass/ClassList';
+
 const TheRouter = () => {
   return (
     <Routes>

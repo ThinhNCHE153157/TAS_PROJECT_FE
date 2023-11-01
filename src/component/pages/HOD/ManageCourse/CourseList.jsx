@@ -1,3 +1,4 @@
+
 import React, { useMemo, useEffect } from 'react';
 import { Box } from '@mui/material';
 import Sidebar from '../layout/Sidebar';
@@ -24,6 +25,7 @@ const getColor = (value) => {
         default:
             return 'gray';
     }
+
 };
 const CourseList = () => {
     const columns = useMemo(

@@ -6,15 +6,19 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
+import ClassEditionModal from './ClassEditionModal';
+import { useState } from 'react';
 
 export default function ClassListComponent({
   id,
   url,
   className,
-  course,
+  numOfStudents,
   lecturer,
   description
 }) {
+
+  const [isOpenEditModal, setIsOpenEditModal] = useState(false)
   return (
     <Card sx={{
       maxWidth: 400,
@@ -33,7 +37,7 @@ export default function ClassListComponent({
         </Typography>
         <ul>
           <li>
-            <b>Course: </b> {course}
+            <b>Number of Student: </b> {numOfStudents}
           </li>
           <li>
             <b>Lecture: </b> {lecturer}
@@ -48,8 +52,16 @@ export default function ClassListComponent({
         <Link to={`/Admin/ClassList/Detail/${id}`}>
           <Button variant='outlined' sx={{ marginLeft: 'auto' }}>Detail</Button>
         </Link>
-        <Button variant='contained' sx={{ marginLeft: 2 }}>Edit</Button>
+        <Button variant='contained' onClick={() => setIsOpenEditModal(true)} sx={{ marginLeft: 2 }}>Edit</Button>
       </CardActions>
+
+      <ClassEditionModal
+        open={isOpenEditModal}
+        onClose={() => {
+          setIsOpenEditModal(false);
+        }}
+      />
+
     </Card>
   );
 }

@@ -126,6 +126,14 @@ const ClassList = () => {
       setNewRows({})
       onClose();
       console.log('errors: ', errors)
+    } else {
+      let err_temp = {};
+      err_temp = !newRow.className ? { ...err_temp, ...{ 'err_className': 'You need to field this field' } } : err_temp
+      err_temp = !newRow.numOfStudents ? { ...err_temp, ...{ 'err_numOfStudents': 'You need to field this field' } } : err_temp
+      err_temp = !newRow.lecturer ? { ...err_temp, ...{ 'err_lecturer': 'You need to field this field' } } : err_temp
+      err_temp = !newRow.description ? { ...err_temp, ...{ 'err_description': 'You need to field this field' } } : err_temp
+      console.log("err_temp", err_temp)
+      setErrors(err_temp);
     }
   };
 

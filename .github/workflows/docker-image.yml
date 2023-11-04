@@ -24,10 +24,3 @@ jobs:
       run: |
             docker build . --tag ghcr.io/thinhnche153157/tas_project_fe:latest
             docker push ghcr.io/thinhnche153157/tas_project_fe:latest
-    - name: deploy
-      uses: appleboy/ssh-action@master
-      with:
-          username: root
-          host: 103.179.173.136
-          password: ${{ secrets.SSH_PASSWORD }}
-          script: './server_deploy.sh'

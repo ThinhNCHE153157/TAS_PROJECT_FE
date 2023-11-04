@@ -12,9 +12,11 @@ import UserManagement from '../pages/commonUser/pages/UserManagement';
 import ClassDetail from '../pages/HOD/ManageClass/ClassDetail'
 import CourseDetail from '../pages/HOD/ManageCourse/CourseDetail';
 import ClassList from '../pages/HOD/ManageClass/ClassList';
-import ChangePassword from '../pages/commonUser/pages/ChangePassword'
-import FotgotPassword from '../pages/commonUser/pages/FotgotPassword'
-import ResetPassword from '../pages/commonUser/pages/ResetPassword'
+import ChangePassword from '../pages/commonUser/pages/ChangePassword';
+import FotgotPassword from '../pages/commonUser/pages/FotgotPassword';
+import ResetPassword from '../pages/commonUser/pages/ResetPassword';
+import ViewQuestion from '../pages/HOD/ManageQuestion/ViewQuestion';
+import QuestionList from '../pages/HOD/ManageQuestion/ListQuestion';
 const TheRouter = () => {
   return (
     <Routes>
@@ -35,6 +37,8 @@ const TheRouter = () => {
       <Route path="/commonUser/FotgotPassword" exact element={<FotgotPassword />} />
       <Route path="/commonUser/ResetPassword" exact element={<ResetPassword />} />
       <Route path="/commonUser/ChangePassword" exact element={<ChangePassword />} />
+      <Route path="/viewquestion" exact element={<ViewQuestion />} />
+      <Route path="/QuestionList" exact element={<QuestionList />} />
     </Routes>
   )
 }

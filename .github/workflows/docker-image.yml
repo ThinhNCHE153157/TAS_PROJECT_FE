@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   pull_request:
-    branches: [ "build" ,"!main" ]
+    branches: [ "build" ]
 jobs:
 
   build:
@@ -22,6 +22,12 @@ jobs:
       run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
     - name: Build the Docker image
       run: |
-            docker build . --tag ghcr.io/thinhnche153157/tas_project_fe:latest --tag ghcr.io/thinhnche153157/tas_project_fe:${{ steps.vars.outputs.sha_short }}
+            docker build . --tag ghcr.io/thinhnche153157/tas_project_fe:latest
             docker push ghcr.io/thinhnche153157/tas_project_fe:latest
-            docker push ghcr.io/thinhnche153157/tas_project_fe:${{ steps.vars.outputs.sha_short }}
+    - name: deploy
+      uses: appleboy/ssh-action@master
+      with:
+          username: root
+          host: 103.179.173.136
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: './server_deploy.sh'

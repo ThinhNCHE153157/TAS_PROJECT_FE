@@ -1,14 +1,15 @@
-
 import React, { useMemo, useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Sidebar from '../layout/Sidebar';
 import NavBar from '../layout/NavBar';
 import DataGridBase from '../../common/DataGridBase';
-
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import { Link } from 'react-router-dom';
 const statusOptions = {
     false: 'Hoạt động',
     true: 'Ngừng hoạt động',
 };
+
 
 const getValueOption = (value) => {
     return statusOptions[value] || 'Không xác định';
@@ -54,6 +55,18 @@ const CourseList = () => {
                     return <div style={{ color }}>{statusText}</div>;
                 },
             },
+            {
+                field: 'datails',
+                headerName: 'Detail',
+                flex: 0.5,
+                renderCell: (params) => (
+                    <Link to={`/Admin/CourseDetail/${params.row.id}`}>
+                        <Button>
+                            <AssignmentIcon />
+                        </Button>
+                    </Link>
+                )
+            }
         ],
         [],
     );

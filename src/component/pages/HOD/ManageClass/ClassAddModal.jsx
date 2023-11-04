@@ -7,17 +7,31 @@ const ClassAddModal = ({
   onClose,
   onSubmit,
   errors,
+  onChangeErrors,
+  onChange
 }) => {
   const [addData, setAddData] = useState({});
 
-
+  const handleOnChangeDetail = (e) => {
+    console.log('e', e)
+    if (!e.value) {
+      onChangeErrors({ ['err_' + e.name]: 'You need to field this field' })
+    } else {
+      const newE = { [e.name]: e.value }
+      const updatedData = { ...addData, ...newE };
+      setAddData(updatedData)
+      onChange(updatedData);
+      onChangeErrors({ ['err_' + e.name]: '' })
+    }
+  }
   const handelOnChange = (e) => {
-    console.log(addData)
     const updatedData = { ...addData, ...e };
     console.log(updatedData)
     setAddData(updatedData);
-
+    onChange(updatedData);
   }
+
+
 
   // Sử dụng useEffect để theo dõi sự thay đổi của editedData và log nó
   useEffect(() => {
@@ -59,17 +73,19 @@ const ClassAddModal = ({
               label='Class name'
               name='className'
               onChange={handelOnChange}
+              onChangeDetail={handleOnChangeDetail}
               isRequire={true}
-              error={errors && errors.err_className ? errors.err_className : ''}
+              error={errors.err_className ? errors.err_className : ''}
             />
           </Grid>
           <Grid item xs={5}>
             <TextFieldBase
-              label='Course'
-              name='course'
+              label='Number Of Students'
+              name='numOfStudents'
               onChange={handelOnChange}
+              onChangeDetail={handleOnChangeDetail}
               isRequire={true}
-              error={errors && errors.err_className ? errors.err_course : ''}
+              error={errors.err_className ? errors.err_numOfStudents : ''}
             />
           </Grid>
           <Grid item xs={6}>
@@ -77,8 +93,9 @@ const ClassAddModal = ({
               label='Lecturer'
               name='lecturer'
               onChange={handelOnChange}
+              onChangeDetail={handleOnChangeDetail}
               isRequire={true}
-              error={errors && errors.err_className ? errors.err_lecturer : ''}
+              error={errors.err_className ? errors.err_lecturer : ''}
             />
           </Grid>
           <Grid item xs={6} >
@@ -86,8 +103,9 @@ const ClassAddModal = ({
               label='Description'
               name='description'
               onChange={handelOnChange}
+              onChangeDetail={handleOnChangeDetail}
               isRequire={true}
-              error={errors && errors.err_className ? errors.err_description : ''}
+              error={errors.err_className ? errors.err_description : ''}
             />
           </Grid>
           <Grid item container spacing={2}>

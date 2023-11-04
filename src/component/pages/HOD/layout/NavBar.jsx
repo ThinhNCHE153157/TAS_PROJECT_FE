@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
@@ -20,7 +19,7 @@ import logo from "../../../../image/tải xuống (1).png"
 
 
 const AppBar = styled(MuiAppBar, {
-})(({ theme }) => ({      
+})(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
 }))
 
@@ -235,7 +234,7 @@ export default function NavBar() {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              <MoreIcon />
+              <MoreIcon sx={{ color: "rgba(0, 0, 0, 0.54)" }} />
             </IconButton>
           </Box>
         </Toolbar>
@@ -247,3 +246,4 @@ export default function NavBar() {
     </Box>
   );
 }
+

@@ -6,6 +6,6 @@ COPY . .
 RUN npm run build
 
 FROM nginx:1.23.4-perl AS production-stage
-COPY --from=build-stage /app/dist /usr/share/nginx/html
+COPY --from=build-stage /app/build /usr/share/nginx/html
 COPY conf /etc/nginx/conf.d/default.conf
 CMD ["nginx", "-g", "daemon off;"]

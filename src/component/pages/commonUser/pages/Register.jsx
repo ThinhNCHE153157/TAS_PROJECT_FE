@@ -16,13 +16,16 @@ import {
     Link,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
+    const navigate = useNavigate();
     const { register, handleSubmit } = useForm();
     const [FirstnameError, setFirstNameError] = useState('');
     const [LastnameError, setLastNameError] = useState('');
     const [PhoneError, setPhoneError] = useState('');
     const [EmailError, setEmailError] = useState('');
+    const [UsernameError, setUsernameError] = useState('');
     const [PasswordError, setPasswordError] = useState('');
     const [ConfirmPasswordError, setConfirmPasswordError] = useState('');
 
@@ -33,6 +36,7 @@ function SignUp() {
                 Email: data.Email,
                 FirstName: data.Firstname,
                 LastName: data.Lastname,
+                Username: data.Username,
                 Phone: data.Phone,
                 Password: data.Password,
             }),
@@ -56,6 +60,9 @@ function SignUp() {
         if (data.Email === '') {
             setEmailError('Email should be valid');
         }
+        if (data.Username === '') {
+            setUsernameError('Username should be 3 to 20 characters');
+        }
         if (data.Password === '') {
             setPasswordError('Password should be 8 to 20 characters');
         }
@@ -63,6 +70,7 @@ function SignUp() {
             setConfirmPasswordError('Confirm Password should be same as password');
         } else {
             RegisterUser(data);
+            navigate('/commonUser/Login');
         }
     };
 
@@ -71,7 +79,7 @@ function SignUp() {
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     const handleMouseDownPassword = (event) => {
-        // event.preventDefault();
+        event.preventDefault();
     };
 
     const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
@@ -79,7 +87,7 @@ function SignUp() {
     const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
 
     const handleMouseDownConfirmPassword = (event) => {
-        // event.preventDefault();
+        event.preventDefault();
     };
 
     const paperStyle = { padding: '30px 50px', width: 350, margin: '20px auto' };
@@ -131,6 +139,14 @@ function SignUp() {
                             fullWidth
                             helperText={EmailError}
                             label="Email"
+                        ></TextField>
+                        <TextField
+                            {...register('Username')}
+                            error={UsernameError}
+                            style={marginTop}
+                            fullWidth
+                            helperText={UsernameError}
+                            label="Username"
                         ></TextField>
                         <FormControl style={marginTop} sx={{ width: '100%' }} variant="outlined">
                             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
@@ -191,7 +207,7 @@ function SignUp() {
                             style={marginTop}
                             sx={{ height: '45px', backgroundColor: '#4A3AFF', color: '#fff' }}
                             fullWidth
-                            type="submit"
+                            type="button"
                             variant="contained"
                             color="primary"
                         >

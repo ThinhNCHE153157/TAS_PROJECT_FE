@@ -1,0 +1,12 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _; #change to your domain name
+ 
+    location / {
+        root /usr/share/nginx/html;
+        index  index.html index.htm;
+        include  /etc/nginx/mime.types;
+        try_files $uri $uri/ /index.html;
+    }
+}

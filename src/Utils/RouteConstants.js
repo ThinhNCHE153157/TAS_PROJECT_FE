@@ -4,6 +4,9 @@ export const ROUTES = {
     common: {
         login: '/login',
         register: '/register',
+        fotgotpassword : '/fotgotpassword',
+        resetpassword : '/resetpassword',
+        changepassword : '/changepassword',
     },
     admin: {
         dashboard: '/admin/dashboard',

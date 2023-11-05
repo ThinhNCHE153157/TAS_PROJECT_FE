@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Header from '../layout/Header';
+import useAuth from '../../../../hooks/useAuth';
 import {
     Grid,
     TextField,
@@ -17,7 +18,10 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { FcGoogle as GoogleIcon } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+
 function Login() {
+    const { setAuth } = useAuth();
     const navigate = useNavigate();
 
     const [password, setPassword] = React.useState('');
@@ -57,10 +61,10 @@ function Login() {
         width: '40%',
         borderBottom: '1px solid #000',
     };
-    const LoginAPI = () => {
+    const LoginAPI = (e) => {
+        e.preventDefault();
         var myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
-        myHeaders.append('Authorization', 'Bearer {{bearerToken}}');
 
         var raw = JSON.stringify({
             userName: userName,
@@ -75,13 +79,24 @@ function Login() {
         };
 
         fetch('https://localhost:5000/api/Account/UserLogin', requestOptions)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data.accessToken);
-                localStorage.setItem('token', data.accessToken);
-                navigate('/Admin/Dashboard');
+            .then((response) => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    throw new Error('Something went wrong');
+                }
             })
-            .catch((error) => console.log('error', error));
+            .then((data) => {
+                localStorage.setItem('token', data.accessToken);
+                const decoded = jwtDecode(data.accessToken);
+                const userRole = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+                setAuth({ userName, password, accessToken: data.accessToken, role: userRole });
+                return navigate('/Admin/Dashboard');
+            })
+            .catch((error) => {
+                console.log('error', error);
+                alert('Login failed');
+            });
     };
     return (
         <div>
@@ -96,7 +111,7 @@ function Login() {
                             <TextField
                                 style={marginTop}
                                 fullWidth
-                                error={userNameError}
+                                error={userNameError === '' ? false : true}
                                 helperText={userNameError}
                                 onChange={handleUsername}
                                 label="Email"
@@ -118,7 +133,7 @@ function Login() {
                                             </IconButton>
                                         </InputAdornment>
                                     }
-                                    error={passwordError}
+                                    error={passwordError === '' ? false : true}
                                     required={true}
                                     onChange={handlePassword}
                                     label="Password"

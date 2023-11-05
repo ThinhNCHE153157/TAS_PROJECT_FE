@@ -3,9 +3,7 @@ import TheRouter from './component/router/router';
 function App() {
     return (
         <div className="App">
-            <Routers>
-                <TheRouter />
-            </Routers>
+            <TheRouter />
         </div>
     );
 }

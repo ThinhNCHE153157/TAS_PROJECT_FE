@@ -19,10 +19,16 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import FolderIcon from '@mui/icons-material/Folder';
 import AddIcon from '@mui/icons-material/AddBox';
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
 
-const UserManagement = () => {
+const ListClass = () => {
+    // Sử dụng useState để tạo một state cho danh sách lớp học
+    const [classList, setClassList] = useState([]);
+
+    // Hàm này được sử dụng để thêm lớp học vào danh sách
+    const addClass = (className) => {
+        setClassList([...classList, className]);
+    };
+
     const [data, setData] = useState([]);
     const [listaccount, setListAccount] = useState([]);
     useEffect(() => {
@@ -47,53 +53,9 @@ const UserManagement = () => {
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-
-    const [openDialog, setOpenDialog] = useState(false);
-    const [selectedId, setSelectedId] = useState(null);
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
-    const [rowStatus, setRowStatus] = useState({});
-
-    const handleToggle = (id) => {
-        setSelectedId(id);
-        setOpenDialog(true);
-    };
-
-    const handleDialogClose = () => {
-        setOpenDialog(false);
-    };
-
-    const handleStatusChange = () => {
-        const updatedRowStatus = { ...rowStatus };
-        updatedRowStatus[selectedId] = !rowStatus[selectedId];
-        setRowStatus(updatedRowStatus);
-        setOpenDialog(false);
-    };
-
-    const handleEdit = (id) => {
-        // Xử lý sự kiện khi người dùng ấn nút Edit
-    };
-
-    function mapRoleToText(role) {
-        switch (role) {
-            case 1:
-                return 'Admin';
-            case 2:
-                return 'Teacher';
-            case 3:
-                return 'Student';
-            default:
-                return 'Unknown';
-        }
-    }
 
     const formatCreateDate = (dateString) => {
         const date = new Date(dateString);
@@ -103,61 +65,38 @@ const UserManagement = () => {
         return `${day}-${month}-${year}`;
     };
 
-    const handleExportToExcel = () => {
-        // const ws = XLSX.utils.json_to_sheet(data); // Create a worksheet with the data
-        // // Create a workbook and add the worksheet
-        // const wb = XLSX.utils.book_new();
-        // XLSX.utils.book_append_sheet(wb, ws, 'UserManagement');
-        // // Generate a blob with the Excel data
-        // const blob = XLSX.write(wb, { bookType: 'xlsx', type: 'blob' });
-        // //Create a URL for the blob
-        // const url = URL.createObjectURL(blob);
-        // // Create a link element for downloading the file
-        // const a = document.createElement('a');
-        // a.href = url;
-        // a.download = 'UserManagement.xlsx'; // Set the file name
-        // a.click();
-        // URL.revokeObjectURL(url);
-        // const ws = XLSX.utils.json_to_sheet(data);
-        // const wb = XLSX.utils.book_new();
-        // XLSX.utils.book_append_sheet(wb, ws, 'UserManagement');
-        // const blob = XLSX.write(wb, { bookType: 'xlsx', type: 'blob' });
-        // // Set appropriate headers for blob download
-        // const blobUrl = URL.createObjectURL(blob);
-        // const a = document.createElement('a');
-        // a.href = blobUrl;
-        // a.download = 'UserManagement.xlsx';
-        // document.body.appendChild(a);
-        // a.click();
-        // // Clean up
-        // document.body.removeChild(a);
-        // URL.revokeObjectURL(blobUrl);
-        // const ws = XLSX.utils.json_to_sheet(data);
-        // const wb = XLSX.utils.book_new();
-        // XLSX.utils.book_append_sheet(wb, ws, 'UserManagement');
-        // const blob = XLSX.write(wb, { bookType: 'xlsx', type: 'blob' });
-        // // Set appropriate headers for blob download
-        // const blobUrl = URL.createObjectURL(blob);
-        // const a = document.createElement('a');
-        // a.href = blobUrl;
-        // a.download = 'UserManagement.xlsx';
-        // document.body.appendChild(a);
-        // a.click();
-        // // Clean up
-        // document.body.removeChild(a);
-        // URL.revokeObjectURL(blobUrl);
-        //     const ws = XLSX.utils.json_to_sheet(data);
-        // const wb = XLSX.utils.book_new();
-        // XLSX.utils.book_append_sheet(wb, ws, 'UserManagement');
-        // const blob = XLSX.write(wb, { bookType: 'xlsx', type: 'blob' });
-        // saveAs(new Blob([blob], { type: 'application/octet-stream' }), 'UserManagement.xlsx');
+    const handleStatusChange = () => {
+        const updatedRowStatus = { ...rowStatus };
+        updatedRowStatus[selectedId] = !rowStatus[selectedId];
+        setRowStatus(updatedRowStatus);
+        setOpenDialog(false);
+    };
+    const handleToggle = (id) => {
+        setSelectedId(id);
+        setOpenDialog(true);
+    };
+
+    const handleDialogClose = () => {
+        setOpenDialog(false);
+    };
+
+    const [openDialog, setOpenDialog] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
+    const [rowStatus, setRowStatus] = useState({});
+
+    const handleEdit = (id) => {
+        // Xử lý sự kiện khi người dùng ấn nút Edit
+    };
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
     };
 
     return (
         <div style={{ backgroundColor: '#299be4', padding: '20px', margin: '20px 20px 0 20px', borderRadius: '3px' }}>
             <Grid container spacing={2} alignItems="center" style={{ marginBottom: '10px' }}>
                 <Grid item xs={5}>
-                    <h2 style={{ color: 'white', margin: 0 }}>User Management</h2>
+                    <h2 style={{ color: 'white', margin: 0 }}>Class List</h2>
                 </Grid>
                 <Grid item xs={7} style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button
@@ -167,12 +106,12 @@ const UserManagement = () => {
                             backgroundColor: '#0047b3',
                             marginRight: '10px',
                         }}
-                        onClick={handleExportToExcel} //Add an onClick handler
+                        // onClick={handleExportToExcel} //Add an onClick handler
                     >
                         Export to Excel
                     </Button>
                     <Button startIcon={<AddIcon />} style={{ color: 'white', backgroundColor: '#0047b3' }}>
-                        Add New User
+                        Add New Class
                     </Button>
                 </Grid>
             </Grid>
@@ -182,11 +121,11 @@ const UserManagement = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell style={{ fontWeight: 'bold' }}>#</TableCell>
-                            <TableCell style={{ fontWeight: 'bold' }}>User Name</TableCell>
-                            <TableCell style={{ fontWeight: 'bold' }}>Email</TableCell>
-                            <TableCell style={{ fontWeight: 'bold' }}>Phone</TableCell>
-                            <TableCell style={{ fontWeight: 'bold' }}>Date Created</TableCell>
-                            <TableCell style={{ fontWeight: 'bold' }}>Role</TableCell>
+                            <TableCell style={{ fontWeight: 'bold' }}>Class Name</TableCell>
+                            <TableCell style={{ fontWeight: 'bold' }}>Class ID</TableCell>
+                            <TableCell style={{ fontWeight: 'bold' }}>Start Time</TableCell>
+                            <TableCell style={{ fontWeight: 'bold' }}>End Time</TableCell>
+                            <TableCell style={{ fontWeight: 'bold' }}>Creator</TableCell>
                             <TableCell style={{ fontWeight: 'bold' }}>Status</TableCell>
                             <TableCell style={{ fontWeight: 'bold' }}>Action</TableCell>
                         </TableRow>
@@ -202,7 +141,7 @@ const UserManagement = () => {
                                 <TableCell>{row.email}</TableCell>
                                 <TableCell>{row.phone}</TableCell>
                                 <TableCell>{formatCreateDate(row.createDate)}</TableCell>
-                                <TableCell>{mapRoleToText(row.Role)}</TableCell>
+                                <TableCell></TableCell>
                                 <TableCell>
                                     <Switch
                                         checked={!row.isActive}
@@ -247,4 +186,4 @@ const UserManagement = () => {
     );
 };
 
-export default UserManagement;
+export default ListClass;

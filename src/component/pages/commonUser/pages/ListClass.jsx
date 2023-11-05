@@ -19,6 +19,7 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import FolderIcon from '@mui/icons-material/Folder';
 import AddIcon from '@mui/icons-material/AddBox';
+import { Link } from '@mui/icons-material';
 
 const ListClass = () => {
     // Sử dụng useState để tạo một state cho danh sách lớp học
@@ -33,7 +34,7 @@ const ListClass = () => {
     const [listaccount, setListAccount] = useState([]);
     useEffect(() => {
         async function fetchData() {
-            const requestUrl = 'https://localhost:5000/api/Account/GetAccountManagement';
+            const requestUrl = 'https://localhost:5000/api/';
 
             try {
                 const response = await fetch(requestUrl);
@@ -110,7 +111,11 @@ const ListClass = () => {
                     >
                         Export to Excel
                     </Button>
-                    <Button startIcon={<AddIcon />} style={{ color: 'white', backgroundColor: '#0047b3' }}>
+                    <Button
+                        startIcon={<AddIcon />}
+                        href="/commonUser/CreateClass"
+                        style={{ color: 'white', backgroundColor: '#0047b3' }}
+                    >
                         Add New Class
                     </Button>
                 </Grid>

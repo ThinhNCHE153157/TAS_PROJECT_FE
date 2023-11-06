@@ -68,7 +68,7 @@ function ForgotPassword() {
                             </Grid>
                             <TextField style={marginTop} fullWidth label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)}></TextField>
                             <Grid m={1} align="right">
-                                <Link href="/commonUser/FotgotPassword">Verify Email Address</Link>
+                                <Link href="/commonUser/ForgotPassword">Verify Email Address</Link>
                             </Grid>
                             <Button
                                 style={marginTop}

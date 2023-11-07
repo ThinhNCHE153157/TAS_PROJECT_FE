@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Header from '../layout/Header';
-import useAuth from '../../../../hooks/useAuth';
 import {
     Grid,
     TextField,
@@ -18,11 +17,12 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { FcGoogle as GoogleIcon } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../../../redux/Account/apiRequest';
 
 function Login() {
-    const { setAuth } = useAuth();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [password, setPassword] = React.useState('');
     const [passwordError, setPasswordError] = React.useState('');
@@ -61,42 +61,10 @@ function Login() {
         width: '40%',
         borderBottom: '1px solid #000',
     };
-    const LoginAPI = (e) => {
+
+    const handlesubmit = (e) => {
         e.preventDefault();
-        var myHeaders = new Headers();
-        myHeaders.append('Content-Type', 'application/json');
-
-        var raw = JSON.stringify({
-            userName: userName,
-            password: password,
-        });
-
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow',
-        };
-
-        fetch('https://localhost:5000/api/Account/UserLogin', requestOptions)
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json();
-                } else {
-                    throw new Error('Something went wrong');
-                }
-            })
-            .then((data) => {
-                localStorage.setItem('token', data.accessToken);
-                const decoded = jwtDecode(data.accessToken);
-                const userRole = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-                setAuth({ userName, password, accessToken: data.accessToken, role: userRole });
-                return navigate('/Admin/Dashboard');
-            })
-            .catch((error) => {
-                console.log('error', error);
-                alert('Login failed');
-            });
+        loginUser(userName, password, dispatch, navigate);
     };
     return (
         <div>
@@ -107,7 +75,7 @@ function Login() {
                         <h1>Login</h1>
                     </Grid>
                     <Grid align="center">
-                        <form action="">
+                        <form onSubmit={handlesubmit}>
                             <TextField
                                 style={marginTop}
                                 fullWidth
@@ -149,9 +117,8 @@ function Login() {
                                 style={marginTop}
                                 sx={{ height: '45px', backgroundColor: '#4A3AFF', color: '#fff' }}
                                 fullWidth
-                                type="button"
+                                type="submit"
                                 variant="contained"
-                                onClick={LoginAPI}
                             >
                                 Login
                             </Button>

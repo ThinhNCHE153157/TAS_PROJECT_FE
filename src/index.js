@@ -5,6 +5,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import AuthProvider from './context/AuthProvider';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store, persistor } from './redux/Account/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,9 +16,13 @@ root.render(
     // </React.StrictMode>
     <BrowserRouter>
         <AuthProvider>
-            <Routes>
-                <Route path="/*" element={<App />} />
-            </Routes>
+            <Provider store={store}>
+                <PersistGate loading={null} persistor={persistor}>
+                    <Routes>
+                        <Route path="/*" element={<App />} />
+                    </Routes>
+                </PersistGate>
+            </Provider>
         </AuthProvider>
     </BrowserRouter>,
 );

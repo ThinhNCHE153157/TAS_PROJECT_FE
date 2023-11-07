@@ -1,12 +1,22 @@
+
 export const BASE_URL = 'http://localhost:3000';
+export const ROLE = {
+    Admin: 'Admin',
+    User: 'User',
+    Teacher: 'Teacher',
+    Student: 'Student',
+    Enterprise: 'Enterprise',
+};
+
 export const ROUTES = {
     homepage: '/',
     common: {
         login: '/login',
         register: '/register',
-        fotgotpassword : '/fotgotpassword',
-        resetpassword : '/resetpassword',
-        changepassword : '/changepassword',
+        unauthorized: '/unauthorized',
+        fotgotpassword: '/fotgotpassword',
+        resetpassword: '/resetpassword',
+        changepassword: '/changepassword',
     },
     admin: {
         dashboard: '/admin/dashboard',

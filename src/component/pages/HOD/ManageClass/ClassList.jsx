@@ -12,7 +12,7 @@ const data = [
     class_id: '1',
     url: 'https://source.unsplash.com/400x400/?portrait?1',
     className: 'Class Name 1',
-    course: 'Course 1',
+    NumOfStudents: 'NumOfStudents 1',
     lecturer: 'Lecturer 1',
     description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
   },
@@ -20,7 +20,7 @@ const data = [
     class_id: '2',
     url: 'https://source.unsplash.com/400x400/?portrait?2',
     className: 'Class Name 2',
-    course: 'Course 2',
+    NumOfStudents: 'NumOfStudents 2',
     lecturer: 'Lecturer 2',
     description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
   },
@@ -28,7 +28,7 @@ const data = [
     class_id: '3',
     url: 'https://source.unsplash.com/400x400/?portrait?3',
     className: 'Class Name 3',
-    course: 'Course 3',
+    NumOfStudents: 'NumOfStudents 3',
     lecturer: 'Lecturer 3',
     description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
   },
@@ -36,7 +36,7 @@ const data = [
     class_id: '4',
     url: 'https://source.unsplash.com/400x400/?portrait?4',
     className: 'Class Name 4',
-    course: 'Course 4',
+    NumOfStudents: 'NumOfStudents 4',
     lecturer: 'Lecturer 4',
     description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
   },
@@ -44,7 +44,7 @@ const data = [
     class_id: '5',
     url: 'https://source.unsplash.com/400x400/?portrait?5',
     className: 'Class Name 5',
-    course: 'Course 5',
+    NumOfStudents: 'NumOfStudents 5',
     lecturer: 'Lecturer 5',
     description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
   },
@@ -52,7 +52,7 @@ const data = [
     class_id: '6',
     url: 'https://source.unsplash.com/400x400/?portrait?6',
     className: 'Class Name 6',
-    course: 'Course 6',
+    NumOfStudents: 'NumOfStudents 6',
     lecturer: 'Lecturer 6',
     description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
   },
@@ -60,7 +60,7 @@ const data = [
     class_id: '7',
     url: 'https://source.unsplash.com/400x400/?portrait?7',
     className: 'Class Name 7',
-    course: 'Course 7',
+    NumOfStudents: 'NumOfStudents 7',
     lecturer: 'Lecturer 7',
     description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
   },
@@ -68,7 +68,7 @@ const data = [
     class_id: '8',
     url: 'https://source.unsplash.com/400x400/?portrait?8',
     className: 'Class Name 8',
-    course: 'Course 8',
+    NumOfStudents: 'NumOfStudents 8',
     lecturer: 'Lecturer 8',
     description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
   },
@@ -76,7 +76,7 @@ const data = [
     class_id: '9',
     url: 'https://source.unsplash.com/400x400/?portrait?9',
     className: 'Class Name 9',
-    course: 'Course 9',
+    NumOfStudents: 'NumOfStudents 9',
     lecturer: 'Lecturer 9',
     description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
   },
@@ -94,34 +94,47 @@ const ClassList = () => {
   const [rows, setRows] = useState(forRows);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [errors, setErrors] = useState({})
+  const [newRow, setNewRows] = useState({});
   const onClose = () => {
     setIsAddModalOpen(false);
+    setErrors({});
   }
 
   useEffect(() => {
     console.log(errors)
   }, [errors])
 
-  const addRowData = (addData) => {
-    console.log('addData', addData)
-    // const data_id_max_row = data.find(item => item.data_id === Math.max(...data.map(item => item.data_id)));
-    if (!addData.className || !addData.course || !addData.description || !addData.lecturer) {
-      let tempErrors = { ...errors };
-      tempErrors = !addData.className ? { ...tempErrors, err_className: 'You need to fill the field' } : tempErrors;
-      tempErrors = !addData.course ? { ...tempErrors, err_course: 'You need to fill the field' } : tempErrors;
-      tempErrors = !addData.description ? { ...tempErrors, err_description: 'You need to fill the field' } : tempErrors;
-      tempErrors = !addData.lecturer ? { ...tempErrors, err_lecturer: 'You need to fill the field' } : tempErrors;
-      setErrors(tempErrors)
-    } else {
-      const class_id_max = Math.max(...data.map(item => item.class_id)) + 1;
-      addData = { ...addData, 'id': class_id_max, 'class_id': class_id_max, 'url': `https://source.unsplash.com/400x400/?portrait?${class_id_max}` }
-      const updateRows = [...rows]
-      updateRows.push(addData)
-      setRows(updateRows)
-      onClose();
-    }
-    console.log('errors: ', errors)
+  const onChange = (e) => {
+    console.log(e)
+    setNewRows(prev => ({ ...prev, ...e }));
+  }
+  const onChangeErrors = (e) => {
+    console.log(e)
+    const err = { ...errors, ...e }
+    setErrors(err)
+  }
 
+  const handleSubmit = () => {
+    console.log(newRow)
+    if (newRow.className && newRow.numOfStudents && newRow.lecturer && newRow.description) {
+      console.log('addData', newRow)
+      const class_id_max = Math.max(...data.map(item => item.class_id)) + 1;
+      const temp = { ...newRow, 'id': class_id_max, 'class_id': class_id_max, 'url': `https://source.unsplash.com/400x400/?portrait?${class_id_max}` }
+      const updateRows = [...rows]
+      updateRows.push(temp)
+      setRows(updateRows)
+      setNewRows({})
+      onClose();
+      console.log('errors: ', errors)
+    } else {
+      let err_temp = {};
+      err_temp = !newRow.className ? { ...err_temp, ...{ 'err_className': 'You need to field this field' } } : err_temp
+      err_temp = !newRow.numOfStudents ? { ...err_temp, ...{ 'err_numOfStudents': 'You need to field this field' } } : err_temp
+      err_temp = !newRow.lecturer ? { ...err_temp, ...{ 'err_lecturer': 'You need to field this field' } } : err_temp
+      err_temp = !newRow.description ? { ...err_temp, ...{ 'err_description': 'You need to field this field' } } : err_temp
+      console.log("err_temp", err_temp)
+      setErrors(err_temp);
+    }
   };
 
   return (
@@ -185,7 +198,7 @@ const ClassList = () => {
                 <ClassListComponent
                   id={item.id}
                   className={item.className}
-                  course={item.course}
+                  NumOfStudents={item.NumOfStudents}
                   description={item.description}
                   lecturer={item.lecturer}
                   url={item.url} />
@@ -197,8 +210,10 @@ const ClassList = () => {
           <ClassAddModal
             open={isAddModalOpen}
             onClose={onClose}
-            onSubmit={addRowData}
+            onSubmit={handleSubmit}
+            onChangeErrors={onChangeErrors}
             errors={errors}
+            onChange={onChange}
           />
         </Box>
       </Box>

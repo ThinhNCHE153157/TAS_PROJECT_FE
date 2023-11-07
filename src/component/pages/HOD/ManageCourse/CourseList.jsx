@@ -10,6 +10,13 @@ const statusOptions = {
     true: 'Ngừng hoạt động',
 };
 
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Lưu ý rằng tháng bắt đầu từ 0
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+};
 
 const getValueOption = (value) => {
     return statusOptions[value] || 'Không xác định';
@@ -26,7 +33,6 @@ const getColor = (value) => {
         default:
             return 'gray';
     }
-
 };
 const CourseList = () => {
     const columns = useMemo(
@@ -83,9 +89,11 @@ const CourseList = () => {
     }, []);
 
     const rows = listcourse.map((item) => {
-        const { courseId, ...otherFields } = item;
+        const { courseId, createDate, updateDate, ...otherFields } = item;
         return {
             ...otherFields,
+            createDate: formatDate(createDate),
+            updateDate: formatDate(updateDate),
             courseId: courseId,
             id: courseId,
         };

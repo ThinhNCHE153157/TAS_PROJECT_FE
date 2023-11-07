@@ -1,10 +1,9 @@
 import React from 'react';
-import useAuth from '../../../hooks/useAuth';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { jwtDecode } from 'jwt-decode';
 
-const RequireAuth = ({ allow }) => {
+export const RequireAuth = ({ allow }) => {
     //const { auth } = useAuth();
     const location = useLocation();
     const auth = useSelector((state) => state.auth?.user);
@@ -24,4 +23,13 @@ const RequireAuth = ({ allow }) => {
     }
 };
 
-export default RequireAuth;
+export const RequireLogin = () => {
+    const auth = useSelector((state) => state.auth?.user);
+    const location = useLocation();
+    console.log(auth);
+    if (auth !== null) {
+        return <Outlet />;
+    } else {
+        return <Navigate to={{ pathname: '/login', state: { from: location } }} replace />;
+    }
+};

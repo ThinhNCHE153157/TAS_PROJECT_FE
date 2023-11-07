@@ -13,10 +13,10 @@ import ClassDetail from '../pages/HOD/ManageClass/ClassDetail'
 import CourseDetail from '../pages/HOD/ManageCourse/CourseDetail';
 import ClassList from '../pages/HOD/ManageClass/ClassList';
 import ChangePassword from '../pages/commonUser/pages/ChangePassword';
-import FotgotPassword from '../pages/commonUser/pages/FotgotPassword';
+import ForgotPassword from '../pages/commonUser/pages/ForgotPassword';
 import ResetPassword from '../pages/commonUser/pages/ResetPassword';
-import ViewQuestion from '../pages/HOD/ManageQuestion/ViewQuestion';
-import QuestionList from '../pages/HOD/ManageQuestion/ListQuestion';
+import ListTestDetail from '../pages/HOD/ManageTest/ListTestDetail';
+import TestList from '../pages/HOD/ManageTest/ListTest';
 const TheRouter = () => {
   return (
     <Routes>
@@ -34,11 +34,10 @@ const TheRouter = () => {
       <Route path="/commonUser/userprofile" exact element={<UserProfile />} />
       <Route path="/commonUser/userprofile/edit" exact element={<EditUserProfile />} />
       <Route path="/commonUser/usermanagement" exact element={<UserManagement />} />
-      <Route path="/commonUser/FotgotPassword" exact element={<FotgotPassword />} />
+      <Route path="/commonUser/ForgotPassword" exact element={<ForgotPassword />} />
       <Route path="/commonUser/ResetPassword" exact element={<ResetPassword />} />
       <Route path="/commonUser/ChangePassword" exact element={<ChangePassword />} />
-      <Route path="/viewquestion" exact element={<ViewQuestion />} />
-      <Route path="/QuestionList" exact element={<QuestionList />} />
+      <Route path="/ManageTest/ListTest" exact element={<TestList />} />
     </Routes>
   )
 }

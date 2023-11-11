@@ -13,6 +13,7 @@ export const ROUTES = {
     common: {
         login: '/login',
         register: '/register',
+        unauthorized: '/unauthorized',
         forgotpassword : '/forgotpassword',
         resetpassword : '/resetpassword',
         changepassword : '/changepassword',

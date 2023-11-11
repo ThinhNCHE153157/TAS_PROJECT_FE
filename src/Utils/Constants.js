@@ -1,4 +1,13 @@
+
 export const BASE_URL = 'http://localhost:3000';
+export const ROLE = {
+    Admin: 'Admin',
+    User: 'User',
+    Teacher: 'Teacher',
+    Student: 'Student',
+    Enterprise: 'Enterprise',
+};
+
 export const ROUTES = {
     homepage: '/',
     common: {
@@ -7,6 +16,7 @@ export const ROUTES = {
         forgotpassword : '/forgotpassword',
         resetpassword : '/resetpassword',
         changepassword : '/changepassword',
+
     },
     admin: {
         dashboard: '/admin/dashboard',

@@ -17,8 +17,12 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { FcGoogle as GoogleIcon } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../../../redux/Account/apiRequest';
+
 function Login() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [password, setPassword] = React.useState('');
     const [passwordError, setPasswordError] = React.useState('');
@@ -57,31 +61,10 @@ function Login() {
         width: '40%',
         borderBottom: '1px solid #000',
     };
-    const LoginAPI = () => {
-        var myHeaders = new Headers();
-        myHeaders.append('Content-Type', 'application/json');
-        myHeaders.append('Authorization', 'Bearer {{bearerToken}}');
 
-        var raw = JSON.stringify({
-            userName: userName,
-            password: password,
-        });
-
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow',
-        };
-
-        fetch('https://localhost:5000/api/Account/UserLogin', requestOptions)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data.accessToken);
-                localStorage.setItem('token', data.accessToken);
-                navigate('/Admin/Dashboard');
-            })
-            .catch((error) => console.log('error', error));
+    const handlesubmit = (e) => {
+        e.preventDefault();
+        loginUser(userName, password, dispatch, navigate);
     };
     return (
         <div>
@@ -92,11 +75,11 @@ function Login() {
                         <h1>Login</h1>
                     </Grid>
                     <Grid align="center">
-                        <form action="">
+                        <form onSubmit={handlesubmit}>
                             <TextField
                                 style={marginTop}
                                 fullWidth
-                                error={userNameError}
+                                error={userNameError === '' ? false : true}
                                 helperText={userNameError}
                                 onChange={handleUsername}
                                 label="Email"
@@ -118,7 +101,7 @@ function Login() {
                                             </IconButton>
                                         </InputAdornment>
                                     }
-                                    error={passwordError}
+                                    error={passwordError === '' ? false : true}
                                     required={true}
                                     onChange={handlePassword}
                                     label="Password"
@@ -134,9 +117,8 @@ function Login() {
                                 style={marginTop}
                                 sx={{ height: '45px', backgroundColor: '#4A3AFF', color: '#fff' }}
                                 fullWidth
-                                type="button"
+                                type="submit"
                                 variant="contained"
-                                onClick={LoginAPI}
                             >
                                 Login
                             </Button>

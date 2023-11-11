@@ -1,58 +1,45 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { Box, Button, Grid, InputAdornment, TextField, Typography } from '@mui/material'
-import Sidebar from '../layout/Sidebar'
 import NavBar from '../layout/NavBar'
 import SearchIcon from '@mui/icons-material/Search';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ListTestDetail from './ListTestDetail'
 
-const data = [
-    {
-        test_id: '1',
-        test_name: 'test 1',
-        test_duration: '30 phút',
-        test_total_score: 'Class Name 1',
-        test_description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
-        createUser: 'Nguyen Văn A',
-        updateUser: 'Nguyen Văn A',
-        createDate: '1/1/2023',
-        updateDate: '1/1/2023',
-    },
-    {
-        test_id: '2',
-        test_name: 'test 1',
-        test_duration: '30 phút',
-        test_total_score: 'Class Name 1',
-        test_description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
-        createUser: 'Nguyen Văn A',
-        updateUser: 'Nguyen Văn A',
-        createDate: '1/1/2023',
-        updateDate: '1/1/2023',
-    },
-    {
-        test_id: '3',
-        test_name: 'test 1',
-        test_duration: '30 phút',
-        test_total_score: 'Class Name 1',
-        test_description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
-        createUser: 'Nguyen Văn A',
-        updateUser: 'Nguyen Văn A',
-        createDate: '1/1/2023',
-        updateDate: '1/1/2023',
-    },
-];
-
-const forRows = data.map(item => {
-    const { test_id, ...otherFields } = item;
-    return {
-        ...otherFields,
-        test_id: test_id,
-        id: test_id
-    };
-});
-
 const TestList = () => {
-    const [rows, setRows] = useState(forRows);
+    const columns = useMemo(
+        () => [
+            { field: 'TestId', headerName: 'Test ID', flex: 1 },
+            { field: 'TestName', headerName: 'Test Name', flex: 1 },
+            { field: 'Test Duration', headerName: 'Test Duration', flex: 1 },
+            { field: 'TestTotalScore', headerName: 'TestTotalScore', flex: 1 },
+            { field: 'TestDescription', headerName: 'TestDescription', flex: 1 },
+            { field: 'Note', headerName: 'Note', flex: 1 },
+            { field: 'createUser', headerName: 'Create User', flex: 1 },
+            { field: 'updateUser', headerName: 'Update User', flex: 1 },
+            { field: 'createDate', headerName: 'Create Date', flex: 1 },
+            { field: 'updateDate', headerName: 'Update Date', flex: 1 },
+        ],
+        [],
+    );
+
+    const [listtest, setListTest] = React.useState([]);
+    useEffect(() => {
+        async function getListTest() {
+            const requestUrl = 'https://localhost:5000/api/Test/GetAllTest';
+            const response = await fetch(requestUrl);
+            const responseJSON = await response.json();
+            setListTest(responseJSON);
+        }
+        getListTest();
+    }, []);
+
+    const rows = listtest.map((item) => {
+        const { TestId, ...otherFields } = item;
+        return {
+            ...otherFields,
+            TestId: TestId,
+            id: TestId
+        };
+    });
 
     return (
         <div>
@@ -82,15 +69,7 @@ const TestList = () => {
                     <Grid container spacing={3}>
                         {rows.map(item => (
                             <Grid item xs={3} key={item.id}>
-                                <ListTestDetail
-                                    id={item.id}
-                                    test_name={item.test_name}
-                                    test_duration={item.test_duration}
-                                    test_description={item.test_description}
-                                    createDate={item.createDate}
-                                    updateDate={item.updateDate}
-                                    createUser={item.createUser}
-                                    updateUser={item.updateUser} />
+                                <ListTestDetail columns={columns} rows={rows} />
                             </Grid>
                         ))}
 

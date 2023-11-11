@@ -17,6 +17,8 @@ import ForgotPassword from '../pages/commonUser/pages/ForgotPassword';
 import ResetPassword from '../pages/commonUser/pages/ResetPassword';
 import ListTestDetail from '../pages/HOD/ManageTest/ListTestDetail';
 import TestList from '../pages/HOD/ManageTest/ListTest';
+import DetailTest from '../pages/HOD/ManageTest/DetailTest';
+import QuestionList from '../pages/HOD/ManageQuestion/ListQuestion';
 const TheRouter = () => {
   return (
     <Routes>
@@ -38,6 +40,8 @@ const TheRouter = () => {
       <Route path="/commonUser/ResetPassword" exact element={<ResetPassword />} />
       <Route path="/commonUser/ChangePassword" exact element={<ChangePassword />} />
       <Route path="/ManageTest/ListTest" exact element={<TestList />} />
+      <Route path="/ManageTest/DetailTest" exact element={<DetailTest />} />
+      <Route path="/ManageQuestion/ListQuestion" exact element={<QuestionList />} />
     </Routes>
   )
 }

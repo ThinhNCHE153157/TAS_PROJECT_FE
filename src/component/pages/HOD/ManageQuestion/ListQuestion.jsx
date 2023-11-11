@@ -1,6 +1,5 @@
 import React, { useMemo, useEffect } from 'react';
 import { Box } from '@mui/material';
-import Sidebar from '../layout/Sidebar';
 import NavBar from '../layout/NavBar';
 import DataGridBase from '../../common/DataGridBase';
 
@@ -46,9 +45,8 @@ const QuestionList = () => {
         <div>
             <NavBar />
             <Box sx={{ display: 'flex' }}>
-                <Sidebar />
-                <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                    <DataGridBase columns={columns} rows={rows} pageName="question list" />
+                <Box sx={{ flexGrow: 1, p: 3 }}>
+                    <DataGridBase columns={columns} rows={rows} pageName="Question List" />
                 </Box>
             </Box>
         </div>

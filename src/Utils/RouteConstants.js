@@ -4,7 +4,7 @@ export const ROUTES = {
     common: {
         login: '/login',
         register: '/register',
-        fotgotpassword : '/fotgotpassword',
+        forgotpassword : '/forgotpassword',
         resetpassword : '/resetpassword',
         changepassword : '/changepassword',
     },

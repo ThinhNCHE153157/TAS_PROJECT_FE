@@ -14,9 +14,10 @@ export const ROUTES = {
         login: '/login',
         register: '/register',
         unauthorized: '/unauthorized',
-        fotgotpassword: '/fotgotpassword',
-        resetpassword: '/resetpassword',
-        changepassword: '/changepassword',
+        forgotpassword : '/forgotpassword',
+        resetpassword : '/resetpassword',
+        changepassword : '/changepassword',
+
     },
     admin: {
         dashboard: '/admin/dashboard',

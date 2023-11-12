@@ -6,7 +6,6 @@ import ListTestDetail from '../pages/HOD/ManageTest/ListTestDetail';
 import TestList from '../pages/HOD/ManageTest/ListTest';
 import DetailTest from '../pages/HOD/ManageTest/DetailTest';
 import QuestionList from '../pages/HOD/ManageQuestion/ListQuestion';
-import RequireAuth from '../pages/commonUser/RequireAuth';
 import { ROUTES, ROLE } from '../../Utils/Constants';
 import Unauthorized from '../pages/commonUser/pages/Unauthorized';
 

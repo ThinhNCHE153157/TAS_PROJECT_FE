@@ -18,7 +18,7 @@ function ForgotPassword() {
 
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
-    const [showCard, setShowCard] = useState(false); // Sử dụng để hiển thị thẻ (card).
+    const [showCard, setShowCard] = useState(false);
 
     const handleSubmit = async () => {
         try {
@@ -30,19 +30,19 @@ function ForgotPassword() {
                 body: JSON.stringify({ email }),
             });
             if (response.ok) {
-                setShowCard(true); // Hiển thị thẻ sau khi gửi thành công.
+                setShowCard(true);
                 setMessage('Verification code sent successfully');
             } else {
-                setShowCard(true); // Hiển thị thẻ sau khi gửi thất bại.
+                setShowCard(true);
                 setMessage('Error sending verification code');
             }
         } catch (error) {
-            setShowCard(true); // Hiển thị thẻ sau khi có lỗi.
+            setShowCard(true);
             setMessage('An error occurred');
         }
     };
 
-    const cardStyle = { width: 300, margin: '20px auto', display: showCard ? 'block' : 'none' };
+    const cardStyle = { width: 300, margin: '20px auto', backgroundColor: '#ffcdd2', display: showCard ? 'block' : 'none' };
 
     return (
         <div>
@@ -82,5 +82,4 @@ function ForgotPassword() {
         </div>
     );
 }
-
 export default ForgotPassword;

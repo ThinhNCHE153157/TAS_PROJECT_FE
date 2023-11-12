@@ -1,16 +1,3 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import UserList from '../pages/HOD/ManageUser/UserList';
-import Dashboard from '../pages/HOD/Dashboard';
-import CourseList from '../pages/HOD/ManageCourse/CourseList';
-import Register from '../pages/commonUser/pages/Register';
-import Login from '../pages/commonUser/pages/Login';
-import UserProfile from '../pages/commonUser/pages/UserProfile';
-import EditUserProfile from '../pages/commonUser/pages/EditUserProfile';
-import UserManagement from '../pages/commonUser/pages/UserManagement';
-import ClassDetail from '../pages/HOD/ManageClass/ClassDetail'
-import CourseDetail from '../pages/HOD/ManageCourse/CourseDetail';
-import ClassList from '../pages/HOD/ManageClass/ClassList';
 import ChangePassword from '../pages/commonUser/pages/ChangePassword';
 import ForgotPassword from '../pages/commonUser/pages/ForgotPassword';
 import ResetPassword from '../pages/commonUser/pages/ResetPassword';
@@ -22,6 +9,7 @@ import QuestionList from '../pages/HOD/ManageQuestion/ListQuestion';
 import RequireAuth from '../pages/commonUser/RequireAuth';
 import { ROUTES, ROLE } from '../../Utils/Constants';
 import Unauthorized from '../pages/commonUser/pages/Unauthorized';
+
 const TheRouter = () => {
   return (
     <Routes>
@@ -40,11 +28,15 @@ const TheRouter = () => {
         <Route path={ROUTES.common.register} exact element={<Register />} />
         <Route path={ROUTES.common.login} exact element={<Login />} />
       </Route>
+      <Route path={ROUTES.common.register} exact element={<Register />} />
+      <Route path={ROUTES.common.login} exact element={<Login />} />
+      <Route path={ROUTES.common.register} exact element={<Register />} />
+      <Route path={ROUTES.common.login} exact element={<Login />} />
       <Route path={ROUTES.common.unauthorized} exact element={<Unauthorized />} />
       <Route path="/commonUser/userprofile" exact element={<UserProfile />} />
       <Route path="/commonUser/userprofile/edit" exact element={<EditUserProfile />} />
       <Route path="/commonUser/usermanagement" exact element={<UserManagement />} />
-      <Route path="/commonUser/FotgotPassword" exact element={<FotgotPassword />} />
+      <Route path="/commonUser/ForgotPassword" exact element={<ForgotPassword />} />
       <Route path="/commonUser/ResetPassword" exact element={<ResetPassword />} />
       <Route path="/commonUser/ChangePassword" exact element={<ChangePassword />} />
       <Route path="/ManageTest/ListTest" exact element={<TestList />} />

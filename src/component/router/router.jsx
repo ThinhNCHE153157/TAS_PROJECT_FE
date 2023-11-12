@@ -1,3 +1,16 @@
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import UserList from '../pages/HOD/ManageUser/UserList';
+import Dashboard from '../pages/HOD/Dashboard';
+import CourseList from '../pages/HOD/ManageCourse/CourseList';
+import Register from '../pages/commonUser/pages/Register';
+import Login from '../pages/commonUser/pages/Login';
+import UserProfile from '../pages/commonUser/pages/UserProfile';
+import EditUserProfile from '../pages/commonUser/pages/EditUserProfile';
+import UserManagement from '../pages/commonUser/pages/UserManagement';
+import ClassDetail from '../pages/HOD/ManageClass/ClassDetail'
+import CourseDetail from '../pages/HOD/ManageCourse/CourseDetail';
+import ClassList from '../pages/HOD/ManageClass/ClassList';
 import ChangePassword from '../pages/commonUser/pages/ChangePassword';
 import ForgotPassword from '../pages/commonUser/pages/ForgotPassword';
 import ResetPassword from '../pages/commonUser/pages/ResetPassword';

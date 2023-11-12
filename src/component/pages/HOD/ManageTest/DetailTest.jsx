@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
-import { Box, Grid } from '@mui/material';
-import { Button, Container, Paper, Typography, List, ListItem, ListItemText, Divider, Radio } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import {
+    Button,
+    Container,
+    Paper,
+    Typography,
+    List,
+    ListItem,
+    ListItemText,
+    Radio,
+} from '@mui/material';
 
-
+const questionsPerPage = 5;
 
 const questions = [
     {
-        question: 'Câu hỏi 1?',
+        question: 'Which of the following are negative consequences of meaningless work?',
         answers: ['đáp án A', 'đáp án B', 'đáp án C', 'đáp án D'],
         correctAnswer: 'A',
     },
@@ -25,85 +33,139 @@ const questions = [
         answers: ['Test A', 'Test B', 'Test C', 'Test D'],
         correctAnswer: 'B',
     },
+    {
+        question: 'Câu hỏi 4?',
+        answers: ['Test A', 'Test B', 'Test C', 'Test D'],
+        correctAnswer: 'B',
+    },
+    {
+        question: 'Câu hỏi 4?',
+        answers: ['Test A', 'Test B', 'Test C', 'Test D'],
+        correctAnswer: 'B',
+    },
+    {
+        question: 'Câu hỏi 4?',
+        answers: ['Test A', 'Test B', 'Test C', 'Test D'],
+        correctAnswer: 'B',
+    },
+    {
+        question: 'Câu hỏi 4?',
+        answers: ['Test A', 'Test B', 'Test C', 'Test D'],
+        correctAnswer: 'B',
+    },
 ];
 
 const DetailTest = () => {
-    const [currentQuestion, setCurrentQuestion] = useState(0);
-    const [score, setScore] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [selectedAnswers, setSelectedAnswers] = useState({});
+    const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
 
-    const handleNextQuestion = () => {
-        if (currentQuestion < questions.length - 1) {
-            setCurrentQuestion(currentQuestion + 1);
+    useEffect(() => {
+        if (timeLeft > 0) {
+            const countdown = setInterval(() => {
+                setTimeLeft(timeLeft - 1);
+            }, 1000);
+
+            return () => clearInterval(countdown);
         }
+    }, [timeLeft]);
+
+    const startIndex = (currentPage - 1) * questionsPerPage;
+    const endIndex = Math.min(startIndex + questionsPerPage, questions.length);
+
+    const handleNextPage = () => {
+        setCurrentPage(currentPage + 1);
     };
 
-    const handlePreviousQuestion = () => {
-        if (currentQuestion > 0) {
-            setCurrentQuestion(currentQuestion - 1);
-        }
+    const handlePreviousPage = () => {
+        setCurrentPage(currentPage - 1);
     };
 
-    const handleAnswerClick = (selectedAnswer) => {
-        questions[currentQuestion].selectedAnswer = selectedAnswer;
+    const handleAnswerClick = (questionIndex, selectedAnswer) => {
+        setSelectedAnswers({
+            ...selectedAnswers,
+            [questionIndex]: selectedAnswer,
+        });
     };
 
     const handleSubmit = () => {
         let totalScore = 0;
-        for (const question of questions) {
-            if (question.selectedAnswer === question.correctAnswer) {
+
+        for (let i = startIndex; i < endIndex; i++) {
+            if (selectedAnswers[i] === questions[i].correctAnswer) {
                 totalScore++;
             }
         }
 
-        alert(`Kết quả: ${totalScore} / ${questions.length}`);
+        alert(`Kết quả: ${totalScore} / ${questionsPerPage}`);
+    };
+
+    const formatTime = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
     };
 
     return (
-        <Container maxWidth="sm">
-            <Paper elevation={3} style={{ padding: '20px', textAlign: 'center' }}>
-                <Typography variant="h4" gutterBottom>
-                    Bài kiểm tra
-                </Typography>
-                <div className="question-list">
-                    <Typography variant="h6" gutterBottom>
-                        Câu hỏi {currentQuestion + 1}/{questions.length}
-                    </Typography>
-                    <Typography variant="body1" gutterBottom>
-                        {questions[currentQuestion].question}
-                    </Typography>
-                    <List>
-                        {questions[currentQuestion].answers.map((answer, index) => (
-                            <div key={index} className="list-item">
-                                <Radio
-                                    checked={questions[currentQuestion].selectedAnswer === answer}
-                                />
-                                <ListItemText primary={answer} />
-                            </div>
-                        ))}
-                    </List>
-                </div>
-                <div className="navigation">
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => handlePreviousQuestion()}
-                    >
-                        Back
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => handleNextQuestion()}
-                    >
-                        Next
-                    </Button>
-
-                </div>
+        <Container maxWidth="md">
+            <Paper elevation={3} style={{ padding: '20px', display: 'grid', gridTemplateColumns: '2fr 1fr' }}>
                 <div>
+                    <Typography variant="h4" gutterBottom>
+                        Bài kiểm tra
+                    </Typography>
+                    {questions.slice(startIndex, endIndex).map((question, index) => (
+                        <div className="question-list" key={startIndex + index}>
+                            <Typography variant="h6" gutterBottom>
+                                Câu hỏi {startIndex + index + 1}/{questions.length}
+                            </Typography>
+                            <Typography variant="body1" gutterBottom>
+                                {question.question}
+                            </Typography>
+                            <List>
+                                {question.answers.map((answer, answerIndex) => (
+                                    <div key={answerIndex} className="list-item">
+                                        <Radio
+                                            checked={selectedAnswers[startIndex + index] === answer}
+                                            onClick={() =>
+                                                handleAnswerClick(startIndex + index, answer)
+                                            }
+                                        />
+                                        <ListItemText primary={answer} />
+                                    </div>
+                                ))}
+                            </List>
+                        </div>
+                    ))}
+                    <div className="navigation">
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={handlePreviousPage}
+                            disabled={currentPage === 1}
+                        >
+                            Previous
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleNextPage}
+                            disabled={endIndex >= questions.length}
+                        >
+                            Next
+                        </Button>
+                    </div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                    <Typography variant="h6" gutterBottom>
+                        Thời gian còn lại
+                    </Typography>
+                    <Typography variant="h4">
+                        {formatTime(timeLeft)}
+                    </Typography>
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => handleSubmit()}
+                        onClick={handleSubmit}
                     >
                         Submit
                     </Button>
@@ -111,26 +173,27 @@ const DetailTest = () => {
             </Paper>
             <style>
                 {`
-            .question-list {
-              margin-bottom: 20px;
-            }
+          .question-list {
+            margin-bottom: 20px;
+          }
   
-            .list-item {
-              display: flex;
-              align-items: center;
-            }
+          .list-item {
+            display: flex;
+            align-items: center;
+          }
   
-            .list-item .MuiRadio-root {
-              margin-right: 8px;
-            }
+          .list-item .MuiRadio-root {
+            margin-right: 8px;
+          }
   
-            .navigation {
-              display: flex;
-              justify-content: space-between;
-            }
-          `}
+          .navigation {
+            display: flex;
+            justify-content: space-between;
+          }
+        `}
             </style>
         </Container>
     );
-}
+};
+
 export default DetailTest;

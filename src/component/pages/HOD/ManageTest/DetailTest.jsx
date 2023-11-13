@@ -5,60 +5,70 @@ import {
     Paper,
     Typography,
     List,
-    ListItem,
+    Grid,
     ListItemText,
     Radio,
 } from '@mui/material';
+import NavBar from '../layout/NavBar'
 
 const questionsPerPage = 5;
 
-const questions = [
-    {
-        question: 'Which of the following are negative consequences of meaningless work?',
-        answers: ['đáp án A', 'đáp án B', 'đáp án C', 'đáp án D'],
-        correctAnswer: 'A',
-    },
-    {
-        question: 'Câu hỏi 2?',
-        answers: ['A', 'B', 'C', 'D'],
-        correctAnswer: 'B',
-    },
-    {
-        question: 'Câu hỏi 3?',
-        answers: ['Câu hỏi A', 'Câu hỏi B', 'Câu hỏi C', 'Câu hỏi D'],
-        correctAnswer: 'B',
-    },
-    {
-        question: 'Câu hỏi 4?',
-        answers: ['Test A', 'Test B', 'Test C', 'Test D'],
-        correctAnswer: 'B',
-    },
-    {
-        question: 'Câu hỏi 4?',
-        answers: ['Test A', 'Test B', 'Test C', 'Test D'],
-        correctAnswer: 'B',
-    },
-    {
-        question: 'Câu hỏi 4?',
-        answers: ['Test A', 'Test B', 'Test C', 'Test D'],
-        correctAnswer: 'B',
-    },
-    {
-        question: 'Câu hỏi 4?',
-        answers: ['Test A', 'Test B', 'Test C', 'Test D'],
-        correctAnswer: 'B',
-    },
-    {
-        question: 'Câu hỏi 4?',
-        answers: ['Test A', 'Test B', 'Test C', 'Test D'],
-        correctAnswer: 'B',
-    },
-];
+const testData = {
+    timeLimitInMinutes: 30, // Thời gian kiểm tra 5 phút
+    questions: [
+        {
+            question: 'Which of the following are negative consequences of meaningless work?',
+            answers: ['đáp án A', 'đáp án B', 'đáp án C', 'đáp án D'],
+            correctAnswer: 'A',
+        },
+        {
+            question: 'Câu hỏi 2?',
+            answers: ['A', 'B', 'C', 'D'],
+            correctAnswer: 'B',
+        },
+        {
+            question: 'Câu hỏi 3?',
+            answers: ['Câu hỏi A', 'Câu hỏi B', 'Câu hỏi C', 'Câu hỏi D'],
+            correctAnswer: 'B',
+        },
+        {
+            question: 'Câu hỏi 4?',
+            answers: ['Test A', 'Test B', 'Test C', 'Test D'],
+            correctAnswer: 'B',
+        },
+        {
+            question: 'Câu hỏi 4?',
+            answers: ['Test A', 'Test B', 'Test C', 'Test D'],
+            correctAnswer: 'B',
+        },
+        {
+            question: 'Câu hỏi 4?',
+            answers: ['Test A', 'Test B', 'Test C', 'Test D'],
+            correctAnswer: 'B',
+        },
+        {
+            question: 'Câu hỏi 4?',
+            answers: ['Test A', 'Test B', 'Test C', 'Test D'],
+            correctAnswer: 'B',
+        },
+        {
+            question: 'Câu hỏi 4?',
+            answers: ['Test A', 'Test B', 'Test C', 'Test D'],
+            correctAnswer: 'B',
+        },
+    ]
+};
+
 
 const DetailTest = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedAnswers, setSelectedAnswers] = useState({});
-    const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
+    const [timeLeft, setTimeLeft] = useState(
+        () => {
+            const savedTimeLeft = localStorage.getItem('timeLeft');
+            return savedTimeLeft ? parseInt(savedTimeLeft, 10) : testData.timeLimitInMinutes * 60;
+        }
+    );
 
     useEffect(() => {
         if (timeLeft > 0) {
@@ -66,12 +76,15 @@ const DetailTest = () => {
                 setTimeLeft(timeLeft - 1);
             }, 1000);
 
-            return () => clearInterval(countdown);
+            return () => {
+                clearInterval(countdown);
+                localStorage.setItem('timeLeft', timeLeft);
+            };
         }
     }, [timeLeft]);
 
     const startIndex = (currentPage - 1) * questionsPerPage;
-    const endIndex = Math.min(startIndex + questionsPerPage, questions.length);
+    const endIndex = Math.min(startIndex + questionsPerPage, testData.questions.length);
 
     const handleNextPage = () => {
         setCurrentPage(currentPage + 1);
@@ -92,7 +105,7 @@ const DetailTest = () => {
         let totalScore = 0;
 
         for (let i = startIndex; i < endIndex; i++) {
-            if (selectedAnswers[i] === questions[i].correctAnswer) {
+            if (selectedAnswers[i] === testData.questions[i].correctAnswer) {
                 totalScore++;
             }
         }
@@ -106,93 +119,113 @@ const DetailTest = () => {
         return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
     };
 
+
     return (
-        <Container maxWidth="md">
-            <Paper elevation={3} style={{ padding: '20px', display: 'grid', gridTemplateColumns: '2fr 1fr' }}>
-                <div>
-                    <Typography variant="h4" gutterBottom>
-                        Bài kiểm tra
-                    </Typography>
-                    {questions.slice(startIndex, endIndex).map((question, index) => (
-                        <div className="question-list" key={startIndex + index}>
+        <div>
+            <NavBar />
+            <Container maxWidth="xl" style={{ padding: '60px' }}>
+                <Grid container className='container'>
+                    <Grid item xl={2.5} style={{ marginRight: '10px' }}>
+                        <Paper elevation={3} style={{ padding: '20px' }}>
                             <Typography variant="h6" gutterBottom>
-                                Câu hỏi {startIndex + index + 1}/{questions.length}
+                                NỘI DỤNG
                             </Typography>
-                            <Typography variant="body1" gutterBottom>
-                                {question.question}
+                        </Paper>
+                    </Grid>
+                    <Grid item xl={6.8} style={{ marginRight: '10px' }}>
+                        <Paper elevation={3} style={{ padding: '20px' }}>
+                            <Typography variant="h4" gutterBottom>
+                                Bài kiểm tra
                             </Typography>
-                            <List>
-                                {question.answers.map((answer, answerIndex) => (
-                                    <div key={answerIndex} className="list-item">
-                                        <Radio
-                                            checked={selectedAnswers[startIndex + index] === answer}
-                                            onClick={() =>
-                                                handleAnswerClick(startIndex + index, answer)
-                                            }
-                                        />
-                                        <ListItemText primary={answer} />
-                                    </div>
-                                ))}
-                            </List>
-                        </div>
-                    ))}
-                    <div className="navigation">
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            onClick={handlePreviousPage}
-                            disabled={currentPage === 1}
-                        >
-                            Previous
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleNextPage}
-                            disabled={endIndex >= questions.length}
-                        >
-                            Next
-                        </Button>
-                    </div>
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                    <Typography variant="h6" gutterBottom>
-                        Thời gian còn lại
-                    </Typography>
-                    <Typography variant="h4">
-                        {formatTime(timeLeft)}
-                    </Typography>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleSubmit}
-                    >
-                        Submit
-                    </Button>
-                </div>
-            </Paper>
-            <style>
-                {`
-          .question-list {
-            margin-bottom: 20px;
-          }
-  
-          .list-item {
-            display: flex;
-            align-items: center;
-          }
-  
-          .list-item .MuiRadio-root {
-            margin-right: 8px;
-          }
-  
-          .navigation {
-            display: flex;
-            justify-content: space-between;
-          }
-        `}
-            </style>
-        </Container>
+                            {testData.questions.slice(startIndex, endIndex).map((question, index) => (
+                                <div className="question-list" key={startIndex + index}>
+                                    <Typography variant="h6" gutterBottom>
+                                        Câu hỏi {startIndex + index + 1}/{testData.questions.length}
+                                    </Typography>
+                                    <Typography variant="body1" gutterBottom>
+                                        {question.question}
+                                    </Typography>
+                                    <List>
+                                        {question.answers.map((answer, answerIndex) => (
+                                            <div key={answerIndex} className="list-item">
+                                                <Radio
+                                                    checked={selectedAnswers[startIndex + index] === answer}
+                                                    onClick={() =>
+                                                        handleAnswerClick(startIndex + index, answer)
+                                                    }
+                                                />
+                                                <ListItemText primary={answer} />
+                                            </div>
+                                        ))}
+                                    </List>
+                                </div>
+                            ))}
+                            <div className="navigation">
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={handlePreviousPage}
+                                    disabled={currentPage === 1}
+                                >
+                                    Previous
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={handleNextPage}
+                                    disabled={endIndex >= testData.questions.length}
+                                >
+                                    Next
+                                </Button>
+                            </div>
+                        </Paper>
+                    </Grid>
+                    <Grid item xl={2.5} style={{ marginRight: '10px' }}>
+                        <Paper style={{ padding: '90px', position: 'fixed' }}>
+                            <Typography variant="h6" gutterBottom>
+                                Thời gian còn lại: {formatTime(timeLeft)}
+                            </Typography>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => handleSubmit()}
+                            >
+                                Summit
+                            </Button>
+                        </Paper>
+                    </Grid>
+                </Grid>
+                <style>
+                    {`
+            .container {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                height: 90%;
+                overflow: auto;
+            }
+            .question-list {
+              margin-bottom: 20px;
+            }
+    
+            .list-item {
+              display: flex;
+              align-items: center;
+            }
+    
+            .list-item .MuiRadio-root {
+              margin-right: 8px;
+            }
+    
+            .navigation {
+              display: flex;
+              justify-content: space-between;
+            }
+          `}
+                </style>
+            </Container>
+        </div>
     );
 };
 

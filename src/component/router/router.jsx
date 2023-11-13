@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import UserList from '../pages/HOD/ManageUser/UserList';
@@ -13,7 +12,10 @@ import ClassDetail from '../pages/HOD/ManageClass/ClassDetail'
 import CourseDetail from '../pages/HOD/ManageCourse/CourseDetail';
 import ClassList from '../pages/HOD/ManageClass/ClassList';
 import UserDetail from '../pages/HOD/ManageUser/UserDetail';
-
+import ChangePassword from '../pages/commonUser/pages/ChangePassword';
+import FotgotPassword from '../pages/commonUser/pages/FotgotPassword';
+import ResetPassword from '../pages/commonUser/pages/ResetPassword';
+import { ROUTES } from '../../Utils/RouteConstants';
 const TheRouter = () => {
   return (
     <Routes>
@@ -27,14 +29,16 @@ const TheRouter = () => {
       <Route path="/Admin/CourseDetail/:id" exact element={<CourseDetail />} />
       <Route path='/Admin/UserDetail/:id' exact element={<UserDetail />} />
       {/* Common */}
-      <Route path="/commonUser/Register" exact element={<Register />} />
-      <Route path="/commonUser/Login" exact element={<Login />} />
+      <Route path={ROUTES.common.register} exact element={<Register />} />
+      <Route path={ROUTES.common.login} exact element={<Login />} />
       <Route path="/commonUser/userprofile" exact element={<UserProfile />} />
       <Route path="/commonUser/userprofile/edit" exact element={<EditUserProfile />} />
       <Route path="/commonUser/usermanagement" exact element={<UserManagement />} />
+      <Route path="/commonUser/FotgotPassword" exact element={<FotgotPassword />} />
+      <Route path="/commonUser/ResetPassword" exact element={<ResetPassword />} />
+      <Route path="/commonUser/ChangePassword" exact element={<ChangePassword />} />
 
     </Routes>
   )
 }
 
-export default TheRouter;

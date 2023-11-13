@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import React, { useEffect, useMemo, useState } from 'react'
+=======
+
+import React, { useMemo, useState } from 'react'
+>>>>>>> 48b8c53e2a726ea59ecdd66a3b391ea98f815b9c
 import { Avatar, Box, Button, IconButton, Typography } from '@mui/material'
 import Sidebar from '../layout/Sidebar'
 import NavBar from '../layout/NavBar'

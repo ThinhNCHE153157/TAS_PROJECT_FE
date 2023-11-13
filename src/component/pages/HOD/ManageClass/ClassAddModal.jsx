@@ -68,7 +68,7 @@ const ClassAddModal = ({
       >
         <h2 sx={{ m: 2 }} id="edit-modal-title">Thêm user</h2>
         <Grid container spacing={2} rowSpacing={2} justifyContent='flex-start'>
-          <Grid item xs={7}>
+          <Grid item xs={6}>
             <TextFieldBase
               label='Class name'
               name='className'
@@ -78,7 +78,7 @@ const ClassAddModal = ({
               error={errors.err_className ? errors.err_className : ''}
             />
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={6}>
             <TextFieldBase
               label='Number Of Students'
               name='numOfStudents'

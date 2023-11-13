@@ -12,6 +12,7 @@ import UserManagement from '../pages/commonUser/pages/UserManagement';
 import ClassDetail from '../pages/HOD/ManageClass/ClassDetail'
 import CourseDetail from '../pages/HOD/ManageCourse/CourseDetail';
 import ClassList from '../pages/HOD/ManageClass/ClassList';
+import UserDetail from '../pages/HOD/ManageUser/UserDetail';
 
 const TheRouter = () => {
   return (
@@ -24,6 +25,7 @@ const TheRouter = () => {
       <Route path='/Admin' exact element={<Dashboard />} />
       <Route path="/Admin/ClassList/Detail/:id" exact element={<ClassDetail />} />
       <Route path="/Admin/CourseDetail/:id" exact element={<CourseDetail />} />
+      <Route path='/Admin/UserDetail/:id' exact element={<UserDetail />} />
       {/* Common */}
       <Route path="/commonUser/Register" exact element={<Register />} />
       <Route path="/commonUser/Login" exact element={<Login />} />

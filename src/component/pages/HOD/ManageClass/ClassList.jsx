@@ -186,7 +186,7 @@ const ClassList = () => {
               >
                 <AddCircleOutlineIcon />
                 <Typography variant="body" sx={{ marginLeft: 1 }}>
-                  ADD COURSE
+                  ADD CLASS
                 </Typography>
               </Button>
             </Box>

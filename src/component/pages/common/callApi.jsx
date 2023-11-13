@@ -1,13 +1,13 @@
 import axios from 'axios'
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000'
+  baseURL: 'https://localhost:5000/api'
 })
 
 
 
 // Admin
-export const fetchData = () => {
+export const fetchAccountList = () => {
   return API.get('/data');
 };
 
@@ -17,6 +17,55 @@ export const fetchUserData = (userId) => {
 
 export const createNewData = (data) => {
   return API.post('/data', data);
+};
+
+export const FetchAccountManagement = () => {
+  return new Promise((resolve, reject) => {
+    API.get('/Account/GetAccountManagement')
+      .then((response) => {
+        resolve(response.data); // Trả về dữ liệu từ API
+      })
+      .catch((error) => {
+        reject(error); // Trả về lỗi nếu có lỗi
+      });
+  });
+};
+
+export const FetchClassCodes = () => {
+  return new Promise((resolve, reject) => {
+    API.get('/Class/GetClassCode')
+      .then((response) => {
+        resolve(response.data); // Trả về dữ liệu từ API
+      })
+      .catch((error) => {
+        reject(error); // Trả về lỗi nếu có lỗi
+      });
+  });
+};
+
+export const FetchClassListByStudentId = (accountId) => {
+  return new Promise((resolve, reject) => {
+    API.get(`/Class/GetClassByStudentId?studentId=${accountId}`)
+      .then((response) => {
+        resolve(response.data); // Trả về dữ liệu từ API
+      })
+      .catch((error) => {
+        reject(error); // Trả về lỗi nếu có lỗi
+      });
+  });
+};
+
+
+export const AddStudentIntoClass = (accountId, classCode) => {
+  return new Promise((resolve, reject) => {
+    API.post(`/Class/AddStudentIntoClass?accountId=${accountId}&classCode=${classCode}`)
+      .then((response) => {
+        resolve(response.data); // Trả về dữ liệu từ API
+      })
+      .catch((error) => {
+        reject(error); // Trả về lỗi nếu có lỗi
+      });
+  });
 };
 
 // Student

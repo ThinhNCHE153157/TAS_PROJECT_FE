@@ -23,6 +23,7 @@ import { Link, useParams } from 'react-router-dom';
 import ToggleOffOutlinedIcon from '@mui/icons-material/ToggleOffOutlined';
 import ToggleOnOutlinedIcon from '@mui/icons-material/ToggleOnOutlined';
 import EditNoteTwoToneIcon from '@mui/icons-material/EditNoteTwoTone';
+import { set } from 'react-hook-form';
 
 const CourseDetail = () => {
     const token = localStorage.getItem('token').toString();
@@ -31,7 +32,11 @@ const CourseDetail = () => {
     const [Course, setCourse] = useState({});
     const [rows, setRows] = useState([]);
     const [openUpdate, setOpenUpdate] = useState(false);
-    const handleClickUpdateOpen = () => {
+    const [testUpdate, setTestUpdate] = useState({});
+
+    const handleClickUpdateOpen = (testIdUpdate) => {
+        setTestUpdate(testIdUpdate);
+        console.log(testIdUpdate);
         setOpenUpdate(true);
     };
     const handleClose = () => {
@@ -103,7 +108,6 @@ const CourseDetail = () => {
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Test Id</TableCell>
                                     <TableCell align="center">Test Name</TableCell>
                                     <TableCell align="center">UpdateUser&nbsp;</TableCell>
                                     <TableCell align="center">UpdateDate&nbsp;</TableCell>
@@ -113,17 +117,14 @@ const CourseDetail = () => {
                             </TableHead>
                             <TableBody>
                                 {rows.map((row, index) => (
-                                    <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                        <TableCell component="th" scope="row">
-                                            {row.testId}
-                                        </TableCell>
+                                    <TableRow key={row.testId} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                         <TableCell align="center">{row.testName}</TableCell>
                                         <TableCell align="center">{row.updateUser}</TableCell>
                                         <TableCell align="center">{formatDate(row.updateDate)}</TableCell>
                                         <TableCell align="center">{row.isDeleted ? "Deactive" : "Active"}</TableCell>
                                         <TableCell align="center">
                                             <React.Fragment >
-                                                <IconButton onClick={() => handleClickUpdateOpen()} aria-label="delete" size="large">
+                                                <IconButton onClick={() => handleClickUpdateOpen(row.testId)} aria-label="delete" size="large">
                                                     {row.isDeleted ? <ToggleOffOutlinedIcon /> : <ToggleOnOutlinedIcon />}
                                                 </IconButton>
                                                 <Dialog
@@ -139,10 +140,9 @@ const CourseDetail = () => {
                                                         <Button onClick={handleClose}>Cancel</Button>
                                                         <Button onClick={(e) => {
                                                             e.preventDefault();
-                                                            handleUpdate(row.testId);
+                                                            handleUpdate(testUpdate);
                                                         }} autoFocus>
                                                             Update
-                                                            {row.testId}
                                                         </Button>
                                                     </DialogActions>
                                                 </Dialog>

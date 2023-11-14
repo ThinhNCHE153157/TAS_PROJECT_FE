@@ -14,7 +14,7 @@ import {
 import Sidebar from '../layout/Sidebar';
 import NavBar from '../layout/NavBar';
 import { Paper } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteTwoToneIcon from '@mui/icons-material/EditNoteTwoTone';
 
@@ -96,9 +96,11 @@ const CourseDetail = () => {
                                             <IconButton aria-label="delete" size="large">
                                                 <DeleteIcon />
                                             </IconButton>
-                                            <IconButton>
-                                                <EditNoteTwoToneIcon />
-                                            </IconButton>
+                                            <Link to={`/admin/coursedetail/${Course.courseId}/${row.testId}`}>
+                                                <IconButton>
+                                                    <EditNoteTwoToneIcon />
+                                                </IconButton>
+                                            </Link>
                                         </TableCell>
                                     </TableRow>
                                 ))}

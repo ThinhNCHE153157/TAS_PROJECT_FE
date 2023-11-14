@@ -21,6 +21,7 @@ import DetailTest from '../pages/HOD/ManageTest/DetailTest';
 import QuestionList from '../pages/HOD/ManageQuestion/ListQuestion';
 import { ROUTES, ROLE } from '../../Utils/Constants';
 import Unauthorized from '../pages/commonUser/pages/Unauthorized';
+import TestDetail from '../pages/HOD/ManageCourse/TestDetail';
 
 const TheRouter = () => {
   return (
@@ -34,6 +35,7 @@ const TheRouter = () => {
         <Route path="/Admin" exact element={<Dashboard />} />
         <Route path="/Admin/ClassList/Detail/:id" exact element={<ClassDetail />} />
         <Route path="/Admin/CourseDetail/:id" exact element={<CourseDetail />} />
+        <Route path="/Admin/CourseDetail/:courseId/:testId" exact element={<TestDetail />} />
       </Route>
       {/* Common */}
       <Route element={<RequireLogin />}>

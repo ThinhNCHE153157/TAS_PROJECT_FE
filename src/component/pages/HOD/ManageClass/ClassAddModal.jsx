@@ -15,7 +15,7 @@ const ClassAddModal = ({
   const handleOnChangeDetail = (e) => {
     console.log('e', e)
     if (!e.value) {
-      onChangeErrors({ ['err_' + e.name]: 'You need to field this field' })
+      onChangeErrors({ ['err_' + e.name]: 'You need to fill this field' })
     } else {
       const newE = { [e.name]: e.value }
       const updatedData = { ...addData, ...newE };

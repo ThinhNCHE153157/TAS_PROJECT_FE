@@ -68,6 +68,42 @@ export const AddStudentIntoClass = (accountId, classCode) => {
   });
 };
 
+export const FetchClass = (accountId, classCode) => {
+  return new Promise((resolve, reject) => {
+    API.post(`/Class/AddStudentIntoClass?accountId=${accountId}&classCode=${classCode}`)
+      .then((response) => {
+        resolve(response.data); // Trả về dữ liệu từ API
+      })
+      .catch((error) => {
+        reject(error); // Trả về lỗi nếu có lỗi
+      });
+  });
+};
+
+export const AddUser = (data) => {
+  return new Promise((resolve, reject) => {
+    API.post('/Account/AddAccount', data)
+      .then((response) => {
+        resolve(response.data); // Trả về dữ liệu từ API
+      })
+      .catch((error) => {
+        reject(error); // Trả về lỗi nếu có lỗi
+      });
+  });
+};
+
+// export const AddUser = (data) => {
+//   return new Promise((resolve, reject) => {
+//     API.post('/Account/AddAccount', data)
+//       .then((response) => {
+//         resolve(response.data); // Trả về dữ liệu từ API
+//       })
+//       .catch((error) => {
+//         reject(error); // Trả về lỗi nếu có lỗi
+//       });
+//   });
+// };
+
 // Student
 
 // Teacher

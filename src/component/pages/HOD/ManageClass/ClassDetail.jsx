@@ -7,6 +7,7 @@ import Sidebar from '../layout/Sidebar';
 const ClassDetail = () => {
   const { id } = useParams();
 
+
   return (
     <div>
       <NavBar />

@@ -40,5 +40,7 @@ const TheRouter = () => {
 
     </Routes>
   )
+
 }
+export default TheRouter
 

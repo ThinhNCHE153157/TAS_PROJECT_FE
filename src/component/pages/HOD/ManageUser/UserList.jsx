@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 import React, { useEffect, useMemo, useState } from 'react'
-=======
-
-import React, { useMemo, useState } from 'react'
->>>>>>> 48b8c53e2a726ea59ecdd66a3b391ea98f815b9c
 import { Avatar, Box, Button, IconButton, Typography } from '@mui/material'
 import Sidebar from '../layout/Sidebar'
 import NavBar from '../layout/NavBar'
@@ -14,7 +9,7 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import UserAdditionModal from './UserAdditionModal'
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Link } from 'react-router-dom'
-import { FetchAccountManagement } from '../../common/CallAPI'
+import { AddUser, FetchAccountManagement } from '../../common/CallAPI'
 
 const statusOptions = {
   0: 'Hoạt động',
@@ -49,6 +44,8 @@ const UserList = () => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [rows, setRows] = useState([]);
   const [data, setData] = useState([])
+  const [newRow, setNewRow] = useState({});
+
   useEffect(() => {
     FetchAccountManagement()
       .then(response => {
@@ -68,7 +65,7 @@ const UserList = () => {
       .catch(error => {
         console.error('Lỗi khi gọi API:', error);
       });
-  }, []);
+  }, [newRow]);
   const columns = useMemo(() => [
     {
       field: 'avatar', headerName: 'Avatar', flex: 0.5,
@@ -137,7 +134,7 @@ const UserList = () => {
       )
     },
     {
-      field: 'datails',
+      field: 'details',
       headerName: 'Detail',
       flex: 0.5,
       renderCell: (params) => (
@@ -166,20 +163,15 @@ const UserList = () => {
   };
 
   const addRowData = (addData) => {
-    // const data_id_max_row = data.find(item => item.data_id === Math.max(...data.map(item => item.data_id)));
-    // console.log(addData)
-    const data_id_max = Math.max(...data.map(item => item.data_id)) + 1;
-    addData = { ...addData, 'id': data_id_max, 'data_id': data_id_max, 'avatar': '' }
-    const updateRows = [...rows]
-    updateRows.push(addData)
-
-    setRows(updateRows)
-
+    console.log('addData: ', addData)
+    AddUser(addData)
+      .then(response => {
+        setNewRow(addData);
+        console.log('Dữ liệu từ API:', response);
+      }).catch(error => {
+        console.error('Lỗi khi gọi API:', error);
+      })
   };
-  // useEffect(() => {
-  //   // Lấy dữ liệu từ database hoặc từ một nguồn khác
-  //   setRows(rows);
-  // }, [rows]);
 
   return (
     <div>
@@ -218,6 +210,7 @@ const UserList = () => {
           {/* Add modal */}
           <UserAdditionModal
             open={isAddModalOpen}
+            data={rows}
             onClose={() => {
               setIsAddModalOpen(false);
             }}

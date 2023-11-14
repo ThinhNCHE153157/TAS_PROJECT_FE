@@ -15,6 +15,21 @@ import NavBar from '../layout/NavBar';
 import { Paper } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { Card, CardContent } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { styled } from '@mui/material/styles';
+
+
+const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+});
 
 const TestDetail = () => {
     const token = localStorage.getItem('token').toString();
@@ -291,8 +306,12 @@ const TestDetail = () => {
                         }
                     </Grid>
                     <Grid component="main" justifyContent="center"
-                        alignItems="center" sx={{ flexGrow: 1, display: "flex", mt: 2 }}>
+                        alignItems="center" sx={{ flexGrow: 1, display: "flex", mt: 2, mr: 2 }}>
                         <Button sx={{ justifyContent: "center" }} variant='contained' >Add Question</Button>
+                        <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                            Upload file
+                            <VisuallyHiddenInput type="file" />
+                        </Button>
                     </Grid>
                 </Paper>
             </Box>

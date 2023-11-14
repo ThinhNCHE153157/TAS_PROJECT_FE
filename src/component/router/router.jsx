@@ -22,6 +22,7 @@ import QuestionList from '../pages/HOD/ManageQuestion/ListQuestion';
 import { ROUTES, ROLE } from '../../Utils/Constants';
 import Unauthorized from '../pages/commonUser/pages/Unauthorized';
 import TestDetail from '../pages/HOD/ManageCourse/TestDetail';
+
 const TheRouter = () => {
   return (
     <Routes>
@@ -37,6 +38,12 @@ const TheRouter = () => {
         <Route path="/Admin/CourseDetail/:courseId/:testId" exact element={<TestDetail />} />
       </Route>
       {/* Common */}
+      <Route element={<RequireLogin />}>
+        <Route path={ROUTES.common.register} exact element={<Register />} />
+        <Route path={ROUTES.common.login} exact element={<Login />} />
+      </Route>
+      <Route path={ROUTES.common.register} exact element={<Register />} />
+      <Route path={ROUTES.common.login} exact element={<Login />} />
       <Route path={ROUTES.common.register} exact element={<Register />} />
       <Route path={ROUTES.common.login} exact element={<Login />} />
       <Route path={ROUTES.common.unauthorized} exact element={<Unauthorized />} />

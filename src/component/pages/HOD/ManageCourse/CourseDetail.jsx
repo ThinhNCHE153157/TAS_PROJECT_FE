@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import {
     Box,
     Grid,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Button,
     IconButton,
     Table,
     TableBody,
@@ -15,13 +20,35 @@ import Sidebar from '../layout/Sidebar';
 import NavBar from '../layout/NavBar';
 import { Paper } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
-import DeleteIcon from '@mui/icons-material/Delete';
+import ToggleOffOutlinedIcon from '@mui/icons-material/ToggleOffOutlined';
+import ToggleOnOutlinedIcon from '@mui/icons-material/ToggleOnOutlined';
 import EditNoteTwoToneIcon from '@mui/icons-material/EditNoteTwoTone';
 
 const CourseDetail = () => {
+    const token = localStorage.getItem('token').toString();
+    const [refresh, setRefresh] = useState(false);
     const { id } = useParams();
     const [Course, setCourse] = useState({});
     const [rows, setRows] = useState([]);
+    const [openUpdate, setOpenUpdate] = useState(false);
+    const handleClickUpdateOpen = () => {
+        setOpenUpdate(true);
+    };
+    const handleClose = () => {
+        setOpenUpdate(false);
+    };
+
+    const handleUpdate = async (tId) => {
+        console.log(tId);
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', "Authorization": `Bearer ${token}` },
+        };
+        await fetch(`https://localhost:5000/api/Test/UpdateStatus?TestId=${tId}`, requestOptions)
+        setRefresh(!refresh);
+        setOpenUpdate(false);
+    }
+
     useEffect(() => {
         async function getCourse() {
             const requestUrl = 'https://localhost:5000/api/Course/GetCourseById?id=' + id;
@@ -31,7 +58,7 @@ const CourseDetail = () => {
             setRows(responseJSON.tests);
         }
         getCourse();
-    }, [id]);
+    }, [id, refresh]);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -80,6 +107,7 @@ const CourseDetail = () => {
                                     <TableCell align="center">Test Name</TableCell>
                                     <TableCell align="center">UpdateUser&nbsp;</TableCell>
                                     <TableCell align="center">UpdateDate&nbsp;</TableCell>
+                                    <TableCell align="center">Status&nbsp;</TableCell>
                                     <TableCell align="center">Action&nbsp;</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -92,10 +120,33 @@ const CourseDetail = () => {
                                         <TableCell align="center">{row.testName}</TableCell>
                                         <TableCell align="center">{row.updateUser}</TableCell>
                                         <TableCell align="center">{formatDate(row.updateDate)}</TableCell>
+                                        <TableCell align="center">{row.isDeleted ? "Deactive" : "Active"}</TableCell>
                                         <TableCell align="center">
-                                            <IconButton aria-label="delete" size="large">
-                                                <DeleteIcon />
-                                            </IconButton>
+                                            <React.Fragment >
+                                                <IconButton onClick={() => handleClickUpdateOpen()} aria-label="delete" size="large">
+                                                    {row.isDeleted ? <ToggleOffOutlinedIcon /> : <ToggleOnOutlinedIcon />}
+                                                </IconButton>
+                                                <Dialog
+                                                    open={openUpdate}
+                                                    onClose={handleClose}
+                                                    aria-labelledby="alert-dialog-title"
+                                                    aria-describedby="alert-dialog-description"
+                                                >
+                                                    <DialogTitle id="alert-dialog-title">
+                                                        {row.isDeleted ? "Do you want to active this test?" : "Do you want to deactive this test?"}
+                                                    </DialogTitle>
+                                                    <DialogActions>
+                                                        <Button onClick={handleClose}>Cancel</Button>
+                                                        <Button onClick={(e) => {
+                                                            e.preventDefault();
+                                                            handleUpdate(row.testId);
+                                                        }} autoFocus>
+                                                            Update
+                                                            {row.testId}
+                                                        </Button>
+                                                    </DialogActions>
+                                                </Dialog>
+                                            </React.Fragment>
                                             <Link to={`/admin/coursedetail/${Course.courseId}/${row.testId}`}>
                                                 <IconButton>
                                                     <EditNoteTwoToneIcon />
@@ -109,7 +160,7 @@ const CourseDetail = () => {
                     </TableContainer>
                 </Paper>
             </Box>
-        </div>
+        </div >
     );
 };
 

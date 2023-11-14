@@ -46,6 +46,7 @@ const TestDetail = () => {
     const [open, setOpen] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [openAdd, setOpenAdd] = useState(false);
+    const [openEditTest, setOpenEditTest] = useState(false);
 
     const [questionId, setQuestionId] = useState(''); // This is for Update question
     const [description, setDescription] = useState('');
@@ -55,7 +56,36 @@ const TestDetail = () => {
     const [resultD, setResultD] = useState('');
     const [correctResult, setCorrectResult] = useState('');
 
-    const handleClickEditTest = () => {
+    //#region Test
+    const [testName, setTestName] = useState('');
+    const [testDescription, setTestDescription] = useState('');
+    const [testDuration, setTestDuration] = useState('');
+    const [testTotalScore, setTestTotalScore] = useState('');
+    //#endregion
+
+
+    const handleClickEditTest = (name, des, duration, score) => {
+        setTestName(name);
+        setTestDescription(des);
+        setTestDuration(duration);
+        setTestTotalScore(score);
+        setOpenEditTest(true);
+    }
+    const handleEditTest = async () => {
+        const requestOptions = {
+            method: 'put',
+            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', "Authorization": `Bearer ${token}` },
+            body: JSON.stringify({
+                testId: testId,
+                testName: testName,
+                testDescription: testDescription,
+                testDuration: testDuration,
+                testTotalScore: testTotalScore,
+            })
+        };
+        await fetch(`https://localhost:5000/api/Test/UpdateTest`, requestOptions)
+        setRefresh(!refresh);
+        setOpenEditTest(false);
     }
 
     const handleClickAddOpen = () => {
@@ -127,6 +157,7 @@ const TestDetail = () => {
         setOpen(false);
     }
     const handleClose = () => {
+        setOpenEditTest(false);
         setOpenAdd(false);
         setOpenDelete(false);
         setOpen(false);
@@ -154,7 +185,7 @@ const TestDetail = () => {
         }
         getTest();
 
-    }, [testId, token]);
+    }, [testId, token, refresh]);
 
     useEffect(() => {
         async function getQuestion() {
@@ -178,10 +209,63 @@ const TestDetail = () => {
                 <Paper component="main" sx={{ flexGrow: 1, p: 3, mt: 10, ml: 5, mr: 5, bgcolor: '#F7EFE5' }}>
                     <Typography variant="h5" component="h2" sx={{ fontWeight: 'Bold' }}>
                         Test Detail: {Test.testName}
+                        <React.Fragment >
+                            <Button sx={{ float: 'right' }} variant='contained' onClick={() => handleClickEditTest(Test.testName, Test.testDescription, Test.testDuration, Test.testTotalScore)}>
+                                Edit Test
+                            </Button>
+                            <Dialog open={openEditTest} onClose={handleClose}>
+                                <DialogTitle>Edit Test</DialogTitle>
+                                <DialogContent>
+                                    <TextField
+                                        autoFocus
+                                        margin="dense"
+                                        id="name"
+                                        label="Test Name"
+                                        type="text"
+                                        fullWidth
+                                        variant="standard"
+                                        value={testName}
+                                        onChange={(e) => setTestName(e.target.value)}
+                                    />
+                                    <TextField
+                                        autoFocus
+                                        margin="dense"
+                                        id="name"
+                                        label="Test Description"
+                                        type="text"
+                                        fullWidth
+                                        variant="standard"
+                                        value={testDescription}
+                                        onChange={(e) => setTestDescription(e.target.value)}
+                                    />
+                                    <TextField
+                                        margin="dense"
+                                        id="name"
+                                        label="Test Duration"
+                                        type="text"
+                                        fullWidth
+                                        variant="standard"
+                                        value={testDuration}
+                                        onChange={(e) => setTestDuration(e.target.value)}
+                                    />
+                                    <TextField
+                                        margin="dense"
+                                        id="name"
+                                        label="Test Total Score"
+                                        type="text"
+                                        fullWidth
+                                        variant="standard"
+                                        value={testTotalScore}
+                                        onChange={(e) => setTestTotalScore(e.target.value)}
+                                    />
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={handleClose}>Cancel</Button>
+                                    <Button onClick={handleEditTest}>Edit</Button>
+                                </DialogActions>
+                            </Dialog>
+                        </React.Fragment>
                     </Typography>
-                    <Button sx={{ float: 'right' }} onClick={() => handleClickEditTest()}>
-                        Edit
-                    </Button>
                     <Grid container spacing={2}>
                         <Grid item xs={6}>
                             <Typography sx={{ mt: 2 }} variant="h6" component="h2">
@@ -198,7 +282,7 @@ const TestDetail = () => {
                     <Typography sx={{ mt: 2 }}>Test Duration: {Test.testDuration}</Typography>
                     <Typography sx={{ mt: 2 }}>Test Total Score: {Test.testTotalScore}</Typography>
 
-                    <Typography sx={{ mt: 4 }}>List Question:</Typography>
+                    <Typography sx={{ mt: 4, fontWeight: 'bold' }} component="h2">List Question:</Typography>
 
                     <Grid container spacing={2}>
                         {Question.map((question) => (

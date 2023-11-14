@@ -15,6 +15,7 @@ import {
     TableHead,
     TableRow,
     Typography,
+    TextField,
 } from '@mui/material';
 import Sidebar from '../layout/Sidebar';
 import NavBar from '../layout/NavBar';
@@ -23,7 +24,21 @@ import { Link, useParams } from 'react-router-dom';
 import ToggleOffOutlinedIcon from '@mui/icons-material/ToggleOffOutlined';
 import ToggleOnOutlinedIcon from '@mui/icons-material/ToggleOnOutlined';
 import EditNoteTwoToneIcon from '@mui/icons-material/EditNoteTwoTone';
-import { set } from 'react-hook-form';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { styled } from '@mui/material/styles';
+
+const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+});
+
 
 const CourseDetail = () => {
     const token = localStorage.getItem('token').toString();
@@ -33,6 +48,37 @@ const CourseDetail = () => {
     const [rows, setRows] = useState([]);
     const [openUpdate, setOpenUpdate] = useState(false);
     const [testUpdate, setTestUpdate] = useState({});
+    const [openAdd, setOpenAdd] = useState(false);
+
+    //region add test
+    const [TestName, setTestName] = useState('');
+    const [TestDuration, setTestDuration] = useState(0);
+    const [TestTotalScore, setTestTotalScore] = useState(0);
+    const [TestDescription, setTestDescription] = useState('');
+    //endregion
+
+    const handleClickAddOpen = () => {
+        setOpenAdd(true);
+    };
+    const handleAdd = async () => {
+        const tests = {
+            "testName": TestName,
+            "testDuration": TestDuration,
+            "testTotalScore": TestTotalScore,
+            "testDescription": TestDescription,
+        }
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', "Authorization": `Bearer ${token}` },
+            body: JSON.stringify({
+                "courseId": id,
+                'tests': tests,
+            })
+        };
+        await fetch(`https://localhost:5000/api/Test/CreateTestForCourse`, requestOptions)
+        setRefresh(!refresh);
+        setOpenAdd(false);
+    };
 
     const handleClickUpdateOpen = (testIdUpdate) => {
         setTestUpdate(testIdUpdate);
@@ -41,6 +87,7 @@ const CourseDetail = () => {
     };
     const handleClose = () => {
         setOpenUpdate(false);
+        setOpenAdd(false);
     };
 
     const handleUpdate = async (tId) => {
@@ -158,6 +205,62 @@ const CourseDetail = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    <Grid component="main" justifyContent="center"
+                        alignItems="center" sx={{ flexGrow: 1, display: "flex", mt: 2 }}>
+                        <React.Fragment >
+                            <Button sx={{ mr: 2 }} variant='contained' onClick={handleClickAddOpen} >Add Test</Button>
+                            <Dialog open={openAdd} onClose={handleClose}>
+                                <DialogTitle>Add Test</DialogTitle>
+                                <DialogContent>
+                                    <TextField
+                                        autoFocus
+                                        margin="dense"
+                                        id="name"
+                                        label="Test Name"
+                                        type="text"
+                                        fullWidth
+                                        variant="standard"
+                                        onChange={(e) => setTestName(e.target.value)}
+                                    />
+                                    <TextField
+                                        margin="dense"
+                                        id="name"
+                                        label="Test Duration"
+                                        type="text"
+                                        fullWidth
+                                        variant="standard"
+                                        onChange={(e) => setTestDuration(e.target.value)}
+                                    />
+                                    <TextField
+                                        margin="dense"
+                                        id="name"
+                                        label="Test Total Score"
+                                        type="text"
+                                        fullWidth
+                                        variant="standard"
+                                        onChange={(e) => setTestTotalScore(e.target.value)}
+                                    />
+                                    <TextField
+                                        margin="dense"
+                                        id="name"
+                                        label="Test description"
+                                        type="text"
+                                        fullWidth
+                                        variant="standard"
+                                        onChange={(e) => setTestDescription(e.target.value)}
+                                    />
+                                    <Button sx={{ mt: 2 }} component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                                        Upload file questions
+                                        <VisuallyHiddenInput type="file" />
+                                    </Button>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={handleClose}>Cancel</Button>
+                                    <Button onClick={handleAdd}>Add</Button>
+                                </DialogActions>
+                            </Dialog>
+                        </React.Fragment>
+                    </Grid>
                 </Paper>
             </Box>
         </div >

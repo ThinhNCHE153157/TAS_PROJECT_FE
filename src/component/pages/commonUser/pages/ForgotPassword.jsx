@@ -4,10 +4,13 @@ import {
     Grid,
     TextField,
     Button,
-    Paper,
+    Card,
+    CardContent,
+    Typography,
     Link,
+    Paper,
 } from '@mui/material';
-
+import { red } from '@mui/material/colors';
 
 function ForgotPassword() {
     const paperStyle = { padding: '30px 50px', width: 350, margin: '20px auto' };
@@ -15,43 +18,31 @@ function ForgotPassword() {
 
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
-    const [isEmailVerified, setIsEmailVerified] = useState(false);
+    const [showCard, setShowCard] = useState(false);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
+    const handleSubmit = async () => {
         try {
-            const verificationCode = generateRandomCode();
-
-            const response = await fetch('/send-verification-code', {
+            const response = await fetch('/api/forgotpassword', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, verificationCode }),
+                body: JSON.stringify({ email }),
             });
-
-            if (response.status === 200) {
+            if (response.ok) {
+                setShowCard(true);
                 setMessage('Verification code sent successfully');
             } else {
+                setShowCard(true);
                 setMessage('Error sending verification code');
             }
         } catch (error) {
-            console.error(error);
+            setShowCard(true);
             setMessage('An error occurred');
         }
-    }
-
-    function generateRandomCode() {
-        return Math.floor(100000 + Math.random() * 900000).toString();
-    }
-
-    const notificationStyle = {
-        color: 'red',
-        padding: '10px',
-        borderRadius: '5px',
-        textAlign: 'center',
     };
+
+    const cardStyle = { width: 300, margin: '20px auto', backgroundColor: '#ffcdd2', display: showCard ? 'block' : 'none' };
 
     return (
         <div>
@@ -59,7 +50,7 @@ function ForgotPassword() {
             <Grid mt={10}>
                 <Paper elevation={4} style={paperStyle} sx={{ borderRadius: '20px' }}>
                     <Grid align="center">
-                        <h1>Fotgot Password</h1>
+                        <h1>Forgot Password</h1>
                     </Grid>
                     <Grid align="center">
                         <form onSubmit={handleSubmit}>
@@ -76,12 +67,15 @@ function ForgotPassword() {
                                 fullWidth
                                 type="submit"
                                 variant="contained"
-                                href=""
                             >
                                 Send Reset Code
                             </Button>
                         </form>
-                        <div style={notificationStyle}>{message}</div>
+                        <Card elevation={4} style={cardStyle}>
+                            <CardContent>
+                                <Typography color="textSecondary">{message}</Typography>
+                            </CardContent>
+                        </Card>
                     </Grid>
                 </Paper>
             </Grid>

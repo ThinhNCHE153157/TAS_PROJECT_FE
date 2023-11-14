@@ -9,7 +9,7 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import UserAdditionModal from './UserAdditionModal'
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Link } from 'react-router-dom'
-import { AddUser, FetchAccountManagement } from '../../common/CallAPI'
+import { AddUser, EditUser, FetchAccountManagement } from '../../common/CallAPI'
 
 const statusOptions = {
   0: 'Hoạt động',
@@ -152,14 +152,15 @@ const UserList = () => {
 
 
   const updateRowData = (updatedData) => {
-    // Tìm chỉ mục của hàng trong mảng dựa trên id hoặc một trường duy nhất
-    console.log(updatedData)
-    const index = rows.findIndex((row) => row.id === updatedData.id);
-    if (index !== -1) {
-      const updatedRows = [...rows];
-      updatedRows[index] = updatedData;
-      setRows(updatedRows);
-    }
+    console.log('updatedData: ', updatedData)
+    console.log('updatedData.accountId: ', updatedData.accountId)
+    EditUser(updatedData.accountId, updatedData)
+      .then(response => {
+        setNewRow(updatedData);
+        console.log('Dữ liệu từ API:', response);
+      }).catch(error => {
+        console.error('Lỗi khi gọi API:', error);
+      })
   };
 
   const addRowData = (addData) => {

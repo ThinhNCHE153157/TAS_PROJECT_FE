@@ -6,7 +6,11 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    FormControl,
     Grid,
+    InputLabel,
+    MenuItem,
+    Select,
     TextField,
     Typography,
 } from '@mui/material';
@@ -17,6 +21,7 @@ import { useParams } from 'react-router-dom';
 import { Card, CardContent } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
+import { set } from 'react-hook-form';
 
 
 const VisuallyHiddenInput = styled('input')({
@@ -40,6 +45,7 @@ const TestDetail = () => {
     const [refresh, setRefresh] = useState(false); // This is for refresh data after edit
     const [open, setOpen] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
+    const [openAdd, setOpenAdd] = useState(false);
 
     const [questionId, setQuestionId] = useState(''); // This is for Update question
     const [description, setDescription] = useState('');
@@ -48,6 +54,37 @@ const TestDetail = () => {
     const [resultC, setResultC] = useState('');
     const [resultD, setResultD] = useState('');
     const [correctResult, setCorrectResult] = useState('');
+
+    const handleClickEditTest = () => {
+    }
+
+    const handleClickAddOpen = () => {
+        setOpenAdd(true);
+    };
+    const handleAdd = async () => {
+        const questionNavigation = {
+            resultA: resultA,
+            resultB: resultB,
+            resultC: resultC,
+            resultD: resultD,
+            correctResult: correctResult,
+        }
+        const requestOptions = {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', "Authorization": `Bearer ${token}` },
+            body: JSON.stringify({
+                description: description,
+                image: "null",
+                type: "null",
+                note: "null",
+                questionNavigation: questionNavigation,
+                testId: testId,
+            })
+        };
+        await fetch(`https://localhost:5000/api/Question/CreateQuestion`, requestOptions)
+        setRefresh(!refresh);
+        setOpenAdd(false);
+    }
 
     const handleClickOpen = (id, des, a, b, c, d, correct) => {
         setQuestionId(id);
@@ -61,7 +98,7 @@ const TestDetail = () => {
         setOpen(true);
     };
 
-    const handleClickDeleteOpen = () => {
+    const handleClickDeleteOpen = (name) => {
         setOpenDelete(true);
     };
     const handleUpdate = async () => {
@@ -90,6 +127,7 @@ const TestDetail = () => {
         setOpen(false);
     }
     const handleClose = () => {
+        setOpenAdd(false);
         setOpenDelete(false);
         setOpen(false);
     }
@@ -101,6 +139,7 @@ const TestDetail = () => {
         };
         await fetch(`https://localhost:5000/api/Question/DeleteQuestion?questionId=${id}`, requestOptions)
         setRefresh(!refresh);
+        setOpenDelete(false);
     }
 
     useEffect(() => {
@@ -116,7 +155,6 @@ const TestDetail = () => {
         getTest();
 
     }, [testId, token]);
-    console.log(Test);
 
     useEffect(() => {
         async function getQuestion() {
@@ -132,25 +170,18 @@ const TestDetail = () => {
         getQuestion();
     }, [refresh, token, testId]);
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const day = date.getDate();
-        const month = date.getMonth() + 1; // Lưu ý rằng tháng bắt đầu từ 0
-        const year = date.getFullYear();
-        return `${day}-${month}-${year}`;
-    };
-
-
     return (
         <div>
             <NavBar />
             <Box sx={{ display: 'flex' }}>
-
                 <Sidebar />
                 <Paper component="main" sx={{ flexGrow: 1, p: 3, mt: 10, ml: 5, mr: 5, bgcolor: '#F7EFE5' }}>
                     <Typography variant="h5" component="h2" sx={{ fontWeight: 'Bold' }}>
                         Test Detail: {Test.testName}
                     </Typography>
+                    <Button sx={{ float: 'right' }} onClick={() => handleClickEditTest()}>
+                        Edit
+                    </Button>
                     <Grid container spacing={2}>
                         <Grid item xs={6}>
                             <Typography sx={{ mt: 2 }} variant="h6" component="h2">
@@ -252,7 +283,7 @@ const TestDetail = () => {
                                                 </Dialog>
                                             </React.Fragment>
                                             <React.Fragment >
-                                                <Button sx={{ float: 'right' }} onClick={handleClickDeleteOpen}>Delete</Button>
+                                                <Button name={"Button" + question.questionId} sx={{ float: 'right' }} onClick={(e) => handleClickDeleteOpen(e.target.name)}>Delete</Button>
                                                 <Dialog
                                                     open={openDelete}
                                                     onClose={handleClose}
@@ -264,7 +295,10 @@ const TestDetail = () => {
                                                     </DialogTitle>
                                                     <DialogActions>
                                                         <Button onClick={handleClose}>Cancel</Button>
-                                                        <Button onClick={() => handleDelete(question.questionId)} autoFocus>
+                                                        <Button onClick={(e) => {
+                                                            e.preventDefault();
+                                                            handleDelete(question.questionId)
+                                                        }} autoFocus>
                                                             Delete
                                                         </Button>
                                                     </DialogActions>
@@ -306,8 +340,79 @@ const TestDetail = () => {
                         }
                     </Grid>
                     <Grid component="main" justifyContent="center"
-                        alignItems="center" sx={{ flexGrow: 1, display: "flex", mt: 2, mr: 2 }}>
-                        <Button sx={{ justifyContent: "center" }} variant='contained' >Add Question</Button>
+                        alignItems="center" sx={{ flexGrow: 1, display: "flex", mt: 2 }}>
+                        <React.Fragment >
+                            <Button sx={{ mr: 2 }} variant='contained' onClick={handleClickAddOpen} >Add Question</Button>
+                            <Dialog open={openAdd} onClose={handleClose}>
+                                <DialogTitle>Add Question</DialogTitle>
+                                <DialogContent>
+                                    <TextField
+                                        autoFocus
+                                        margin="dense"
+                                        id="name"
+                                        label="Question"
+                                        type="text"
+                                        fullWidth
+                                        variant="standard"
+                                        onChange={(e) => setDescription(e.target.value)}
+                                    />
+                                    <TextField
+                                        margin="dense"
+                                        id="name"
+                                        label="Answer A"
+                                        type="text"
+                                        fullWidth
+                                        variant="standard"
+                                        onChange={(e) => setResultA(e.target.value)}
+                                    />
+                                    <TextField
+                                        margin="dense"
+                                        id="name"
+                                        label="Answer B"
+                                        type="text"
+                                        fullWidth
+                                        variant="standard"
+                                        onChange={(e) => setResultB(e.target.value)}
+                                    />
+                                    <TextField
+                                        margin="dense"
+                                        id="name"
+                                        label="Answer C"
+                                        type="text"
+                                        fullWidth
+                                        variant="standard"
+                                        onChange={(e) => setResultC(e.target.value)}
+                                    />
+                                    <TextField
+                                        margin="dense"
+                                        id="name"
+                                        label="Answer D"
+                                        type="text"
+                                        fullWidth
+                                        variant="standard"
+                                        onChange={(e) => setResultD(e.target.value)}
+                                    />
+                                    <FormControl fullWidth sx={{ mt: 2 }}>
+                                        <InputLabel id="demo-simple-select-label">Correct Answer</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            label="Correct Answer"
+                                            onChange={(e) => setCorrectResult(e.target.value)}
+                                        >
+                                            <MenuItem value={"A"}>A</MenuItem>
+                                            <MenuItem value={"B"}>B</MenuItem>
+                                            <MenuItem value={"C"}>C</MenuItem>
+                                            <MenuItem value={"D"}>D</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={handleClose}>Cancel</Button>
+                                    <Button onClick={handleAdd}>Add</Button>
+                                </DialogActions>
+                            </Dialog>
+                        </React.Fragment>
                         <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                             Upload file
                             <VisuallyHiddenInput type="file" />

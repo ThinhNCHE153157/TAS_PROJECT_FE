@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
@@ -16,8 +15,10 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useAppStore } from '../../../../AppStore';
-import logo from "../../../../image/tải xuống (1).png"
-
+import logo from '../../../../image/tải xuống (1).png';
+import { logoutUser } from '../../../../redux/Account/apiRequest';
+import { useDispatch, useSelector } from 'react-redux';
+import { Typography } from '@mui/material';
 
 const AppBar = styled(MuiAppBar, {
 })(({ theme }) => ({
@@ -65,6 +66,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavBar() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user?.User?.username);
+  const handleLogout = (e) => {
+    e.preventDefault();
+    logoutUser(dispatch);
+  };
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const updateOpen = useAppStore((state) => state.updateOpen);
@@ -109,6 +117,7 @@ export default function NavBar() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 
@@ -129,7 +138,7 @@ export default function NavBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem sx={{ color: "rgba(0, 0, 0, 0.54)" }}>
+      <MenuItem sx={{ color: 'rgba(0, 0, 0, 0.54)' }}>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
             <MailIcon />
@@ -138,11 +147,7 @@ export default function NavBar() {
         <p>Messages</p>
       </MenuItem>
       <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
+        <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
           <Badge badgeContent={17} color="error">
             <NotificationsIcon />
           </Badge>
@@ -176,7 +181,7 @@ export default function NavBar() {
             sx={{ mr: 2 }}
             onClick={() => updateOpen(!doOpen)}
           >
-            <MenuIcon sx={{ color: "rgba(0, 0, 0, 0.54)" }} />
+            <MenuIcon sx={{ color: 'rgba(0, 0, 0, 0.54)' }} />
           </IconButton>
           {/* <Typography
             variant="h6"
@@ -186,31 +191,31 @@ export default function NavBar() {
           >
             MUI
           </Typography> */}
-          <img component="div" sx={{ display: { xs: 'none', sm: 'block' } }} src={logo} alt='' width="5%" style={{ minWidth: '50px' }} />
+          <img
+            component="div"
+            sx={{ display: { xs: 'none', sm: 'block' } }}
+            src={logo}
+            alt=""
+            width="5%"
+            style={{ minWidth: '50px' }}
+          />
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
+            <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
-                <MailIcon sx={{ color: "rgba(0, 0, 0, 0.54)" }} />
+                <MailIcon sx={{ color: 'rgba(0, 0, 0, 0.54)' }} />
               </Badge>
             </IconButton>
 
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
+            <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="error">
-                <NotificationsIcon sx={{ color: "rgba(0, 0, 0, 0.54)" }} />
+                <NotificationsIcon sx={{ color: 'rgba(0, 0, 0, 0.54)' }} />
               </Badge>
             </IconButton>
 
@@ -223,8 +228,14 @@ export default function NavBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle sx={{ color: "rgba(0, 0, 0, 0.54)" }} />
+              <AccountCircle sx={{ color: 'rgba(0, 0, 0, 0.54)' }} />
             </IconButton>
+            <Typography
+              ml={1}
+              sx={{ color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+            >
+              Hi, {user}
+            </Typography>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -235,7 +246,7 @@ export default function NavBar() {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              <MoreIcon />
+              <MoreIcon sx={{ color: "rgba(0, 0, 0, 0.54)" }} />
             </IconButton>
           </Box>
         </Toolbar>
@@ -243,7 +254,7 @@ export default function NavBar() {
       {renderMobileMenu}
       {renderMenu}
       <Box height={30} />
-
     </Box>
   );
 }
+

@@ -8,24 +8,26 @@ const UserAdditionModal = ({
   onClose,
   onSubmit,
 }) => {
-  const [editedData, setEditedData] = useState({});
+  const [addData, setAddData] = useState({});
 
 
   const handelOnChange = (e) => {
-    console.log(editedData)
-    const updatedData = { ...editedData, ...e };
+    console.log(addData)
+    const updatedData = { ...addData, ...e };
     console.log(updatedData)
-    setEditedData(updatedData);
+    setAddData(updatedData);
+
   }
 
   // Sử dụng useEffect để theo dõi sự thay đổi của editedData và log nó
   useEffect(() => {
-  }, [editedData]);
+  }, [addData]);
 
   const handleSubmit = () => {
     // Thực hiện lưu các thay đổi
-    console.log(editedData)
-    onSubmit(editedData);
+    console.log(addData)
+    onSubmit(addData);
+
     onClose();
   };
 

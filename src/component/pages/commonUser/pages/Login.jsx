@@ -12,11 +12,39 @@ import {
     Paper,
     Link,
     Typography,
+    FormHelperText,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { FcGoogle as GoogleIcon } from 'react-icons/fc';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../../../redux/Account/apiRequest';
 
 function Login() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const [password, setPassword] = React.useState('');
+    const [passwordError, setPasswordError] = React.useState('');
+    const [userName, setUserName] = React.useState('');
+    const [userNameError, setUserNameError] = React.useState('');
+    const handleUsername = (event) => {
+        if (event.target.value === '') {
+            setUserNameError('Username cant be empty');
+        } else {
+            setUserNameError('');
+            setUserName(event.target.value);
+        }
+    };
+    const handlePassword = (event) => {
+        if (event.target.value === '') {
+            setPasswordError('Password cant be empty');
+        } else {
+            setPasswordError('');
+            setPassword(event.target.value);
+        }
+    };
+
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -34,6 +62,10 @@ function Login() {
         borderBottom: '1px solid #000',
     };
 
+    const handlesubmit = (e) => {
+        e.preventDefault();
+        loginUser(userName, password, dispatch, navigate);
+    };
     return (
         <div>
             <Header />
@@ -43,8 +75,15 @@ function Login() {
                         <h1>Login</h1>
                     </Grid>
                     <Grid align="center">
-                        <form action="">
-                            <TextField style={marginTop} fullWidth label="Email"></TextField>
+                        <form onSubmit={handlesubmit}>
+                            <TextField
+                                style={marginTop}
+                                fullWidth
+                                error={userNameError === '' ? false : true}
+                                helperText={userNameError}
+                                onChange={handleUsername}
+                                label="Email"
+                            ></TextField>
                             <FormControl style={marginTop} sx={{ width: '100%' }} variant="outlined">
                                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                 <OutlinedInput
@@ -62,8 +101,14 @@ function Login() {
                                             </IconButton>
                                         </InputAdornment>
                                     }
+                                    error={passwordError === '' ? false : true}
+                                    required={true}
+                                    onChange={handlePassword}
                                     label="Password"
                                 />
+                                {passwordError && (
+                                    <FormHelperText sx={{ color: 'red' }}>{passwordError}</FormHelperText>
+                                )}
                             </FormControl>
                             <Grid m={1} align="right">
                                 <Link href="#">Forgot password?</Link>
@@ -91,7 +136,7 @@ function Login() {
                     </Grid>
 
                     <Grid align="center">
-                        Don't have an account? <Link href="#">Register now</Link>
+                        Don't have an account? <Link href="/CommonUser/Register">Register now</Link>
                     </Grid>
                 </Paper>
             </Grid>

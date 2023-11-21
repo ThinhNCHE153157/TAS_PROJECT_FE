@@ -5,7 +5,7 @@ const Homepage = () => {
     return (
         <>
             <Header />
-            <div className="container" style={{ marginTop: "64px", minHeight: "100vh" }}>
+            <div className="container" style={{ marginTop: "69.47px", minHeight: "100vh" }}>
                 <div className="row">
                     <div className="col-12">
                         <h1>Homepage</h1>

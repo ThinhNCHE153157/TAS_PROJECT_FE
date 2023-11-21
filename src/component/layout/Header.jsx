@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { AppBar, Tabs, Tab, Toolbar, Button, useMediaQuery, useTheme } from '@mui/material'
 import DrawerComponent from './DrawerComponent'
 import logo from '../../image/tải xuống (1).png'
+import { Link } from 'react-router-dom'
 
 
 export default function Header() {
@@ -27,7 +28,7 @@ export default function Header() {
             </>
           ) : (
             <>
-              <img src={logo} alt='' width='7%' style={{ minWidth: '7%' }} />
+              <img src={logo} alt='' width='5%' style={{ minWidth: '5%' }} />
               <Tabs onChange={(e, value) => setTabValue(value)} value={tabValue} indicatorColor='primary' sx={{ marginLeft: 'auto' }}>
                 {
                   Pages.map((page, index) => (
@@ -35,7 +36,7 @@ export default function Header() {
                   ))
                 }
               </Tabs>
-              <Button sx={{ marginLeft: 'auto' }} variant='outlined'>Login</Button>
+              <Button sx={{ marginLeft: 'auto' }} variant='outlined'><Link to="Login" color="inherit" underline="none">Login</Link></Button>
               <Button sx={{ marginLeft: '10px' }} variant='contained'>Get started</Button>
             </>
           )

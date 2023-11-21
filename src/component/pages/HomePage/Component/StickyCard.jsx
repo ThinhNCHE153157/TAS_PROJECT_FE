@@ -1,13 +1,21 @@
+import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
 
-const CourseCard = ({ id, image, name, description, level, price, discount }) => {
+const StickyCard = ({ id, image, name, description, level }) => {
     return (
-        <Link href={`/Course/${id}`} underline="none" color="inherit">
+        <div
+            style={{
+                height: '500px',
+                width: '400px',
+                marginTop: '140px',
+                position: 'sticky',
+                top: '100px',
+                left: '1200px',
+                backgroundColor: '#333',
+                paddingTop: '16px',
+                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+            }}
+        >
             <Card Card sx={{ maxWidth: 400, margin: 2 }}>
                 <CardMedia
                     component="img"
@@ -25,12 +33,10 @@ const CourseCard = ({ id, image, name, description, level, price, discount }) =>
                     <Typography variant="body2" color="text.secondary">
                         Level: {level}
                     </Typography>
-                    <Typography variant="h6" sx={{ color: 'red' }}>
-                        1.000.000đ
-                    </Typography>
                 </CardContent>
             </Card >
-        </Link>
+        </div>
     );
 };
-export default CourseCard;
+
+export default StickyCard;

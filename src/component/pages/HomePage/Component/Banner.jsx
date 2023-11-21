@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 
 const bannerStyle = {
     padding: '16px',
-    backgroundColor: '#2196f3', // or use your primary color
+    backgroundImage: 'url(https://picsum.photos/1600/400)',
     color: '#fff',
     textAlign: 'center',
     height: '30vh',
@@ -13,8 +13,9 @@ const bannerStyle = {
 const Banner = () => {
     return (
         <Paper style={bannerStyle} elevation={3}>
+
             <Typography variant="h4" component="div">
-                Welcome to Our Website!
+                Welcome to Toeic Master!
             </Typography>
             <Typography variant="subtitle1">
                 Discover amazing content and services.

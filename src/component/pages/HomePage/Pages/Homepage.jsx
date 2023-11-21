@@ -27,18 +27,19 @@ const Homepage = () => {
                 </div>
                 <div className="row">
                     <div className="col-12">
-                        <h1>Khoá học online</h1>
+                        <h2>Khoá học online</h2>
                         <p>
                             Những khoá học tiếng Anh online chất lượng cao được thiết kế theo chương trình tiếng Anh chuẩn CEFR (A1-C2) của đại học Cambridge và Oxford (Anh) với hệ thống bài giảng, bài tập phong phú đa dạng. Bạn có thể học thử miễn phí trước khi đặt mua sản phẩm.
                         </p>
                     </div>
                     <div className="col-12">
-                        <h1>Danh sách khoá học:</h1>
+                        <h2>Danh sách khoá học:</h2>
                         <Grid container spacing={2}>
                             {courses.map((course) => (
                                 <Grid item key={course.courseId} xs={12} sm={6} md={4} lg={3}>
                                     <CourseCard
-                                        image="https://picsum.photos/200/300"
+                                        id={course.courseId}
+                                        image="https://picsum.photos/300/400"
                                         name={course.courseName}
                                         description={course.courseDescription}
                                         level={course.courseLevel}

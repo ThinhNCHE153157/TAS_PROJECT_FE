@@ -23,12 +23,14 @@ import { ROUTES, ROLE } from '../../Utils/Constants';
 import Unauthorized from '../pages/commonUser/pages/Unauthorized';
 import TestDetail from '../pages/HOD/ManageCourse/TestDetail';
 import Homepage from '../pages/HomePage/Pages/Homepage';
+import Course from '../pages/HomePage/Pages/Course';
 
 const TheRouter = () => {
   return (
     <Routes>
       {/* Homepage */}
       <Route path="/" exact element={<Homepage />} />
+      <Route path="/Course/:id" exact element={<Course />} />
 
       {/* Admin */}
       <Route element={<RequireAuth allow={ROLE.Admin} />}>

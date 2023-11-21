@@ -22,10 +22,14 @@ import QuestionList from '../pages/HOD/ManageQuestion/ListQuestion';
 import { ROUTES, ROLE } from '../../Utils/Constants';
 import Unauthorized from '../pages/commonUser/pages/Unauthorized';
 import TestDetail from '../pages/HOD/ManageCourse/TestDetail';
+import Homepage from '../pages/common/Homepage';
 
 const TheRouter = () => {
   return (
     <Routes>
+      {/* Homepage */}
+      <Route path="/" exact element={<Homepage />} />
+
       {/* Admin */}
       <Route element={<RequireAuth allow={ROLE.Admin} />}>
         <Route path="/Admin/Dashboard" exact element={<Dashboard />} />

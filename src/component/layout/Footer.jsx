@@ -1,71 +1,50 @@
-import React from 'react'
-import './css/footer.css'
+import React from 'react';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+
+const footerStyle = {
+  backgroundColor: '#f5f5f5',
+  padding: '20px',
+  marginTop: 'auto',
+};
 
 const Footer = () => {
   return (
-    <div>
-      <div className='footer'>
-        <div className='sb_footer section_padding'>
-          <div className='sb_footer-links'>
-            <div className='sb_footer-links_div'>
-              <h4>For bussiness</h4>
-              <a><p>mamama</p></a>
-              <a><p>mamama</p></a>
-              <a><p>mamama</p></a>
-              <a><p>mamama</p></a>
-              <a><p>mamama</p></a>
-            </div>
+    <footer style={footerStyle}>
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={4}>
+          <Typography variant="h6">Contact Us</Typography>
+          <Typography>
+            Email: <Link href="mailto:info@example.com">info@example.com</Link>
+          </Typography>
+          <Typography>Phone: (123) 456-7890</Typography>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Typography variant="h6">Quick Links</Typography>
+          <Typography>
+            <Link href="/">Home</Link>
+          </Typography>
+          <Typography>
+            <Link href="/about">About Us</Link>
+          </Typography>
+          <Typography>
+            <Link href="/services">Services</Link>
+          </Typography>
+          <Typography>
+            <Link href="/contact">Contact</Link>
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Typography variant="h6">Connect With Us</Typography>
+          {/* Add your social media icons and links here */}
+        </Grid>
+      </Grid>
+      <Typography variant="body2" color="textSecondary" align="center">
+        &copy; 2023 Your Website Name. All rights reserved. | Designed by Your Company
+      </Typography>
+    </footer>
+  );
+};
 
-            <div className='sb_footer-links_div'>
-              <h4>For bussiness</h4>
-              <a><p>mamama</p></a>
-              <a><p>mamama</p></a>
-              <a><p>mamama</p></a>
-              <a><p>mamama</p></a>
-              <a><p>mamama</p></a>
-            </div>
-
-            <div className='sb_footer-links_div'>
-              <h4>For bussiness</h4>
-
-              <a><p>mamama</p></a>
-              <a><p>mamama</p></a>
-              <a><p>mamama</p></a>
-              <a><p>mamama</p></a>
-              <a><p>mamama</p></a>
-            </div>
-
-            <div className='sb_footer-links_div'>
-              <h4>Social media</h4>
-              <div className='social-media'>
-                <a><p>mamama</p></a>
-                <a><p>mamama</p></a>
-                <a><p>mamama</p></a>
-                <a><p>mamama</p></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <hr></hr>
-
-        <div className='sb_footer-below'>
-          <div className='sb_footer-copyright'>
-            <p>
-              @{new Date().getFullYear} CodeInn. All right reserved.
-            </p>
-          </div>
-          <div className='sb_footer-below-links'>
-            <a><div><p>Terms & conditions</p></div></a>
-            <a><div><p>Privacy</p></div></a>
-            <a><div><p>Security</p></div></a>
-            <a><div><p>Cookie declaration</p></div></a>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-  )
-}
-export default Footer; 
+export default Footer;

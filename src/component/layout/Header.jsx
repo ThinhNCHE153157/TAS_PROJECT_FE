@@ -12,38 +12,37 @@ export default function Header() {
   const isMatch = useMediaQuery(theme.breakpoints.down('md'));
   // console.log(isMatch)
   return (
-    <div>
-      <AppBar sx={{ background: 'white' }} >
-        <Toolbar >
-          {/* <Typography></Typography> */}
 
-          {
-            isMatch ? (
-              <>
-                <img src={logo} alt='' width="7%" style={{ minWidth: '80px' }} />
-                {/* <Typography></Typography> */}
-                <DrawerComponent />
+    <AppBar sx={{ background: 'white' }} >
+      <Toolbar >
+        {/* <Typography></Typography> */}
 
-              </>
-            ) : (
-              <>
-                <img src={logo} alt='' width='7%' style={{ minWidth: '7%' }} />
-                <Tabs onChange={(e, value) => setTabValue(value)} value={tabValue} indicatorColor='primary' sx={{ marginLeft: 'auto' }}>
-                  {
-                    Pages.map((page, index) => (
-                      <Tab value={index} label={page} key={index} />
-                    ))
-                  }
-                </Tabs>
-                <Button sx={{ marginLeft: 'auto' }} variant='outlined'>Login</Button>
-                <Button sx={{ marginLeft: '10px' }} variant='contained'>Get started</Button>
-              </>
-            )
-          }
+        {
+          isMatch ? (
+            <>
+              <img src={logo} alt='' width="7%" style={{ minWidth: '80px' }} />
+              {/* <Typography></Typography> */}
+              <DrawerComponent />
 
-        </Toolbar>
+            </>
+          ) : (
+            <>
+              <img src={logo} alt='' width='7%' style={{ minWidth: '7%' }} />
+              <Tabs onChange={(e, value) => setTabValue(value)} value={tabValue} indicatorColor='primary' sx={{ marginLeft: 'auto' }}>
+                {
+                  Pages.map((page, index) => (
+                    <Tab value={index} label={page} key={index} />
+                  ))
+                }
+              </Tabs>
+              <Button sx={{ marginLeft: 'auto' }} variant='outlined'>Login</Button>
+              <Button sx={{ marginLeft: '10px' }} variant='contained'>Get started</Button>
+            </>
+          )
+        }
 
-      </AppBar>
-    </div>
+      </Toolbar>
+
+    </AppBar>
   )
 }

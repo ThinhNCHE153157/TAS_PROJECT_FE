@@ -3,13 +3,15 @@ import Footer from "../../../layout/Footer";
 import Banner from "../Component/Banner";
 import { AppBar, Toolbar } from "@mui/material";
 import { Link } from "react-router-dom";
+import StickyCard from "../Component/StickyCard";
 
 const Course = () => {
 
     return (
         <>
             <Header />
-            <div class="container-fluid" style={{ marginTop: "70.09px" }}>
+            <StickyCard />
+            <div class="container-fluid" style={{ marginTop: "-640px" }}>
                 <div className="row" style={{ marginTop: "80px", marginBottom: "10px" }}>
                     <div className="col-12" style={{ padding: 0 }}>
                         <Banner />

@@ -7,7 +7,7 @@ const bannerStyle = {
     backgroundImage: 'url(https://picsum.photos/1600/400)',
     color: '#fff',
     textAlign: 'center',
-    height: '30vh',
+    height: '40vh',
 };
 
 const Banner = () => {

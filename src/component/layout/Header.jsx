@@ -3,9 +3,11 @@ import { AppBar, Tabs, Tab, Toolbar, Button, useMediaQuery, useTheme } from '@mu
 import DrawerComponent from './DrawerComponent'
 import logo from '../../image/tải xuống (1).png'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 
 export default function Header() {
+  const auth = useSelector((state) => state.auth?.user);
   const [tabValue, setTabValue] = useState(0)
   const theme = useTheme();
   const Pages = ['Home', 'About', 'Resourses', 'Contact']
@@ -36,8 +38,13 @@ export default function Header() {
                   ))
                 }
               </Tabs>
-              <Button sx={{ marginLeft: 'auto' }} variant='outlined'><Link to="Login" color="inherit" underline="none">Login</Link></Button>
-              <Button sx={{ marginLeft: '10px' }} variant='contained'>Get started</Button>
+              {!auth ? <>
+                <Button sx={{ marginLeft: 'auto' }} variant='outlined'><Link to="Login" color="inherit" underline="none">Login</Link></Button>
+                <Button sx={{ marginLeft: '10px' }} variant='contained'>Get started</Button>
+              </>
+                : <>
+                  <Button sx={{ marginLeft: 'auto' }} variant='outlined'><Link to="Login" color="inherit" underline="none">Logout</Link></Button>
+                </>}
             </>
           )
         }

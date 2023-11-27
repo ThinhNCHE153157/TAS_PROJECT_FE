@@ -1,17 +1,84 @@
 import { Box, Button, Grid, Modal } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import TextFieldBase from '../../common/TextFieldBase'
+import { FetchAllTeacher, FetchClassCodes } from '../../common/CallAPI';
+import DatePickerBase from '../../common/DatePickerBase';
 
 const ClassAddModal = ({
   open,
   onClose,
   onSubmit,
-  errors,
+  // errors,
   onChangeErrors,
   onChange
 }) => {
   const [addData, setAddData] = useState({});
+  const [errors, setErrors] = useState({
+    err_className: '',
+    err_numOfStudents: '',
+    err_lecturer: '',
+    err_classCode: '',
+    err_description: '',
+    err_startDate: '',
+    err_endDate: ''
+  })
+  const [classCodes, setClassCodes] = useState([])
+  const [teacherName, setTeacherName] = useState([])
 
+  useEffect(() => {
+    FetchClassCodes()
+      .then(response => {
+        console.log('Dữ liệu từ API:', response);
+        setClassCodes(response)
+      })
+      .catch(error => {
+        console.error('Lỗi khi gọi API:', error);
+      });
+    FetchAllTeacher()
+      .then(response => {
+        console.log('Dữ liệu từ API:', response);
+        setTeacherName(response)
+      })
+      .catch(error => {
+        console.error('Lỗi khi gọi API:', error);
+      });
+
+  }, []);
+
+  const handleOnChangeStartDate = (e) => {
+    var startDate = e.startDate ? e.startDate : '';
+    var endDate = addData.endDate ? addData.endDate : '';
+    if (startDate > endDate) {
+
+    } else {
+
+    }
+  }
+  const isExistClassCode = (value) => {
+    return classCodes.some((element) => {
+      let class_code = element && element.classCode ? element.classCode : '';
+      return value.toString().toLowerCase().trim() === class_code.toLowerCase();
+    });
+  }
+  const isExistTeacher = (value) => {
+    return teacherName.some((element) => {
+      let teacher = element && element.teacher ? element.teacher : '';
+      return value.toString().toLowerCase().trim() === teacher.toLowerCase();
+    });
+  }
+  const handleOnChangeTeacher = (value) => {
+  }
+  const handleOnChangeClassCode = (value) => {
+    var classCode = value.classCode ? value.classCode : ''
+    var isValid = isExistClassCode(classCode);
+    if (isValid) {
+      const updatedData = { ...addData, ...value }
+      setAddData(updatedData);
+      setErrors({ ...errors, err_classCode: '' })
+    } else {
+      setErrors({ ...errors, err_classCode: 'This code does not exist' })
+    }
+  }
   const handleOnChangeDetail = (e) => {
     console.log('e', e)
     if (!e.value) {
@@ -31,11 +98,26 @@ const ClassAddModal = ({
     onChange(updatedData);
   }
 
-
-
   // Sử dụng useEffect để theo dõi sự thay đổi của editedData và log nó
   useEffect(() => {
-  }, [addData]);
+    FetchClassCodes
+      .then(response => {
+        console.log(response)
+        setClassCodes(response)
+      })
+      .catch(error => {
+        console.error('Lỗi khi gọi API:', error);
+      })
+    FetchAllTeacher
+      .then(response => {
+        console.log(response)
+        setTeacherName(response)
+      })
+      .catch(error => {
+        console.error('Lỗi khi gọi API:', error);
+
+      })
+  }, []);
 
   const handleSubmit = () => {
     // Thực hiện lưu các thay đổi
@@ -81,7 +163,7 @@ const ClassAddModal = ({
           <Grid item xs={6}>
             <TextFieldBase
               label='Number Of Students'
-              name='numOfStudents'
+              name='maxStudentInClass'
               onChange={handelOnChange}
               onChangeDetail={handleOnChangeDetail}
               isRequire={true}
@@ -91,14 +173,24 @@ const ClassAddModal = ({
           <Grid item xs={6}>
             <TextFieldBase
               label='Lecturer'
-              name='lecturer'
+              name='teacher'
               onChange={handelOnChange}
               onChangeDetail={handleOnChangeDetail}
               isRequire={true}
               error={errors.err_className ? errors.err_lecturer : ''}
             />
           </Grid>
-          <Grid item xs={6} >
+          <Grid item xs={6}>
+            <TextFieldBase
+              label='Class Code'
+              name='classCode'
+              onChange={handelOnChange}
+              onChangeDetail={handleOnChangeDetail}
+              isRequire={true}
+              error={errors.err_classCode ? errors.err_classCode : ''}
+            />
+          </Grid>
+          <Grid item xs={9} >
             <TextFieldBase
               label='Description'
               name='description'
@@ -106,6 +198,22 @@ const ClassAddModal = ({
               onChangeDetail={handleOnChangeDetail}
               isRequire={true}
               error={errors.err_className ? errors.err_description : ''}
+              multiline={true}
+              rows={4}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <DatePickerBase
+              label='Start Date'
+              name='startDate'
+              onChange={handleOnChangeStartDate}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <DatePickerBase
+              label='End Date'
+              name='endDate'
+              error={errors.err_endDate ? errors.err_endDate : ''}
             />
           </Grid>
           <Grid item container spacing={2}>

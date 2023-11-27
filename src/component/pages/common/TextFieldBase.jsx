@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 
-function TextFieldBase({ id, name, label, onChange, onChangeDetail, disable, defaultValue, isRequire = false, error = '' }) {
+function TextFieldBase({ id, name, label, onChange, onChangeDetail, disable, defaultValue, isRequire = false, error = '', multiline = false, rows = 1 }) {
   const [value, setValue] = useState(defaultValue || '');
   const handleChange = (e) => {
     setValue(e.target.value)
@@ -29,9 +29,11 @@ function TextFieldBase({ id, name, label, onChange, onChangeDetail, disable, def
       // variant="outlined"
       disabled={disable}
       required={isRequire}
-      sx={{ maxWidth: 400 }}
+      sx={{ maxWidth: 500 }}
       error={error !== ''}
       helperText={error}
+      multiline={multiline}
+      rows={rows}
     />
   );
 }

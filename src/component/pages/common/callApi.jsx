@@ -104,6 +104,57 @@ export const EditUser = (accountId, data) => {
       });
   });
 };
+
+
+export const FetchAllClass = () => {
+  return new Promise((resolve, reject) => {
+    API.get('/Class/GetAllClassesManage')
+      .then((response) => {
+        resolve(response.data); // Trả về dữ liệu từ API
+      })
+      .catch((error) => {
+        reject(error); // Trả về lỗi nếu có lỗi
+      });
+  });
+};
+
+export const FetchAllUsersByClass = (classId) => {
+  return new Promise((resolve, reject) => {
+    API.get(`Class/GetAccountInClass?classId=${classId}`)
+      .then((response) => {
+        resolve(response.data); // Trả về dữ liệu từ API
+      })
+      .catch((error) => {
+        reject(error); // Trả về lỗi nếu có lỗi
+      });
+  });
+};
+
+
+export const AddClass = (data) => {
+  return new Promise((resolve, reject) => {
+    API.post('/Class/AddClass', data)
+      .then((response) => {
+        resolve(response.data); // Trả về dữ liệu từ API
+      })
+      .catch((error) => {
+        reject(error); // Trả về lỗi nếu có lỗi
+      });
+  });
+};
+
+export const FetchAllTeacher = () => {
+  return new Promise((resolve, reject) => {
+    API.get('/Account/GetAllTeacher')
+      .then((response) => {
+        resolve(response.data); // Trả về dữ liệu từ API
+      })
+      .catch((error) => {
+        reject(error); // Trả về lỗi nếu có lỗi
+      });
+  });
+};
+
 // export const AddUser = (data) => {
 //   return new Promise((resolve, reject) => {
 //     API.post('/Account/AddAccount', data)

@@ -81,7 +81,7 @@ const UserList = () => {
       field: 'name',
       headerName: 'Name',
       valueGetter: (params) =>
-        `${params.row.first_name || ''} ${params.row.last_name || ''}`,
+        `${params.row.firstName || ''} ${params.row.lastName || ''}`,
       flex: 1
     },
     { field: 'address', headerName: 'Address', flex: 2 },

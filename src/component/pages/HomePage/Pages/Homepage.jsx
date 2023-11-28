@@ -2,7 +2,7 @@ import Header from "../../../layout/Header";
 import Footer from "../../../layout/Footer";
 import { Grid } from "@mui/material";
 import CourseCard from "../Component/CourseCard";
-import { GetlistCourse } from '../HomepageService'
+import { GetlistCourse } from '../Services/HomepageService'
 import { useEffect, useState } from "react";
 import Banner from "../Component/Banner";
 
@@ -33,7 +33,39 @@ const Homepage = () => {
                         </p>
                     </div>
                     <div className="col-12">
+                        <h2>Top 4 khoá học nổi bật:</h2>
+                        <Grid container spacing={2}>
+                            {courses.map((course) => (
+                                <Grid item key={course.courseId} xs={12} sm={6} md={4} lg={3}>
+                                    <CourseCard
+                                        id={course.courseId}
+                                        image="https://picsum.photos/300/400"
+                                        name={course.courseName}
+                                        description={course.courseDescription}
+                                        level={course.courseLevel}
+                                    />
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </div>
+                    <div className="col-12">
                         <h2>Danh sách khoá học:</h2>
+                        <Grid container spacing={2}>
+                            {courses.map((course) => (
+                                <Grid item key={course.courseId} xs={12} sm={6} md={4} lg={3}>
+                                    <CourseCard
+                                        id={course.courseId}
+                                        image="https://picsum.photos/300/400"
+                                        name={course.courseName}
+                                        description={course.courseDescription}
+                                        level={course.courseLevel}
+                                    />
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </div>
+                    <div className="col-12">
+                        <h2>Khoá học miễn phí:</h2>
                         <Grid container spacing={2}>
                             {courses.map((course) => (
                                 <Grid item key={course.courseId} xs={12} sm={6} md={4} lg={3}>

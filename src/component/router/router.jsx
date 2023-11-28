@@ -24,6 +24,7 @@ import Unauthorized from '../pages/commonUser/pages/Unauthorized';
 import TestDetail from '../pages/HOD/ManageCourse/TestDetail';
 import Homepage from '../pages/HomePage/Pages/Homepage';
 import Course from '../pages/HomePage/Pages/Course';
+import Tests from '../pages/HomePage/Pages/Tests';
 
 const TheRouter = () => {
   return (
@@ -31,7 +32,7 @@ const TheRouter = () => {
       {/* Homepage */}
       <Route path="/" exact element={<Homepage />} />
       <Route path="/Course/:id" exact element={<Course />} />
-
+      <Route path="/Test" exact element={<Tests />} />
       {/* Admin */}
       <Route element={<RequireAuth allow={ROLE.Admin} />}>
         <Route path="/Admin/Dashboard" exact element={<Dashboard />} />

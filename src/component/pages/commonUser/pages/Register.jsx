@@ -70,7 +70,7 @@ function SignUp() {
             setConfirmPasswordError('Confirm Password should be same as password');
         } else {
             RegisterUser(data);
-            navigate('/commonUser/Login');
+            navigate('/Login');
         }
     };
 
@@ -104,7 +104,7 @@ function SignUp() {
                         <TextField
                             {...register('Firstname')}
                             pattern="[A-Za-z]{3,20}"
-                            error={FirstnameError}
+                            error={FirstnameError === '' ? false : true}
                             style={marginTop}
                             fullWidth
                             required={false}
@@ -114,7 +114,7 @@ function SignUp() {
                         <TextField
                             {...register('Lastname')}
                             pattern="[A-Za-z]{3,20}"
-                            error={LastnameError}
+                            error={LastnameError === '' ? false : true}
                             style={marginTop}
                             required={false}
                             fullWidth
@@ -124,7 +124,7 @@ function SignUp() {
                         <TextField
                             {...register('Phone')}
                             pattern="0[0-9]{9}"
-                            error={PhoneError}
+                            error={PhoneError === '' ? false : true}
                             style={marginTop}
                             required={false}
                             fullWidth
@@ -134,7 +134,7 @@ function SignUp() {
                         <TextField
                             {...register('Email')}
                             type="email"
-                            error={EmailError}
+                            error={EmailError === '' ? false : true}
                             style={marginTop}
                             fullWidth
                             helperText={EmailError}
@@ -142,7 +142,7 @@ function SignUp() {
                         ></TextField>
                         <TextField
                             {...register('Username')}
-                            error={UsernameError}
+                            error={UsernameError === '' ? false : true}
                             style={marginTop}
                             fullWidth
                             helperText={UsernameError}
@@ -155,7 +155,7 @@ function SignUp() {
                                 type={showPassword ? 'text' : 'password'}
                                 {...register('Password')}
                                 pattern=".{8,20}"
-                                error={PasswordError}
+                                error={PasswordError === '' ? false : true}
                                 required={false}
                                 autoComplete="off"
                                 endAdornment={
@@ -194,7 +194,7 @@ function SignUp() {
                                 }
                                 {...register('ConfirmPassword')}
                                 pattern={PasswordError}
-                                error={ConfirmPasswordError}
+                                error={ConfirmPasswordError === '' ? false : true}
                                 required={false}
                                 label="Confirm Password"
                             />
@@ -207,11 +207,11 @@ function SignUp() {
                             style={marginTop}
                             sx={{ height: '45px', backgroundColor: '#4A3AFF', color: '#fff' }}
                             fullWidth
-                            type="button"
+                            type="submit"
                             variant="contained"
                             color="primary"
                         >
-                            Sign Up
+                            Đăng ký
                         </Button>
                     </form>
                     <Typography
@@ -220,7 +220,7 @@ function SignUp() {
                         variant="subtitle1"
                         gutterBottom
                     >
-                        Already have an account ?{' '}
+                        Bạn đã có tài khoản ?{' '}
                         <Link sx={{ fontWeight: 'bold' }} href="/commonUser/Login">
                             Sign In
                         </Link>

@@ -111,7 +111,7 @@ function Login() {
                                 )}
                             </FormControl>
                             <Grid m={1} align="right">
-                                <Link href="#">Forgot password?</Link>
+                                <Link href="#">Quên mật khẩu?</Link>
                             </Grid>
                             <Button
                                 style={marginTop}
@@ -120,13 +120,13 @@ function Login() {
                                 type="submit"
                                 variant="contained"
                             >
-                                Login
+                                Đăng nhập
                             </Button>
                         </form>
                         <Grid container>
                             <Grid item xs={5} style={lineStyle}></Grid>
                             <Grid item xs={2}>
-                                <Typography sx={{ fontSize: '25px' }}>or</Typography>
+                                <Typography sx={{ fontSize: '18px' }}>hoặc</Typography>
                             </Grid>
                             <Grid item xs={5} style={lineStyle}></Grid>
                         </Grid>
@@ -136,7 +136,7 @@ function Login() {
                     </Grid>
 
                     <Grid align="center">
-                        Don't have an account? <Link href="/CommonUser/Register">Register now</Link>
+                        Bạn chưa có tài khoản? <Link href="/register">Đăng ký</Link>
                     </Grid>
                 </Paper>
             </Grid>

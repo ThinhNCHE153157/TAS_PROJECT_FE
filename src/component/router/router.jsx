@@ -15,7 +15,6 @@ import ChangePassword from '../pages/commonUser/pages/ChangePassword';
 import ForgotPassword from '../pages/commonUser/pages/ForgotPassword';
 import ResetPassword from '../pages/commonUser/pages/ResetPassword';
 import { RequireAuth } from '../pages/commonUser/RequireAuth';
-import ListTestDetail from '../pages/HOD/ManageTest/ListTestDetail';
 import TestList from '../pages/HOD/ManageTest/ListTest';
 import DetailTest from '../pages/HOD/ManageTest/DetailTest';
 import QuestionList from '../pages/HOD/ManageQuestion/ListQuestion';

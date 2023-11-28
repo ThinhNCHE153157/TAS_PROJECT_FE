@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../../layout/Header';
 import Footer from '../../../layout/Footer';
+import { GetlistQuestionOfTest } from '../Services/TestService';
 
 const questions = [
     {
@@ -16,6 +17,15 @@ const questions = [
 ];
 
 const TakeTest = () => {
+    const [Listquestions, setListQuestions] = useState([]);
+    useEffect(() => {
+        const QuestionData = async () => {
+            const data = await GetlistQuestionOfTest(1);
+            setListQuestions(data);
+        };
+        QuestionData();
+    }, []);
+
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [userAnswers, setUserAnswers] = useState(Array(questions.length).fill(null));
     const [showResults, setShowResults] = useState(false);
@@ -68,26 +78,53 @@ const TakeTest = () => {
                             <button onClick={handleRestartQuiz}>Restart Quiz</button>
                         </div>
                     ) : (
-                        <div>
-                            <h2>Question {currentQuestion + 1}</h2>
-                            <p>{questions[currentQuestion].question}</p>
+                        <>
                             <div>
-                                {questions[currentQuestion].options.map((option, index) => (
-                                    <div key={index}>
-                                        <input
-                                            type="radio"
-                                            id={option}
-                                            name="answer"
-                                            value={option}
-                                            checked={userAnswers[currentQuestion] === option}
-                                            onChange={() => handleOptionSelect(option)}
-                                        />
-                                        <label htmlFor={option}>{option}</label>
-                                    </div>
-                                ))}
+                                <h2>Question {currentQuestion + 1}</h2>
+                                <p>{questions[currentQuestion].question}</p>
+                                <div>
+                                    {questions[currentQuestion].options.map((option, index) => (
+                                        <div key={index}>
+                                            <input
+                                                type="radio"
+                                                id={option}
+                                                name="answer"
+                                                value={option}
+                                                checked={userAnswers[currentQuestion] === option}
+                                                onChange={() => handleOptionSelect(option)}
+                                            />
+                                            <label htmlFor={option}>{option}</label>
+                                        </div>
+                                    ))}
+                                </div>
+                                <button onClick={handleNextQuestion}>Next</button>
                             </div>
-                            <button onClick={handleNextQuestion}>Next</button>
-                        </div>
+                            <div>
+
+                                {/* {Listquestions.map((question) => (
+                                    <div>
+                                        <h2>Question {currentQuestion + 1}</h2>
+                                        <p>{question.question}</p>
+                                        <div>
+                                            {question.options.map((option, index) => (
+                                                <div key={index}>
+                                                    <input
+                                                        type="radio"
+                                                        id={option}
+                                                        name="answer"
+                                                        value={option}
+                                                        checked={userAnswers[currentQuestion] === option}
+                                                        onChange={() => handleOptionSelect(option)}
+                                                    />
+                                                    <label htmlFor={option}>{option}</label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <button onClick={handleNextQuestion}>Next</button>
+                                    </div>
+                                ))} */}
+                            </div>
+                        </>
                     )}
                 </div>
             </div>

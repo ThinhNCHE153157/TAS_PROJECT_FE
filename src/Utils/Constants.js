@@ -1,5 +1,4 @@
-
-export const BASE_URL = 'http://localhost:3000';
+export const BASE_URL = 'https://localhost:5000';
 export const ROLE = {
     Admin: 'Admin',
     User: 'User',
@@ -14,10 +13,9 @@ export const ROUTES = {
         login: '/login',
         register: '/register',
         unauthorized: '/unauthorized',
-        forgotpassword : '/forgotpassword',
-        resetpassword : '/resetpassword',
-        changepassword : '/changepassword',
-
+        forgotpassword: '/forgotpassword',
+        resetpassword: '/resetpassword',
+        changepassword: '/changepassword',
     },
     admin: {
         dashboard: '/admin/dashboard',

@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../../../../Utils/Constants';
 
 function SignUp() {
     const navigate = useNavigate();
@@ -30,7 +31,7 @@ function SignUp() {
     const [ConfirmPasswordError, setConfirmPasswordError] = useState('');
 
     const RegisterUser = (data) => {
-        fetch('https://localhost:5000/api/Account/UserRegister', {
+        fetch(`${BASE_URL}Account/UserRegister`, {
             method: 'POST',
             body: JSON.stringify({
                 Email: data.Email,
@@ -90,7 +91,7 @@ function SignUp() {
         event.preventDefault();
     };
 
-    const paperStyle = { padding: '30px 50px', width: 350, margin: '20px auto' };
+    const paperStyle = { padding: '30px 50px', width: 400, margin: '20px auto' };
     const marginTop = { marginTop: 13 };
     return (
         <div>
@@ -98,7 +99,7 @@ function SignUp() {
             <Grid mt={10}>
                 <Paper elevation={4} style={paperStyle} sx={{ borderRadius: '20px' }}>
                     <Grid align="center" mt={3} mb={3}>
-                        <h1>Register Account</h1>
+                        <h2>Đăng ký</h2>
                     </Grid>
                     <form action="" onSubmit={handleSubmit(handleFormSubmit)}>
                         <TextField
@@ -221,8 +222,8 @@ function SignUp() {
                         gutterBottom
                     >
                         Bạn đã có tài khoản ?{' '}
-                        <Link sx={{ fontWeight: 'bold' }} href="/commonUser/Login">
-                            Sign In
+                        <Link sx={{ fontWeight: 'bold' }} href="/Login">
+                            Đăng nhập
                         </Link>
                     </Typography>
                 </Paper>

@@ -2,7 +2,7 @@ import Header from "../../../layout/Header";
 import Footer from "../../../layout/Footer";
 import { Grid } from "@mui/material";
 import CourseCard from "../Component/CourseCard";
-import { GetlistCourse } from '../HomepageService'
+import { GetlistCourse } from '../Services/HomepageService'
 import { useEffect, useState } from "react";
 import Banner from "../Component/Banner";
 

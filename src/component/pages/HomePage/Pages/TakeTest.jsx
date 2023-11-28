@@ -15,7 +15,7 @@ const questions = [
     },
 ];
 
-const Dotest = () => {
+const TakeTest = () => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [userAnswers, setUserAnswers] = useState(Array(questions.length).fill(null));
     const [showResults, setShowResults] = useState(false);
@@ -97,4 +97,4 @@ const Dotest = () => {
     );
 }
 
-export default Dotest;
+export default TakeTest;

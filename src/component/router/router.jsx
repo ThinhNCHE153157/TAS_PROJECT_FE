@@ -15,7 +15,6 @@ import ChangePassword from '../pages/commonUser/pages/ChangePassword';
 import ForgotPassword from '../pages/commonUser/pages/ForgotPassword';
 import ResetPassword from '../pages/commonUser/pages/ResetPassword';
 import { RequireAuth } from '../pages/commonUser/RequireAuth';
-import ListTestDetail from '../pages/HOD/ManageTest/ListTestDetail';
 import TestList from '../pages/HOD/ManageTest/ListTest';
 import DetailTest from '../pages/HOD/ManageTest/DetailTest';
 import QuestionList from '../pages/HOD/ManageQuestion/ListQuestion';
@@ -25,7 +24,7 @@ import TestDetail from '../pages/HOD/ManageCourse/TestDetail';
 import Homepage from '../pages/HomePage/Pages/Homepage';
 import Course from '../pages/HomePage/Pages/Course';
 import Tests from '../pages/HomePage/Pages/Tests';
-
+import TakeTest from '../pages/HomePage/Pages/TakeTest';
 const TheRouter = () => {
   return (
     <Routes>
@@ -33,6 +32,7 @@ const TheRouter = () => {
       <Route path="/" exact element={<Homepage />} />
       <Route path="/Course/:id" exact element={<Course />} />
       <Route path="/Test" exact element={<Tests />} />
+      <Route path="/TakeTest" exact element={<TakeTest />} />
       {/* Admin */}
       <Route element={<RequireAuth allow={ROLE.Admin} />}>
         <Route path="/Admin/Dashboard" exact element={<Dashboard />} />

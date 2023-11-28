@@ -25,7 +25,7 @@ import TestDetail from '../pages/HOD/ManageCourse/TestDetail';
 import Homepage from '../pages/HomePage/Pages/Homepage';
 import Course from '../pages/HomePage/Pages/Course';
 import Tests from '../pages/HomePage/Pages/Tests';
-
+import Dotest from '../pages/HomePage/Pages/Dotest';
 const TheRouter = () => {
   return (
     <Routes>
@@ -33,6 +33,7 @@ const TheRouter = () => {
       <Route path="/" exact element={<Homepage />} />
       <Route path="/Course/:id" exact element={<Course />} />
       <Route path="/Test" exact element={<Tests />} />
+      <Route path="/DoTest" exact element={<DoTest />} />
       {/* Admin */}
       <Route element={<RequireAuth allow={ROLE.Admin} />}>
         <Route path="/Admin/Dashboard" exact element={<Dashboard />} />

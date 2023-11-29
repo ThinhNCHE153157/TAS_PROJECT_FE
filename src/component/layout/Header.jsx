@@ -22,7 +22,8 @@ export default function Header() {
   const auth = useSelector((state) => state.auth?.user);
   const [tabValue, setTabValue] = useState(0)
   const theme = useTheme();
-
+  const Pages = ['Home', 'About', 'Resourses', 'Contact', 'Testing online', 'My course']
+  // console.log(theme)
   const isMatch = useMediaQuery(theme.breakpoints.down('md'));
   return (
 

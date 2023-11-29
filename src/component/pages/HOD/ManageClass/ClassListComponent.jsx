@@ -13,8 +13,8 @@ export default function ClassListComponent({
   id,
   url,
   className,
-  numOfStudents,
-  lecturer,
+  maxStudentInClass,
+  teacher,
   description
 }) {
 
@@ -37,10 +37,10 @@ export default function ClassListComponent({
         </Typography>
         <ul>
           <li>
-            <b>Number of Student: </b> {numOfStudents}
+            <b>Number of Student: </b> {maxStudentInClass}
           </li>
           <li>
-            <b>Lecture: </b> {lecturer}
+            <b>Lecture: </b> {teacher}
           </li>
         </ul>
         <Typography variant="body1" color="text.secondary">

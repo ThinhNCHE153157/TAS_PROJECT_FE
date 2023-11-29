@@ -20,8 +20,11 @@ import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
 import ClassIcon from '@mui/icons-material/Class';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '../../../../AppStore';
+import { useState } from 'react';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import { Collapse } from '@mui/material';
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -87,6 +90,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 }));
 
 export default function Sidebar() {
+    const [subMenuOpen, setSubMenuOpen] = useState(false);
     const theme = useTheme();
     // const [open, setOpen] = React.useState(true);
     const navigate = useNavigate();
@@ -122,6 +126,7 @@ export default function Sidebar() {
                 <Divider />
 
                 <List>
+                    {/* Dashboard */}
                     <ListItem
                         disablePadding
                         sx={{ display: 'block' }}
@@ -149,18 +154,21 @@ export default function Sidebar() {
                         </ListItemButton>
                     </ListItem>
 
+                    {/* User Management */}
                     <ListItem
                         disablePadding
                         sx={{ display: 'block' }}
-                        onClick={() => {
-                            navigate('/Admin/UserList');
-                        }}
                     >
                         <ListItemButton
                             sx={{
                                 minHeight: 48,
                                 justifyContent: open ? 'initial' : 'center',
                                 px: 2.5,
+                            }}
+                            onClick={() => {
+                                setSubMenuOpen((prev) => !prev);
+                                navigate('/Admin/UserList');
+
                             }}
                         >
                             <ListItemIcon
@@ -173,9 +181,82 @@ export default function Sidebar() {
                                 <ManageAccountsIcon />
                             </ListItemIcon>
                             <ListItemText primary="User Management" sx={{ opacity: open ? 1 : 0 }} />
+                            {open ? (
+                                subMenuOpen ? (
+                                    <ExpandLess sx={{ opacity: open ? 1 : 0 }} />
+                                ) : (
+                                    <ExpandMore sx={{ opacity: open ? 1 : 0 }} />
+                                )
+                            ) : (
+                                ''
+                            )}
+                            {/* {subMenuOpen ? <ExpandLess sx={{ opacity: open ? 1 : 0 }} /> : <ExpandMore sx={{ opacity: open ? 1 : 0 }} />} */}
                         </ListItemButton>
-                    </ListItem>
 
+                        {/* Submenu for User Management */}
+                        <Collapse in={subMenuOpen} timeout="auto" unmountOnExit>
+                            <List component="div" disablePadding>
+                                {/* Student Management */}
+                                <ListItem
+                                    disablePadding
+                                    sx={{ display: 'block', paddingLeft: 4 }}
+                                    onClick={() => {
+                                        navigate('/Admin/StudentList');
+                                    }}
+                                >
+                                    <ListItemButton
+                                        sx={{
+                                            minHeight: 48,
+                                            justifyContent: open ? 'initial' : 'center',
+                                            px: 2.5,
+                                        }}
+                                    >
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 0,
+                                                mr: open ? 3 : 'auto',
+                                                justifyContent: 'center',
+                                            }}
+                                        >
+                                            {/* Add the appropriate icon for Student Management */}
+                                            {/* <StudentIcon /> */}
+                                        </ListItemIcon>
+                                        <ListItemText primary="Student Management" sx={{ opacity: open ? 1 : 0 }} />
+                                    </ListItemButton>
+                                </ListItem>
+
+                                {/* Teacher Management */}
+                                <ListItem
+                                    disablePadding
+                                    sx={{ display: 'block', paddingLeft: 4 }}
+                                    onClick={() => {
+                                        navigate('/Admin/TeacherList');
+                                    }}
+                                >
+                                    <ListItemButton
+                                        sx={{
+                                            minHeight: 48,
+                                            justifyContent: open ? 'initial' : 'center',
+                                            px: 2.5,
+                                        }}
+                                    >
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 0,
+                                                mr: open ? 3 : 'auto',
+                                                justifyContent: 'center',
+                                            }}
+                                        >
+                                            {/* Add the appropriate icon for Teacher Management */}
+                                            {/* <TeacherIcon /> */}
+                                        </ListItemIcon>
+                                        <ListItemText primary="Teacher Management" sx={{ opacity: open ? 1 : 0 }} />
+                                    </ListItemButton>
+                                </ListItem>
+                            </List>
+                        </Collapse>
+                    </ListItem>
+                    {/* Class Management */}
                     <ListItem
                         disablePadding
                         sx={{ display: 'block' }}
@@ -203,6 +284,7 @@ export default function Sidebar() {
                         </ListItemButton>
                     </ListItem>
 
+                    {/* Course Management */}
                     <ListItem
                         disablePadding
                         sx={{ display: 'block' }}

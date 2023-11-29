@@ -1,5 +1,4 @@
-
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Avatar, Box, Button, IconButton, Typography } from '@mui/material'
 import Sidebar from '../layout/Sidebar'
 import NavBar from '../layout/NavBar'
@@ -8,6 +7,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import UserEditionModal from './UserEditionModal'
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import UserAdditionModal from './UserAdditionModal'
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import { Link } from 'react-router-dom'
+import { AddUser, EditUser, FetchAccountManagement } from '../../common/CallAPI'
 
 const statusOptions = {
   0: 'Hoạt động',
@@ -19,64 +21,7 @@ const getValueOption = (value) => {
   return statusOptions[value] || 'Không xác định';
 };
 
-const data = [
-  {
-    data_id: 1,
-    avatar: 'https://source.unsplash.com/100x100/?portrait?1',
-    username: 'john.doe',
-    email: 'john.doe@email.com',
-    phone: '0123456789',
-    first_name: 'John',
-    last_name: 'Doe',
-    status: 0 // hoạt động
-  },
-  {
-    data_id: 2,
-    avatar: 'https://source.unsplash.com/100x100/?portrait?2',
-    username: 'jane.doe',
-    email: 'jane.doe@email.com',
-    phone: '0123456780',
-    first_name: 'Jane',
-    last_name: 'Doe',
-    status: 1 // chờ xử lý
-  },
-  {
-    data_id: 3,
-    avatar: 'https://source.unsplash.com/100x100/?portrait?1',
-    username: 'john.doe',
-    email: 'john.doe@email.com',
-    phone: '0123456789',
-    first_name: 'John',
-    last_name: 'Doe',
-    status: 0 // hoạt động
-  }, {
-    data_id: 4,
-    avatar: 'https://source.unsplash.com/100x100/?portrait?1',
-    username: 'john.doe',
-    email: 'john.doe@email.com',
-    phone: '0123456789',
-    first_name: 'John',
-    last_name: 'Doe',
-    status: 0 // hoạt động
-  }, {
-    data_id: 5,
-    avatar: 'https://source.unsplash.com/100x100/?portrait?1',
-    username: 'john.doe',
-    email: 'john.doe@email.com',
-    phone: '0123456789',
-    first_name: 'John',
-    last_name: 'Doe',
-    status: 0 // hoạt động
-  }
-];
-const forRows = data.map(item => {
-  const { data_id, ...otherFields } = item;
-  return {
-    ...otherFields,
-    data_id: data_id,
-    id: data_id
-  };
-});
+
 
 const getColor = (value) => {
   switch (value) {
@@ -97,7 +42,30 @@ const UserList = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
-  const [rows, setRows] = useState(forRows);
+  const [rows, setRows] = useState([]);
+  const [data, setData] = useState([])
+  const [newRow, setNewRow] = useState({});
+
+  useEffect(() => {
+    FetchAccountManagement()
+      .then(response => {
+        console.log('Dữ liệu từ API:', response);
+        setData(response);
+
+        const forRows = response.map(item => {
+          const { accountId, ...otherFields } = item;
+          return {
+            ...otherFields,
+            accountId: accountId,
+            id: accountId
+          };
+        });
+        setRows(forRows);
+      })
+      .catch(error => {
+        console.error('Lỗi khi gọi API:', error);
+      });
+  }, [newRow]);
   const columns = useMemo(() => [
     {
       field: 'avatar', headerName: 'Avatar', flex: 0.5,
@@ -113,33 +81,46 @@ const UserList = () => {
       field: 'name',
       headerName: 'Name',
       valueGetter: (params) =>
-        `${params.row.first_name || ''} ${params.row.last_name || ''}`,
+        `${params.row.firstName || ''} ${params.row.lastName || ''}`,
       flex: 1
     },
+    { field: 'address', headerName: 'Address', flex: 2 },
+    { field: 'createDate', headerName: 'Create Date', flex: 1 },
     {
-      field: 'status',
-      headerName: 'Status',
-      editable: true,
+      field: 'roleNames',
+      headerName: 'Roles',
       flex: 1,
-      type: 'singleSelect',
-      valueOptions: [
-        { value: 0, label: 'Hoạt động' },
-        { value: 1, label: 'Chờ xử lý' },
-        { value: 2, label: 'Ngừng hoạt động' },
-      ],
-      renderCell: (params) => {
-        const color = getColor(params.value);
-        const statusText = getValueOption(params.value);;
-        return (
-          <div style={{ color }}>
-            {statusText}
-          </div>
-        );
-      }
+      valueGetter: (params) => {
+        if (params.row && Array.isArray(params.row.roleNames)) {
+          return params.row.roleNames.join(', ');
+        }
+        return ''; // Hoặc giá trị mặc định khác tùy bạn chọn
+      },
     },
+    // {
+    //   field: 'isDelete',
+    //   headerName: 'Status',
+    //   editable: true,
+    //   flex: 1,
+    //   type: 'singleSelect',
+    //   valueOptions: [
+    //     { value: 0, label: 'Hoạt động' },
+    //     { value: 1, label: 'Chờ xử lý' },
+    //     { value: 2, label: 'Ngừng hoạt động' },
+    //   ],
+    //   renderCell: (params) => {
+    //     const color = getColor(params.value);
+    //     const statusText = getValueOption(params.value);;
+    //     return (
+    //       <div style={{ color }}>
+    //         {statusText}
+    //       </div>
+    //     );
+    //   }
+    // },
     {
-      field: 'actions',
-      headerName: 'Actions',
+      field: 'edit',
+      headerName: 'Edit',
       flex: 0.5,
       renderCell: (params) => (
         <Button
@@ -151,6 +132,18 @@ const UserList = () => {
           <EditIcon />
         </Button>
       )
+    },
+    {
+      field: 'details',
+      headerName: 'Detail',
+      flex: 0.5,
+      renderCell: (params) => (
+        <Link to={`/Admin/UserDetail/${params.row.id}`}>
+          <Button>
+            <AssignmentIcon />
+          </Button>
+        </Link>
+      )
     }
   ], [])
 
@@ -159,31 +152,27 @@ const UserList = () => {
 
 
   const updateRowData = (updatedData) => {
-    // Tìm chỉ mục của hàng trong mảng dựa trên id hoặc một trường duy nhất
-    console.log(updatedData)
-    const index = rows.findIndex((row) => row.id === updatedData.id);
-    if (index !== -1) {
-      const updatedRows = [...rows];
-      updatedRows[index] = updatedData;
-      setRows(updatedRows);
-    }
+    console.log('updatedData: ', updatedData)
+    console.log('updatedData.accountId: ', updatedData.accountId)
+    EditUser(updatedData.accountId, updatedData)
+      .then(response => {
+        setNewRow(updatedData);
+        console.log('Dữ liệu từ API:', response);
+      }).catch(error => {
+        console.error('Lỗi khi gọi API:', error);
+      })
   };
 
   const addRowData = (addData) => {
-    // const data_id_max_row = data.find(item => item.data_id === Math.max(...data.map(item => item.data_id)));
-    // console.log(addData)
-    const data_id_max = Math.max(...data.map(item => item.data_id)) + 1;
-    addData = { ...addData, 'id': data_id_max, 'data_id': data_id_max, 'avatar': '' }
-    const updateRows = [...rows]
-    updateRows.push(addData)
-
-    setRows(updateRows)
-
+    console.log('addData: ', addData)
+    AddUser(addData)
+      .then(response => {
+        setNewRow(addData);
+        console.log('Dữ liệu từ API:', response);
+      }).catch(error => {
+        console.error('Lỗi khi gọi API:', error);
+      })
   };
-  // useEffect(() => {
-  //   // Lấy dữ liệu từ database hoặc từ một nguồn khác
-  //   setRows(rows);
-  // }, [rows]);
 
   return (
     <div>
@@ -195,7 +184,7 @@ const UserList = () => {
             <IconButton
               color="primary"
               cursor="pointer"
-              sx={{ position: 'absolute', top: '25%', right: '7%', cursor: 'pointer', zIndex: 1 }}
+              sx={{ position: 'absolute', top: '25%', right: '6%', cursor: 'pointer', zIndex: 1 }}
               onClick={() => {
                 setIsAddModalOpen(true);
               }}
@@ -222,6 +211,7 @@ const UserList = () => {
           {/* Add modal */}
           <UserAdditionModal
             open={isAddModalOpen}
+            data={rows}
             onClose={() => {
               setIsAddModalOpen(false);
             }}

@@ -7,7 +7,7 @@ import logo from '../../image/tải xuống (1).png'
 export default function Header() {
   const [tabValue, setTabValue] = useState(0)
   const theme = useTheme();
-  const Pages = ['Home', 'About', 'Resourses', 'Contact']
+  const Pages = ['Home', 'About', 'Resourses', 'Contact', 'Testing online', 'My course']
   // console.log(theme)
   const isMatch = useMediaQuery(theme.breakpoints.down('md'));
   // console.log(isMatch)

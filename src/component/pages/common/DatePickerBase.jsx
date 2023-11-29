@@ -15,6 +15,7 @@ const DatePickerBase = ({
 
     console.log(newValue)
     setValue(newValue)
+    onChange({ [name]: newValue.format('YYYY-MM-DD') })
     console.log('Name:', name)
     console.log('Selected Date:', newValue.format('YYYY-MM-DD'));
   }

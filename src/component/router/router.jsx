@@ -15,14 +15,18 @@ import UserDetail from '../pages/HOD/ManageUser/UserDetail';
 import ChangePassword from '../pages/commonUser/pages/ChangePassword';
 import FotgotPassword from '../pages/commonUser/pages/FotgotPassword';
 import ResetPassword from '../pages/commonUser/pages/ResetPassword';
+import TeacherList from '../pages/HOD/ManageUser/ManageTeacher/TeacherList';
+import Homepage from '../pages/commonUser/pages/Homepage';
 import { ROUTES } from '../../Utils/RouteConstants';
 const TheRouter = () => {
   return (
     <Routes>
       {/* Admin */}
       <Route path='/Admin/Dashboard' exact element={<Dashboard />} />
+      <Route path='/Homepage' exact element={<Homepage />} />
       <Route path='/Admin/CourseList' exact element={<CourseList />} />
       <Route path='/Admin/ClassList' exact element={<ClassList />} />
+      <Route path='/Admin/TeacherList' exact element={<TeacherList />} />
       <Route path='/Admin/UserList' exact element={<UserList />} />
       <Route path='/Admin' exact element={<Dashboard />} />
       <Route path="/Admin/ClassList/Detail/:id" exact element={<ClassDetail />} />

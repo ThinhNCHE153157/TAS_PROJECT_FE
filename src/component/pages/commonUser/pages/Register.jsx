@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../../../../Utils/Constants';
 
 function SignUp() {
     const navigate = useNavigate();
@@ -30,7 +31,7 @@ function SignUp() {
     const [ConfirmPasswordError, setConfirmPasswordError] = useState('');
 
     const RegisterUser = (data) => {
-        fetch('https://localhost:5000/api/Account/UserRegister', {
+        fetch(`${BASE_URL}Account/UserRegister`, {
             method: 'POST',
             body: JSON.stringify({
                 Email: data.Email,
@@ -70,7 +71,7 @@ function SignUp() {
             setConfirmPasswordError('Confirm Password should be same as password');
         } else {
             RegisterUser(data);
-            navigate('/commonUser/Login');
+            navigate('/Login');
         }
     };
 
@@ -90,7 +91,7 @@ function SignUp() {
         event.preventDefault();
     };
 
-    const paperStyle = { padding: '30px 50px', width: 350, margin: '20px auto' };
+    const paperStyle = { padding: '30px 50px', width: 400, margin: '20px auto' };
     const marginTop = { marginTop: 13 };
     return (
         <div>
@@ -98,13 +99,13 @@ function SignUp() {
             <Grid mt={10}>
                 <Paper elevation={4} style={paperStyle} sx={{ borderRadius: '20px' }}>
                     <Grid align="center" mt={3} mb={3}>
-                        <h1>Register Account</h1>
+                        <h2>Đăng ký</h2>
                     </Grid>
                     <form action="" onSubmit={handleSubmit(handleFormSubmit)}>
                         <TextField
                             {...register('Firstname')}
                             pattern="[A-Za-z]{3,20}"
-                            error={FirstnameError}
+                            error={FirstnameError === '' ? false : true}
                             style={marginTop}
                             fullWidth
                             required={false}
@@ -114,7 +115,7 @@ function SignUp() {
                         <TextField
                             {...register('Lastname')}
                             pattern="[A-Za-z]{3,20}"
-                            error={LastnameError}
+                            error={LastnameError === '' ? false : true}
                             style={marginTop}
                             required={false}
                             fullWidth
@@ -124,7 +125,7 @@ function SignUp() {
                         <TextField
                             {...register('Phone')}
                             pattern="0[0-9]{9}"
-                            error={PhoneError}
+                            error={PhoneError === '' ? false : true}
                             style={marginTop}
                             required={false}
                             fullWidth
@@ -134,7 +135,7 @@ function SignUp() {
                         <TextField
                             {...register('Email')}
                             type="email"
-                            error={EmailError}
+                            error={EmailError === '' ? false : true}
                             style={marginTop}
                             fullWidth
                             helperText={EmailError}
@@ -142,7 +143,7 @@ function SignUp() {
                         ></TextField>
                         <TextField
                             {...register('Username')}
-                            error={UsernameError}
+                            error={UsernameError === '' ? false : true}
                             style={marginTop}
                             fullWidth
                             helperText={UsernameError}
@@ -155,7 +156,7 @@ function SignUp() {
                                 type={showPassword ? 'text' : 'password'}
                                 {...register('Password')}
                                 pattern=".{8,20}"
-                                error={PasswordError}
+                                error={PasswordError === '' ? false : true}
                                 required={false}
                                 autoComplete="off"
                                 endAdornment={
@@ -194,7 +195,7 @@ function SignUp() {
                                 }
                                 {...register('ConfirmPassword')}
                                 pattern={PasswordError}
-                                error={ConfirmPasswordError}
+                                error={ConfirmPasswordError === '' ? false : true}
                                 required={false}
                                 label="Confirm Password"
                             />
@@ -207,11 +208,11 @@ function SignUp() {
                             style={marginTop}
                             sx={{ height: '45px', backgroundColor: '#4A3AFF', color: '#fff' }}
                             fullWidth
-                            type="button"
+                            type="submit"
                             variant="contained"
                             color="primary"
                         >
-                            Sign Up
+                            Đăng ký
                         </Button>
                     </form>
                     <Typography
@@ -220,9 +221,9 @@ function SignUp() {
                         variant="subtitle1"
                         gutterBottom
                     >
-                        Already have an account ?{' '}
-                        <Link sx={{ fontWeight: 'bold' }} href="/commonUser/Login">
-                            Sign In
+                        Bạn đã có tài khoản ?{' '}
+                        <Link sx={{ fontWeight: 'bold' }} href="/Login">
+                            Đăng nhập
                         </Link>
                     </Typography>
                 </Paper>

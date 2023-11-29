@@ -17,21 +17,39 @@ import FotgotPassword from '../pages/commonUser/pages/FotgotPassword';
 import ResetPassword from '../pages/commonUser/pages/ResetPassword';
 import TeacherList from '../pages/HOD/ManageUser/ManageTeacher/TeacherList';
 import Homepage from '../pages/commonUser/pages/Homepage';
+import QuestionList from '../pages/HOD/ManageQuestion/ListQuestion';
+import { RequireAuth } from '../pages/commonUser/RequireAuth';
+import Unauthorized from '../pages/commonUser/pages/Unauthorized';
+import DetailTest from '../pages/HOD/ManageTest/DetailTest';
+import TestDetail from '../pages/HOD/ManageCourse/TestDetail';
+import Homepage from '../pages/HomePage/Pages/Homepage';
+import Course from '../pages/HomePage/Pages/Course';
+import Tests from '../pages/HomePage/Pages/Tests';
+import TakeTest from '../pages/HomePage/Pages/TakeTest';
+import TestList from '../pages/HOD/ManageTest/ListTest';
 import { ROUTES } from '../../Utils/RouteConstants';
 const TheRouter = () => {
   return (
     <Routes>
+      {/* Homepage */}
+      <Route path="/" exact element={<Homepage />} />
+      <Route path="/Course/:id" exact element={<Course />} />
+      <Route path="/Test" exact element={<Tests />} />
+      <Route path="/TakeTest" exact element={<TakeTest />} />
       {/* Admin */}
-      <Route path='/Admin/Dashboard' exact element={<Dashboard />} />
-      <Route path='/Homepage' exact element={<Homepage />} />
-      <Route path='/Admin/CourseList' exact element={<CourseList />} />
-      <Route path='/Admin/ClassList' exact element={<ClassList />} />
-      <Route path='/Admin/TeacherList' exact element={<TeacherList />} />
-      <Route path='/Admin/UserList' exact element={<UserList />} />
-      <Route path='/Admin' exact element={<Dashboard />} />
-      <Route path="/Admin/ClassList/Detail/:id" exact element={<ClassDetail />} />
-      <Route path="/Admin/CourseDetail/:id" exact element={<CourseDetail />} />
-      <Route path='/Admin/UserDetail/:id' exact element={<UserDetail />} />
+      <Route element={<RequireAuth allow={ROLE.Admin} />}>
+        <Route path='/Admin/Dashboard' exact element={<Dashboard />} />
+        <Route path='/Homepage' exact element={<Homepage />} />
+        <Route path='/Admin/CourseList' exact element={<CourseList />} />
+        <Route path='/Admin/ClassList' exact element={<ClassList />} />
+        <Route path='/Admin/TeacherList' exact element={<TeacherList />} />
+        <Route path='/Admin/UserList' exact element={<UserList />} />
+        <Route path='/Admin' exact element={<Dashboard />} />
+        <Route path="/Admin/ClassList/Detail/:id" exact element={<ClassDetail />} />
+        <Route path="/Admin/CourseDetail/:id" exact element={<CourseDetail />} />
+        <Route path='/Admin/UserDetail/:id' exact element={<UserDetail />} />
+        <Route path="/Admin/CourseDetail/:courseId/:testId" exact element={<TestDetail />} />
+       </Route>
       {/* Common */}
       <Route path={ROUTES.common.register} exact element={<Register />} />
       <Route path={ROUTES.common.login} exact element={<Login />} />
@@ -41,10 +59,17 @@ const TheRouter = () => {
       <Route path="/commonUser/FotgotPassword" exact element={<FotgotPassword />} />
       <Route path="/commonUser/ResetPassword" exact element={<ResetPassword />} />
       <Route path="/commonUser/ChangePassword" exact element={<ChangePassword />} />
-
+      <Route path={ROUTES.common.login} exact element={<Login />} />
+      <Route path={ROUTES.common.register} exact element={<Register />} />
+      <Route path={ROUTES.common.login} exact element={<Login />} />
+      <Route path={ROUTES.common.register} exact element={<Register />} />
+      <Route path={ROUTES.common.login} exact element={<Login />} />
+      <Route path={ROUTES.common.unauthorized} exact element={<Unauthorized />} />
+      <Route path="/ManageTest/ListTest" exact element={<TestList />} />
+      <Route path="/ManageTest/DetailTest" exact element={<DetailTest />} />
+      <Route path="/ManageQuestion/ListQuestion" exact element={<QuestionList />} />
     </Routes>
   )
 
 }
 export default TheRouter
-

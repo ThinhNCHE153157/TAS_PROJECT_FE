@@ -17,8 +17,12 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { FcGoogle as GoogleIcon } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../../../redux/Account/apiRequest';
+
 function Login() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [password, setPassword] = React.useState('');
     const [passwordError, setPasswordError] = React.useState('');
@@ -48,7 +52,7 @@ function Login() {
         // event.preventDefault();
     };
 
-    const paperStyle = { padding: '30px 50px', width: 350, margin: '20px auto' };
+    const paperStyle = { padding: '30px 50px', width: 400, margin: '20px auto' };
     const marginTop = { marginTop: 13 };
 
     const lineStyle = {
@@ -57,31 +61,10 @@ function Login() {
         width: '40%',
         borderBottom: '1px solid #000',
     };
-    const LoginAPI = () => {
-        var myHeaders = new Headers();
-        myHeaders.append('Content-Type', 'application/json');
-        myHeaders.append('Authorization', 'Bearer {{bearerToken}}');
 
-        var raw = JSON.stringify({
-            userName: userName,
-            password: password,
-        });
-
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow',
-        };
-
-        fetch('https://localhost:5000/api/Account/UserLogin', requestOptions)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data.accessToken);
-                localStorage.setItem('token', data.accessToken);
-                navigate('/Admin/Dashboard');
-            })
-            .catch((error) => console.log('error', error));
+    const handlesubmit = (e) => {
+        e.preventDefault();
+        loginUser(userName, password, dispatch, navigate);
     };
     return (
         <div>
@@ -89,14 +72,14 @@ function Login() {
             <Grid mt={10}>
                 <Paper elevation={4} style={paperStyle} sx={{ borderRadius: '20px' }}>
                     <Grid align="center">
-                        <h1>Login</h1>
+                        <h2>Đăng nhập</h2>
                     </Grid>
                     <Grid align="center">
-                        <form action="">
+                        <form onSubmit={handlesubmit}>
                             <TextField
                                 style={marginTop}
                                 fullWidth
-                                error={userNameError}
+                                error={userNameError === '' ? false : true}
                                 helperText={userNameError}
                                 onChange={handleUsername}
                                 label="Email"
@@ -118,7 +101,7 @@ function Login() {
                                             </IconButton>
                                         </InputAdornment>
                                     }
-                                    error={passwordError}
+                                    error={passwordError === '' ? false : true}
                                     required={true}
                                     onChange={handlePassword}
                                     label="Password"
@@ -128,23 +111,22 @@ function Login() {
                                 )}
                             </FormControl>
                             <Grid m={1} align="right">
-                                <Link href="#">Forgot password?</Link>
+                                <Link href="#">Quên mật khẩu?</Link>
                             </Grid>
                             <Button
                                 style={marginTop}
                                 sx={{ height: '45px', backgroundColor: '#4A3AFF', color: '#fff' }}
                                 fullWidth
-                                type="button"
+                                type="submit"
                                 variant="contained"
-                                onClick={LoginAPI}
                             >
-                                Login
+                                Đăng nhập
                             </Button>
                         </form>
                         <Grid container>
                             <Grid item xs={5} style={lineStyle}></Grid>
                             <Grid item xs={2}>
-                                <Typography sx={{ fontSize: '25px' }}>or</Typography>
+                                <Typography sx={{ fontSize: '18px', marginTop: "5px" }}>hoặc</Typography>
                             </Grid>
                             <Grid item xs={5} style={lineStyle}></Grid>
                         </Grid>
@@ -154,7 +136,7 @@ function Login() {
                     </Grid>
 
                     <Grid align="center">
-                        Don't have an account? <Link href="/CommonUser/Register">Register now</Link>
+                        Bạn chưa có tài khoản? <Link href="/register">Đăng ký</Link>
                     </Grid>
                 </Paper>
             </Grid>

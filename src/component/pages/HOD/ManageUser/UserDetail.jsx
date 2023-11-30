@@ -4,7 +4,7 @@ import NavBar from '../layout/NavBar';
 import { Box, IconButton, Typography } from '@mui/material';
 import Sidebar from '../layout/Sidebar';
 import DataGridBase from '../../common/DataGridBase';
-import { AddStudentIntoClass, FetchClassListByStudentId } from '../../common/CallAPI';
+import { AddStudentIntoClass, FetchClassListByStudentId } from '../../common/callApi';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import StudentIntoClass from './StudentIntoClass';
 

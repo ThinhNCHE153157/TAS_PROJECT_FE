@@ -1,7 +1,7 @@
 import { Box, Button, Grid, Modal } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import TextFieldBase from '../../common/TextFieldBase'
-import { FetchAllTeacher, FetchClassCodes } from '../../common/CallAPI';
+import { FetchAllTeacher, FetchClassCodes } from '../../common/callApi';
 import DatePickerBase from '../../common/DatePickerBase';
 
 const ClassAddModal = ({

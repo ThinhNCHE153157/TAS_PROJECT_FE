@@ -8,7 +8,7 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 // import UserAdditionModal from './UserAdditionModal'
 import EditIcon from '@mui/icons-material/Edit';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import { FetchAllUsersByClass } from '../../common/CallAPI';
+import { FetchAllUsersByClass } from '../../common/callApi';
 
 const ClassDetail = () => {
   const { id } = useParams();

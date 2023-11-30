@@ -6,7 +6,7 @@ import ClassListComponent from './ClassListComponent'
 import SearchIcon from '@mui/icons-material/Search';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ClassAddModal from './ClassAddModal'
-import { AddClass, FetchAllClass } from '../../common/CallAPI'
+import { AddClass, FetchAllClass } from '../../common/callApi'
 
 const data = [
   {

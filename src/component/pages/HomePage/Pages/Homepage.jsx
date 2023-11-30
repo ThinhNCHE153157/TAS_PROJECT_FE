@@ -8,14 +8,14 @@ import Banner from "../Component/Banner";
 
 const Homepage = () => {
     const [courses, setCourses] = useState([]);
-    // useEffect(() => {
-    //     const CourseData = async () => {
-    //         const data = await GetlistCourse();
-    //         setCourses(data);
-    //     };
-    //     CourseData();
-    // }, []);
-    // console.log(courses);
+    useEffect(() => {
+        const CourseData = async () => {
+            const data = await GetlistCourse();
+            setCourses(data);
+        };
+        CourseData();
+    }, []);
+    console.log(courses);
     return (
         <>
             <Header />

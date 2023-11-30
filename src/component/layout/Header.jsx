@@ -9,8 +9,15 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 export default function Header() {
   const nav = useNavigate();
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const auth = useSelector((state) => state.auth?.user);
+  const [tabValue, setTabValue] = useState(0)
+  const theme = useTheme();
+  const Pages = ['Home', 'About', 'Resourses', 'Contact', 'Testing online', 'My course']
 
 
+  const handleChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -19,10 +26,6 @@ export default function Header() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const auth = useSelector((state) => state.auth?.user);
-  const [tabValue, setTabValue] = useState(0)
-  const theme = useTheme();
-  const Pages = ['Home', 'About', 'Resourses', 'Contact', 'Testing online', 'My course']
   // console.log(theme)
   const isMatch = useMediaQuery(theme.breakpoints.down('md'));
   return (
@@ -42,10 +45,10 @@ export default function Header() {
           ) : (
             <>
               <img src={logo} alt='' width='5%' style={{ minWidth: '5%' }} />
-              <Tabs onChange={(e, value) => setTabValue(value)} value={tabValue} indicatorColor='primary' sx={{ marginLeft: 'auto' }}>
-                <Tab value={0} label='Khoá học online' onClick={(e) => nav('/')} />
-                <Tab value={1} label='Đề thi online' onClick={() => nav('/Test')} />
-                <Tab value={2} label='Flashcards' onClick={() => nav('/flashcards')} />
+              <Tabs onChange={handleChange} value={tabValue} indicatorColor='primary' sx={{ marginLeft: 'auto' }}>
+                <Tab key={0} value={0} label='Khoá học online' onClick={() => { nav('/') }} />
+                <Tab key={1} value={1} label='Đề thi online' onClick={() => nav('/Test')} />
+                <Tab key={2} label='Flashcards' onClick={() => nav('/flashcards')} />
               </Tabs>
               {!auth ? <>
                 <Button sx={{ marginLeft: 'auto' }} variant='outlined'><Link to="Login" color="inherit" underline="none">Login</Link></Button>

@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import { Modal, Box, Button, Grid } from '@mui/material';
 import TextFieldBase from '../../common/TextFieldBase';
-import { FetchClassCodes } from '../../common/CallAPI';
+import { FetchClassCodes } from '../../common/callApi';
 
 const StudentIntoClass = ({
   open,

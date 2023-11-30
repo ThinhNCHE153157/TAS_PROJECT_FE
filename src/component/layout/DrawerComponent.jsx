@@ -3,7 +3,7 @@ import { Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemText } 
 import MenuItem from '@mui/icons-material/Menu'
 const DrawerComponent = () => {
   const [openDrawer, setopenDrawer] = useState(false)
-  const Pages = ['Home', 'About', 'Resourses', 'Contact', 'Testing online', 'My course', 'Login', 'Get started']
+  const Pages = ['Khoá học online', 'Đề thi online', 'Flashcards']
   return (
     <React.Fragment>
       <Drawer open={openDrawer}

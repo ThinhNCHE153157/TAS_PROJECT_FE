@@ -13,21 +13,20 @@ import CourseDetail from '../pages/HOD/ManageCourse/CourseDetail';
 import ClassList from '../pages/HOD/ManageClass/ClassList';
 import UserDetail from '../pages/HOD/ManageUser/UserDetail';
 import ChangePassword from '../pages/commonUser/pages/ChangePassword';
-import FotgotPassword from '../pages/commonUser/pages/FotgotPassword';
+import FotgotPassword from '../pages/commonUser/pages/ForgotPassword';
 import ResetPassword from '../pages/commonUser/pages/ResetPassword';
 import TeacherList from '../pages/HOD/ManageUser/ManageTeacher/TeacherList';
-import Homepage from '../pages/commonUser/pages/Homepage';
+import Homepage from '../pages/HomePage/Pages/Homepage';
 import QuestionList from '../pages/HOD/ManageQuestion/ListQuestion';
 import { RequireAuth } from '../pages/commonUser/RequireAuth';
 import Unauthorized from '../pages/commonUser/pages/Unauthorized';
 import DetailTest from '../pages/HOD/ManageTest/DetailTest';
 import TestDetail from '../pages/HOD/ManageCourse/TestDetail';
-import Homepage from '../pages/HomePage/Pages/Homepage';
 import Course from '../pages/HomePage/Pages/Course';
 import Tests from '../pages/HomePage/Pages/Tests';
 import TakeTest from '../pages/HomePage/Pages/TakeTest';
 import TestList from '../pages/HOD/ManageTest/ListTest';
-import { ROUTES } from '../../Utils/RouteConstants';
+import { ROUTES, ROLE } from '../../Utils/Constants';
 const TheRouter = () => {
   return (
     <Routes>
@@ -49,7 +48,7 @@ const TheRouter = () => {
         <Route path="/Admin/CourseDetail/:id" exact element={<CourseDetail />} />
         <Route path='/Admin/UserDetail/:id' exact element={<UserDetail />} />
         <Route path="/Admin/CourseDetail/:courseId/:testId" exact element={<TestDetail />} />
-       </Route>
+      </Route>
       {/* Common */}
       <Route path={ROUTES.common.register} exact element={<Register />} />
       <Route path={ROUTES.common.login} exact element={<Login />} />

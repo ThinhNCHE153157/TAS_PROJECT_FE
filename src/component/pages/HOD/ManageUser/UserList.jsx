@@ -9,7 +9,7 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import UserAdditionModal from './UserAdditionModal'
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Link } from 'react-router-dom'
-import { AddUser, EditUser, FetchAccountManagement } from '../../common/CallAPI'
+import { AddUser, EditUser, FetchAccountManagement } from '../../common/callApi'
 
 const statusOptions = {
   0: 'Hoạt động',

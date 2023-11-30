@@ -6,6 +6,7 @@ import ClassListComponent from './ClassListComponent'
 import SearchIcon from '@mui/icons-material/Search';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ClassAddModal from './ClassAddModal'
+import { AddClass, FetchAllClass } from '../../common/CallAPI'
 
 const data = [
   {
@@ -14,70 +15,6 @@ const data = [
     className: 'Class Name 1',
     NumOfStudents: 'NumOfStudents 1',
     lecturer: 'Lecturer 1',
-    description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
-  },
-  {
-    class_id: '2',
-    url: 'https://source.unsplash.com/400x400/?portrait?2',
-    className: 'Class Name 2',
-    NumOfStudents: 'NumOfStudents 2',
-    lecturer: 'Lecturer 2',
-    description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
-  },
-  {
-    class_id: '3',
-    url: 'https://source.unsplash.com/400x400/?portrait?3',
-    className: 'Class Name 3',
-    NumOfStudents: 'NumOfStudents 3',
-    lecturer: 'Lecturer 3',
-    description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
-  },
-  {
-    class_id: '4',
-    url: 'https://source.unsplash.com/400x400/?portrait?4',
-    className: 'Class Name 4',
-    NumOfStudents: 'NumOfStudents 4',
-    lecturer: 'Lecturer 4',
-    description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
-  },
-  {
-    class_id: '5',
-    url: 'https://source.unsplash.com/400x400/?portrait?5',
-    className: 'Class Name 5',
-    NumOfStudents: 'NumOfStudents 5',
-    lecturer: 'Lecturer 5',
-    description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
-  },
-  {
-    class_id: '6',
-    url: 'https://source.unsplash.com/400x400/?portrait?6',
-    className: 'Class Name 6',
-    NumOfStudents: 'NumOfStudents 6',
-    lecturer: 'Lecturer 6',
-    description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
-  },
-  {
-    class_id: '7',
-    url: 'https://source.unsplash.com/400x400/?portrait?7',
-    className: 'Class Name 7',
-    NumOfStudents: 'NumOfStudents 7',
-    lecturer: 'Lecturer 7',
-    description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
-  },
-  {
-    class_id: '8',
-    url: 'https://source.unsplash.com/400x400/?portrait?8',
-    className: 'Class Name 8',
-    NumOfStudents: 'NumOfStudents 8',
-    lecturer: 'Lecturer 8',
-    description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
-  },
-  {
-    class_id: '9',
-    url: 'https://source.unsplash.com/400x400/?portrait?9',
-    className: 'Class Name 9',
-    NumOfStudents: 'NumOfStudents 9',
-    lecturer: 'Lecturer 9',
     description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
   },
 ];
@@ -91,18 +28,38 @@ const forRows = data.map(item => {
   };
 });
 const ClassList = () => {
+  const [data, setData] = useState([])
   const [rows, setRows] = useState(forRows);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [errors, setErrors] = useState({})
   const [newRow, setNewRows] = useState({});
+
+  useEffect(() => {
+    FetchAllClass()
+      .then(response => {
+        console.log('Dữ liệu từ API:', response);
+        setData(response);
+
+        const forRows = response.map(item => {
+          const { classId, ...otherFields } = item;
+          return {
+            ...otherFields,
+            classId: classId,
+            id: classId,
+            url: `https://source.unsplash.com/400x400/?portrait?${classId}`
+          };
+        });
+        setRows(forRows);
+      })
+      .catch(error => {
+        console.error('Lỗi khi gọi API:', error);
+      });
+  }, [newRow]);
   const onClose = () => {
     setIsAddModalOpen(false);
     setErrors({});
   }
 
-  useEffect(() => {
-    console.log(errors)
-  }, [errors])
 
   const onChange = (e) => {
     console.log(e)
@@ -118,14 +75,14 @@ const ClassList = () => {
     console.log(newRow)
     if (newRow.className && newRow.numOfStudents && newRow.lecturer && newRow.description) {
       console.log('addData', newRow)
-      const class_id_max = Math.max(...data.map(item => item.class_id)) + 1;
-      const temp = { ...newRow, 'id': class_id_max, 'class_id': class_id_max, 'url': `https://source.unsplash.com/400x400/?portrait?${class_id_max}` }
-      const updateRows = [...rows]
-      updateRows.push(temp)
-      setRows(updateRows)
-      setNewRows({})
+      AddClass(newRow)
+        .then(response => {
+          setNewRows(newRow);
+          console.log('Dữ liệu từ API:', response);
+        }).catch(error => {
+          console.error('Lỗi khi gọi API:', error);
+        })
       onClose();
-      console.log('errors: ', errors)
     } else {
       let err_temp = {};
       err_temp = !newRow.className ? { ...err_temp, ...{ 'err_className': 'You need to field this field' } } : err_temp
@@ -186,7 +143,7 @@ const ClassList = () => {
               >
                 <AddCircleOutlineIcon />
                 <Typography variant="body" sx={{ marginLeft: 1 }}>
-                  ADD COURSE
+                  ADD CLASS
                 </Typography>
               </Button>
             </Box>
@@ -198,9 +155,9 @@ const ClassList = () => {
                 <ClassListComponent
                   id={item.id}
                   className={item.className}
-                  NumOfStudents={item.NumOfStudents}
+                  maxStudentInClass={item.maxStudentInClass}
                   description={item.description}
-                  lecturer={item.lecturer}
+                  teacher={item.teacher || ''}
                   url={item.url} />
               </Grid>
             ))}

@@ -2,7 +2,7 @@ import Header from "../../../layout/Header";
 import Footer from "../../../layout/Footer";
 import { GetlistTest } from '../Services/HomepageService'
 import { useState, useEffect } from "react";
-import { Avatar, Button, Card, CardActions, CardContent, CardHeader, Grid, InputAdornment, List, ListItem, ListItemText, Pagination, Tab, TextField, Typography } from "@mui/material";
+import { Avatar, Button, Card, CardActions, CardContent, CardHeader, Divider, Grid, InputAdornment, List, ListItem, ListItemText, Pagination, Tab, TextField, Typography } from "@mui/material";
 import { Tabs } from "antd";
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import SearchIcon from '@mui/icons-material/Search';
@@ -74,7 +74,7 @@ const Tests = () => {
                     </Grid>
 
                     <Grid item xs={4}>
-                        <Card sx={{ maxWidth: 345 }}>
+                        <Card sx={{ maxWidth: 370 }}>
                             <CardHeader
                                 avatar={
                                     // <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -86,6 +86,7 @@ const Tests = () => {
                                 subheader='Email here'
 
                             />
+                            <Divider variant="middle" sx={{ borderColor: 'black', borderBottomWidth: 1 }} />
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">
                                     Thống kê

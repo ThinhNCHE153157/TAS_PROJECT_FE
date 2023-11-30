@@ -14,7 +14,7 @@ const GetlistTest = async () => {
         method: 'Get',
         headers: { 'Content-Type': 'application/json' },
     };
-    return fetch(`${BASE_URL}Test/getListTestFreeResponseDtos`, requestOptions)
+    return fetch(`${BASE_URL}Test/getListTestFree`, requestOptions)
         .then(response => response.json())
         .then(data => data);
 };

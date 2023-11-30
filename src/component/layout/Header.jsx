@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { AppBar, Tabs, Tab, Toolbar, Button, useMediaQuery, useTheme, Box, Tooltip, IconButton, Avatar, Menu, Typography, MenuItem } from '@mui/material'
 import DrawerComponent from './DrawerComponent'
-import logo from '../../image/tải xuống (1).png'
+import logo from '../../Assets/img/Logo1.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 

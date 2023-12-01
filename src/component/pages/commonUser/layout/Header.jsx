@@ -8,7 +8,7 @@ import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { AiOutlineGlobal } from 'react-icons/ai';
-import logo from '../../../../image/tải xuống (1).png';
+import logo from '../../../../Assets/img/Logo1.png';
 
 const language = ['English', 'Vietnamese'];
 

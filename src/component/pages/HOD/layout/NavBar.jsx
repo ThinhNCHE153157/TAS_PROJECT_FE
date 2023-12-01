@@ -15,7 +15,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useAppStore } from '../../../../AppStore';
-import logo from '../../../../image/tải xuống (1).png';
+import logo from '../../../../Assets/img/Logo1.png';
 import { logoutUser } from '../../../../redux/Account/apiRequest';
 import { useDispatch, useSelector } from 'react-redux';
 import { Typography } from '@mui/material';

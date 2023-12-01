@@ -65,6 +65,7 @@ function Login() {
     const handlesubmit = (e) => {
         e.preventDefault();
         loginUser(userName, password, dispatch, navigate);
+        navigate("/");
     };
     return (
         <div>

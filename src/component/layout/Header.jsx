@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { AppBar, Tabs, Tab, Toolbar, Button, useMediaQuery, useTheme, Box, Tooltip, IconButton, Avatar, Menu, Typography, MenuItem } from '@mui/material'
 import DrawerComponent from './DrawerComponent'
-import logo from '../../image/tải xuống (1).png'
+import logo from '../../Assets/img/Logo1.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { Padding } from '@mui/icons-material'
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 export default function Header() {
@@ -51,7 +52,7 @@ export default function Header() {
             </>
           ) : (
             <>
-              <img src={logo} alt='' width='5%' style={{ minWidth: '5%' }} />
+              <img src={logo} alt='' width='6%' style={{ minWidth: '5%', marginLeft: "7%" }} />
               <Tabs
                 onChange={handleChange}
                 value={tabValue}

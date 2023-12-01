@@ -1,7 +1,18 @@
 import axios from 'axios'
 
-const API = axios.create({
-  baseURL: 'https://localhost:5000/api'
+export const API = axios.create({
+  baseURL: 'https://localhost:5000/api',
+  headers: {
+    'Content-Type': 'application/json',
+  }
+})
+
+export const API_Auth = axios.create({
+  baseURL: 'https://localhost:5000/api/',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  }
 })
 
 

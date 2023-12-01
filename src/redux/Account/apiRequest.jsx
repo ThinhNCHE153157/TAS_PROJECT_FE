@@ -13,7 +13,7 @@ export const loginUser = async function (userName, password, dispatch, navigate)
         dispatch(loginSuccess(response.data));
         localStorage.setItem('token', response.data.accessToken.toString());
         getUser(response.data.id, dispatch);
-        navigate('/Admin');
+        //navigate('/Admin');
     } catch (error) {
         dispatch(loginFailed(error));
     }

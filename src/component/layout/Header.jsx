@@ -12,7 +12,7 @@ export default function Header() {
   const auth = useSelector((state) => state.auth?.user);
   const [tabValue, setTabValue] = useState(0)
   const theme = useTheme();
-  const Pages = ['Home', 'About', 'Resourses', 'Contact', 'Testing online', 'My course']
+  const Pages = ['/', '/Test', '/flashcards']
 
 
   const handleChange = (event, newValue) => {
@@ -22,6 +22,13 @@ export default function Header() {
     setAnchorElUser(event.currentTarget);
   };
 
+  const handleTabClick = (index) => {
+    // Update the tabValue state based on the clicked tab index
+    setTabValue(index);
+
+    // Navigate to the corresponding route using the useNavigate hook
+    nav(`/${Pages[index].toLowerCase()}`);
+  };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -45,10 +52,15 @@ export default function Header() {
           ) : (
             <>
               <img src={logo} alt='' width='5%' style={{ minWidth: '5%' }} />
-              <Tabs onChange={handleChange} value={tabValue} indicatorColor='primary' sx={{ marginLeft: 'auto' }}>
+              <Tabs
+                onChange={handleChange}
+                value={tabValue}
+                indicatorColor='primary'
+                sx={{ marginLeft: 'auto' }}
+              >
                 <Tab key={0} value={0} label='Khoá học online' onClick={() => { nav('/') }} />
                 <Tab key={1} value={1} label='Đề thi online' onClick={() => nav('/Test')} />
-                <Tab key={2} label='Flashcards' onClick={() => nav('/flashcards')} />
+                <Tab key={2} value={2} label='Flashcards' onClick={() => nav('/flashcards')} />
               </Tabs>
               {!auth ? <>
                 <Button sx={{ marginLeft: 'auto' }} variant='outlined'><Link to="Login" color="inherit" underline="none">Login</Link></Button>

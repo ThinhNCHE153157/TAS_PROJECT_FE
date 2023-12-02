@@ -6,12 +6,12 @@ import Grid from '@mui/material/Grid';
 const footerStyle = {
   backgroundColor: '#f5f5f5',
   padding: '20px',
-  marginTop: 'auto',
+  marginTop: '30px',
 };
 
 const Footer = () => {
   return (
-    <footer style={footerStyle}>
+    <footer style={footerStyle} >
       <Grid container spacing={3}>
         <Grid item xs={12} sm={4}>
           <Typography variant="h6">Contact Us</Typography>

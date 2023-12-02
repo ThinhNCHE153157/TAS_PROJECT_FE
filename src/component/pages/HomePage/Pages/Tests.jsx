@@ -2,47 +2,97 @@ import Header from "../../../layout/Header";
 import Footer from "../../../layout/Footer";
 import { GetlistTest } from '../Services/HomepageService'
 import { useState, useEffect } from "react";
-import { Avatar, Button, Card, CardActions, CardContent, CardHeader, Divider, Grid, InputAdornment, List, ListItem, ListItemText, Pagination, Tab, Tabs, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Divider, Grid, InputAdornment, Pagination, TextField, Typography } from "@mui/material";
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import SearchIcon from '@mui/icons-material/Search';
+import CardTest from "../Component/CardTest";
+
+const testArray = [];
+for (let i = 0; i < 20; i++) {
+    const id = i + 1;
+    const name = `test ${i}`;
+    const time = new Date();
+
+    testArray.push({
+        id,
+        name,
+        time,
+    });
+}
+
 
 
 const Tests = () => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [tests, setTests] = useState([]);
+    // const [tests, setTests] = useState([]);
+    const [tests, setTests] = useState(testArray);
     const [page, setPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(0)
+    const [testOnPage, setTestOnPage] = useState([]);
+
+
+    // useEffect(() => {
+    //     const TestData = async () => {
+    //         const data = await GetlistTest();
+    //         console.log(data);
+    //         setTests(data);
+    //         setTotalPage(Math.ceil(data.length/12 ))
+    //         setTestOnPage(data.slice(0,12))
+    //     };
+    //     TestData();
+    // }, []);
     useEffect(() => {
-        const TestData = async () => {
-            const data = await GetlistTest();
-            console.log(data);
-            setTests(data);
-        };
-        TestData();
-    }, []);
+        setTotalPage(Math.ceil(tests.length / 12))
+        setTestOnPage(tests.slice(0, 12))
+    }, [])
 
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
     };
 
-    const handleOnPageChange = (event, value) => {
+    const handlePageChange = (event, value) => {
+        //0 -> 12; 12(page -1) -> 12*page-1
+        var start = 12 * (value - 1)
+        var end = 12 * value
+        var temp = value < totalPage ? tests.slice(start, end) : tests.slice(start)
+        console.log(temp)
+        setTestOnPage(temp)
         setPage(value);
     };
+
     const renderTests = () => {
         return (
-            <div>
-                aa
-            </div>
+            <Grid container rowGap={3}>
+                {
+                    testOnPage.map(item => {
+                        console.log(item)
+                        return (
+                            <Grid item xs={4} key={item.id}>
+                                <CardTest data={item} />
+                            </Grid>
+                        );
+                    })
+                }
+            </Grid>
         );
     };
 
     return (
         <>
             <Header />
-            <div className="container" style={{ marginTop: "10%", marginLeft: '10%', minHeight: "100vh" }}>
-                <div className="row" style={{ marginTop: "100px", marginBottom: "10px" }}>
-                    <Typography variant="h4">Thư viện đề thi</Typography>
-                </div>
-                <Grid container spacing={11}>
+            <Box
+                sx={{
+                    position: 'relative',
+                    width: '100vw',
+                    height: '50vh',
+                    backgroundColor: '#f3f6f9',
+                }}
+            >
+                <Grid container position='absolute' marginLeft='15%' marginTop="8%" width='70vw'>
+                    <Grid item xs={10}>
+                        <Typography variant="h4">Thư viện đề thi</Typography>
+                    </Grid>
+                    {/* <Grid item container xs */}
                     <Grid item xs={8} sx={{ mt: "20px" }}>
                         <TextField
                             label="Tìm kiếm"
@@ -51,7 +101,7 @@ const Tests = () => {
                             onChange={handleSearch}
                             variant="outlined"
                             fullWidth={true}
-                            sx={{ maxWidth: 700 }}
+                            sx={{ maxWidth: 820 }}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -61,7 +111,6 @@ const Tests = () => {
                             }}
                         />
                     </Grid>
-
                     <Grid item xs={4}>
                         <Card sx={{ maxWidth: 370 }}>
                             <CardHeader
@@ -94,24 +143,27 @@ const Tests = () => {
                             </CardActions>
                         </Card>
                     </Grid>
-
-                    <Grid item xs={12}>
+                </Grid>
+            </Box >
+            <div className="container" style={{ marginTop: "3%", marginLeft: '15%', minHeight: "100vh" }}>
+                <Grid container>
+                    <Grid item xs={8}>
                         {tests.length > 0 ? renderTests() : <h3>Không có bài kiểm tra nào phù hợp</h3>}
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} mt={4} >
                         <Pagination
-                            count={10}
+                            count={totalPage}
                             color='primary'
                             variant='outlined'
                             size='medium'
-                            defaultPage={page}
+                            // defaultPage={page}
                             showFirstButton
                             showLastButton
-                            onChange={handleOnPageChange}
+                            onChange={handlePageChange}
                         />
                     </Grid>
                 </Grid>
-            </div>
+            </div >
             <Footer />
         </>
     );

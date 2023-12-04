@@ -26,6 +26,7 @@ import ToggleOnOutlinedIcon from '@mui/icons-material/ToggleOnOutlined';
 import EditNoteTwoToneIcon from '@mui/icons-material/EditNoteTwoTone';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
+import { BASE_URL } from '../../../../Utils/Constants';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -75,7 +76,7 @@ const CourseDetail = () => {
                 'tests': tests,
             })
         };
-        await fetch(`https://localhost:5000/api/Test/CreateTestForCourse`, requestOptions)
+        await fetch(`${BASE_URL}Test/CreateTestForCourse`, requestOptions)
         setRefresh(!refresh);
         setOpenAdd(false);
     };
@@ -96,14 +97,14 @@ const CourseDetail = () => {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', "Authorization": `Bearer ${token}` },
         };
-        await fetch(`https://localhost:5000/api/Test/UpdateStatus?TestId=${tId}`, requestOptions)
+        await fetch(`${BASE_URL}Test/UpdateStatus?TestId=${tId}`, requestOptions)
         setRefresh(!refresh);
         setOpenUpdate(false);
     }
 
     useEffect(() => {
         async function getCourse() {
-            const requestUrl = 'https://localhost:5000/api/Course/GetCourseById?id=' + id;
+            const requestUrl = `${BASE_URL}Course/GetCourseById?id=` + id;
             const response = await fetch(requestUrl);
             const responseJSON = await response.json();
             setCourse(responseJSON);

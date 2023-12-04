@@ -1,5 +1,6 @@
 import { TextField } from "@mui/material";
 import React from "react";
+import { BASE_URL } from "../../../Utils/Constants";
 
 const Order = () => {
     const [orderType, setOrderType] = React.useState("electric");
@@ -8,7 +9,7 @@ const Order = () => {
     const [orderDescription, setOrderDescription] = React.useState("");
     const submitform = (e) => {
         e.preventDefault();
-        fetch("https://localhost:5000/api/Payment/CreatePaymentUrl", {
+        fetch(`${BASE_URL}Payment/CreatePaymentUrl`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

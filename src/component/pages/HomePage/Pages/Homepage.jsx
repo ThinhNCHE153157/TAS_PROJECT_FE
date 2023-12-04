@@ -5,6 +5,7 @@ import CourseCard from "../Component/CourseCard";
 import { GetlistCourse } from '../Services/HomepageService'
 import { useEffect, useState } from "react";
 import Banner from "../Component/Banner";
+import Popup from "../Component/Popup";
 
 const Homepage = () => {
     const [courses, setCourses] = useState([]);
@@ -19,12 +20,14 @@ const Homepage = () => {
     return (
         <>
             <Header />
-            <div class="container" style={{ marginTop: "69.47px", minHeight: "100vh" }}>
+            <Popup />
+            <div className="container" style={{ marginTop: "69.47px", minHeight: "100vh" }}>
                 <div className="row" style={{ marginTop: "100px", marginBottom: "10px" }}>
                     <div className="col-12">
                         <Banner />
                     </div>
                 </div>
+
                 <div className="row">
                     <div className="col-12">
                         <h2>Khoá học online</h2>

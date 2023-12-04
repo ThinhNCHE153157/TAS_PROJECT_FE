@@ -29,9 +29,11 @@ import TestList from '../pages/HOD/ManageTest/ListTest';
 import { ROUTES, ROLE } from '../../Utils/Constants';
 import ChooseTestPart from '../pages/HomePage/Pages/ChooseTestPart';
 import CourseLearning from '../pages/HomePage/Pages/CourseLearning';
+import Order from '../pages/Payment/Order';
 const TheRouter = () => {
   return (
     <Routes>
+      <Route path='/Order' exact element={<Order />} />
       {/* Homepage */}
       <Route path="/" exact element={<Homepage />} />
       <Route path="/Course/:id" exact element={<Course />} />
@@ -54,7 +56,7 @@ const TheRouter = () => {
       {/* Common */}
       <Route path="/TestDetail" exact element={<ChooseTestPart />} />
       <Route path="/CourseLearning" exact element={<CourseLearning />} />
-
+      <Route path="/TestDetail/:name" exact element={<ChooseTestPart />} />
       {/* <Route path="/TestDetail/:data" exact element={<ChooseTestPart />} /> */}
       <Route path={ROUTES.common.register} exact element={<Register />} />
       <Route path={ROUTES.common.login} exact element={<Login />} />

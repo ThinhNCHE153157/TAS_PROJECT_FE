@@ -3,12 +3,19 @@ import { AppBar, Tabs, Tab, Toolbar, Button, useMediaQuery, useTheme, Box, Toolt
 import DrawerComponent from './DrawerComponent'
 import logo from '../../Assets/img/Logo1.png'
 import { Link, useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Padding } from '@mui/icons-material'
+import { logoutUser } from '../../redux/Account/apiRequest'
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 export default function Header() {
   const nav = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user?.User?.username);
+  const handleLogout = (e) => {
+    e.preventDefault();
+    logoutUser(dispatch);
+  };
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const auth = useSelector((state) => state.auth?.user);
   const [tabValue, setTabValue] = useState(0)
@@ -64,14 +71,15 @@ export default function Header() {
                 <Tab key={2} value={2} label='Flashcards' onClick={() => nav('/flashcards')} />
               </Tabs>
               {!auth ? <>
-                <Button sx={{ marginLeft: 'auto' }} variant='outlined'><Link to="Login" color="inherit" underline="none">Login</Link></Button>
+                <Button sx={{ marginLeft: 'auto' }} variant='outlined'><Link to="/Login" color="inherit" underline="none">Login</Link></Button>
               </>
                 : <>
 
-                  <Box sx={{ flexGrow: 0 }}>
+                  <Box sx={{ marginLeft: 'auto', flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                         <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                        <Typography>&nbsp;&nbsp;   Hi, {user}</Typography>
                       </IconButton>
                     </Tooltip>
                     <Menu
@@ -92,7 +100,10 @@ export default function Header() {
                     >
                       {settings.map((setting) => (
                         <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                          {(setting === 'Logout') ? <Link to="/Login" color="inherit" underline="none">{setting}</Link>
+                          {(setting === 'Logout') ? <>
+                            {/* <Link to="/Login" color="inherit" underline="none">{setting}</Link> */}
+                            <Typography textAlign="center" onClick={handleLogout}>{setting}</Typography>
+                          </>
                             :
                             <Typography textAlign="center">{setting}</Typography>}
                         </MenuItem>

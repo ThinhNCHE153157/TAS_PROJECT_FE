@@ -31,20 +31,20 @@ const Tests = () => {
     const [testOnPage, setTestOnPage] = useState([]);
 
 
-    // useEffect(() => {
-    //     const TestData = async () => {
-    //         const data = await GetlistTest();
-    //         console.log(data);
-    //         setTests(data);
-    //         setTotalPage(Math.ceil(data.length/12 ))
-    //         setTestOnPage(data.slice(0,12))
-    //     };
-    //     TestData();
-    // }, []);
     useEffect(() => {
-        setTotalPage(Math.ceil(tests.length / 12))
-        setTestOnPage(tests.slice(0, 12))
-    }, [])
+        const TestData = async () => {
+            const data = await GetlistTest();
+            console.log(data);
+            setTests(data);
+            setTotalPage(Math.ceil(data.length / 12))
+            setTestOnPage(data.slice(0, 12))
+        };
+        TestData();
+    }, []);
+    // useEffect(() => {
+    //     setTotalPage(Math.ceil(tests.length / 12))
+    //     setTestOnPage(tests.slice(0, 12))
+    // }, [])
 
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
@@ -67,7 +67,7 @@ const Tests = () => {
                     testOnPage.map(item => {
                         console.log(item)
                         return (
-                            <Grid item xs={4} key={item.id}>
+                            <Grid item xs={4} key={item.testId}>
                                 <CardTest data={item} />
                             </Grid>
                         );

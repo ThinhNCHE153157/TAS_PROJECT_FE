@@ -8,7 +8,7 @@ import Link from '@mui/material/Link';
 const CourseCard = ({ id, image, name, description, level, price, discount }) => {
     return (
         <Link href={`/Course/${id}`} underline="none" color="inherit">
-            <Card Card sx={{ maxWidth: 400, margin: 2 }}>
+            <Card sx={{ maxWidth: 400, margin: 2 }}>
                 <CardMedia
                     component="img"
                     height="140"

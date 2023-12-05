@@ -18,7 +18,7 @@ const CardTest = ({
     >
       <CardContent sx={{ ml: "10px", marginRight: "10px" }}>
         <Typography variant="h6" fontWeight="bold" mb="10px">
-          Đây là tiêu đề của thẻ
+          {data.testName}
         </Typography>
         <Box
           component="span"
@@ -30,7 +30,7 @@ const CardTest = ({
         >
           <AccessTimeIcon fontSize='small' />
           <Typography variant="body1" color="textSecondary" ml="5px">
-            Time
+            {data.testDuration}
           </Typography>
         </Box>
 
@@ -70,7 +70,7 @@ const CardTest = ({
           }}
         >
           <Typography variant="body1" color="textSecondary" ml="5px">
-            Số part thi | Số câu hỏi
+            {data.totalPart} Part | {data.testTotalQuestion} câu hỏi
           </Typography>
         </Box>
         {/* <Typography variant="body1" color="textSecondary">
@@ -85,7 +85,7 @@ const CardTest = ({
           size="large"
           children="Chi tiết"
           variant='outlined'
-          onClick={() => navigate(`/TestDetail/${data}`)}
+          onClick={() => navigate(`/TestDetail/${data.testName}`)}
         />
       </CardActions>
     </Card>

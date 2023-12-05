@@ -4,7 +4,9 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ForumIcon from '@mui/icons-material/Forum';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import { useNavigate } from 'react-router-dom';
-const CardTest = ({ data }) => {
+const CardTest = ({
+  data
+}) => {
   const navigate = useNavigate();
 
   return (

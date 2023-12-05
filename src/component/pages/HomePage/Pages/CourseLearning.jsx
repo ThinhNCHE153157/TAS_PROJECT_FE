@@ -59,7 +59,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function CourseLearning({
+export default function TestSideBar({
   // Topics,
   // Course
 }) {

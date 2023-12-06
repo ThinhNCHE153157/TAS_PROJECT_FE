@@ -205,7 +205,7 @@ const Course = () => {
                             </Typography>
                         </Box>
                         <Box width='100%' height='100%' mt='3%'>
-                            <Grid container width='100%' spacing='2'>
+                            <Grid container columnGap='20px'>
                                 <Grid item xs={7} sx={{ border: "2px solid gray", borderRadius: '10px' }}>
                                     {
                                         Topics.map((topic, index) => (
@@ -238,7 +238,7 @@ const Course = () => {
                                                     </Button>
                                                 </div>
 
-                                                <Typography variant="body1" mt='1%'>Topic {index + 1}</Typography>
+                                                <Typography variant="body1" mt='1%'>Topic {index + 1} - 5 videos - 1 testing</Typography>
 
                                                 {expandTopic.includes(topic.topicId) ? (
                                                     <div>
@@ -249,10 +249,12 @@ const Course = () => {
                                                             it provides the context for your player. Ultimately, a game world should feel
                                                             alive and wholly unique to any player who will experience it.
                                                         </Typography>
-                                                        <Divider />
+                                                        <Divider sx={{ height: '2px', backgroundColor: 'gray' }} />
                                                     </div>
 
-                                                ) : ('')
+                                                ) : (
+                                                    <Divider sx={{ height: '2px', backgroundColor: 'gray' }} />
+                                                )
                                                 }
 
                                             </Box>
@@ -260,8 +262,35 @@ const Course = () => {
                                     }
 
                                 </Grid>
-                                <Grid item xs={4} >
+                                <Grid item xs={3} >
+                                    <Box width='90%' ml='4%' sx={{ border: "2px solid gray", borderRadius: '10px' }}>
+                                        <Box mt='3%' ml='4%'>
+                                            <Typography fontSize='20px' fontWeight='500'>Instructors</Typography>
+                                            {
+                                                teachers.map((teacher, index) => (
+                                                    <Box Box display='flex' mt='5%' ml='3%' mb='5%'>
+                                                        <Avatar src="https://source.unsplash.com/400x400?avatar?1" sx={{ width: '50px', height: '50px', mr: '2%', border: '2px solid gray' }} />
+                                                        <Box>
+                                                            <Typography
+                                                                fontSize='16px'
+                                                                fontWeight='500'
+                                                                sx={{
+                                                                    textDecorationLine: 'underline',
+                                                                }}
+                                                            >
+                                                                {teacher}
+                                                            </Typography>
+                                                            <Typography fontSize='14px'>California Institute of the Arts</Typography>
+                                                            <Typography fontSize='14px'>3 courses</Typography>
+                                                        </Box>
+                                                    </Box>
 
+
+                                                ))
+                                            }
+                                        </Box>
+
+                                    </Box>
                                 </Grid>
                             </Grid>
                         </Box>

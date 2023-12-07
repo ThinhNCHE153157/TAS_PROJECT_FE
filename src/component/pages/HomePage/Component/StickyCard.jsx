@@ -1,12 +1,12 @@
 import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import React from 'react';
 
-const StickyCard = ({ id, image, name, description, level }) => {
+const StickyCard = ({ id, image, name, description, level, stickyTop }) => {
     return (
         <div
             style={{
-                height: '500px',
-                width: '400px',
+                height: '400px',
+                width: '350px',
                 marginTop: '140px',
                 position: 'sticky',
                 top: '100px',
@@ -14,6 +14,8 @@ const StickyCard = ({ id, image, name, description, level }) => {
                 backgroundColor: '#333',
                 paddingTop: '16px',
                 boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+                borderRadius: '10px',
+                transition: 'margin-top 0.3s ease-in-out', // Thêm hiệu ứng chuyển động
             }}
         >
             <Card Card sx={{ maxWidth: 400, margin: 2 }}>

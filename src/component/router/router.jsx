@@ -56,7 +56,7 @@ const TheRouter = () => {
       {/* Common */}
       <Route path="/TestDetail" exact element={<ChooseTestPart />} />
       <Route path="/CourseLearning" exact element={<CourseLearning />} />
-      <Route path="/TestDetail/:name" exact element={<ChooseTestPart />} />
+      <Route path="/TestDetail/:id" exact element={<ChooseTestPart />} />
       {/* <Route path="/TestDetail/:data" exact element={<ChooseTestPart />} /> */}
       <Route path={ROUTES.common.register} exact element={<Register />} />
       <Route path={ROUTES.common.login} exact element={<Login />} />

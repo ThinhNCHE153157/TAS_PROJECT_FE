@@ -3,6 +3,7 @@ import { Box, Button, Grid, InputAdornment, TextField, Typography } from '@mui/m
 import NavBar from '../layout/NavBar'
 import SearchIcon from '@mui/icons-material/Search';
 import ListTestDetail from './ListTestDetail'
+import { BASE_URL } from '../../../../Utils/Constants';
 
 const TestList = () => {
     const columns = useMemo(
@@ -24,7 +25,7 @@ const TestList = () => {
     const [listtest, setListTest] = React.useState([]);
     useEffect(() => {
         async function getListTest() {
-            const requestUrl = 'https://localhost:5000/api/Test/GetAllTest';
+            const requestUrl = `${BASE_URL}Test/GetAllTest`;
             const response = await fetch(requestUrl);
             const responseJSON = await response.json();
             setListTest(responseJSON);

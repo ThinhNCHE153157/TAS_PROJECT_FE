@@ -2,6 +2,7 @@ import React, { useMemo, useEffect } from 'react';
 import { Box } from '@mui/material';
 import NavBar from '../layout/NavBar';
 import DataGridBase from '../../common/DataGridBase';
+import { BASE_URL } from '../../../../Utils/Constants';
 
 const QuestionList = () => {
     const columns = useMemo(
@@ -24,7 +25,7 @@ const QuestionList = () => {
     const [QuestionList, setListquestion] = React.useState([]);
     useEffect(() => {
         async function getListquestion() {
-            const requestUrl = 'https://localhost:5000/api/Question/GetAllQuestion';
+            const requestUrl = `${BASE_URL}Question/GetAllQuestion`;
             const response = await fetch(requestUrl);
             const responseJSON = await response.json();
             setListquestion(responseJSON);

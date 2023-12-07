@@ -85,7 +85,7 @@ const CardTest = ({
           size="large"
           children="Chi tiết"
           variant='outlined'
-          onClick={() => navigate(`/TestDetail/${data.testName}`)}
+          onClick={() => navigate(`/TestDetail/${data.testId}`)}
         />
       </CardActions>
     </Card>

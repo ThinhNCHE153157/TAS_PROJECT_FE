@@ -1,5 +1,6 @@
 import { TextField } from "@mui/material";
 import React from "react";
+import { BASE_URL } from "../../../Utils/Constants";
 
 const Order = () => {
     const [orderType, setOrderType] = React.useState("electric");
@@ -8,7 +9,7 @@ const Order = () => {
     const [orderDescription, setOrderDescription] = React.useState("");
     const submitform = (e) => {
         e.preventDefault();
-        fetch("https://localhost:5000/api/Payment/CreatePaymentUrl", {
+        fetch(`${BASE_URL}Payment/CreatePaymentUrl`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -34,8 +35,8 @@ const Order = () => {
                 <div class="form-group">
                     <label for="ordertype">Loại hàng hóa </label>
                     <select name="OrderType" id="ordertype" class="form-control" onSelect={(e) => setOrderType(e.target.value)}>
-                        <option value="electric">Đồ điện tử</option>
-                        <option value="fashion">Thời trang</option>
+                        <option value="Course">Mua Course</option>
+                        <option value="Test">Đăng ký test</option>
                         <option value="other">Khác</option>
                     </select>
                 </div>

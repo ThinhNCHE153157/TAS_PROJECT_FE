@@ -22,6 +22,7 @@ import { Card, CardContent } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 import { set } from 'react-hook-form';
+import { BASE_URL } from '../../../../Utils/Constants';
 
 
 const VisuallyHiddenInput = styled('input')({
@@ -83,7 +84,7 @@ const TestDetail = () => {
                 testTotalScore: testTotalScore,
             })
         };
-        await fetch(`https://localhost:5000/api/Test/UpdateTest`, requestOptions)
+        await fetch(`${BASE_URL}Test/UpdateTest`, requestOptions)
         setRefresh(!refresh);
         setOpenEditTest(false);
     }
@@ -111,7 +112,7 @@ const TestDetail = () => {
                 testId: testId,
             })
         };
-        await fetch(`https://localhost:5000/api/Question/CreateQuestion`, requestOptions)
+        await fetch(`${BASE_URL}Question/CreateQuestion`, requestOptions)
         setRefresh(!refresh);
         setOpenAdd(false);
     }
@@ -152,7 +153,7 @@ const TestDetail = () => {
                 questionNavigation: questionNavigation,
             })
         };
-        await fetch(`https://localhost:5000/api/Question/UpdateQuestion`, requestOptions)
+        await fetch(`${BASE_URL}Question/UpdateQuestion`, requestOptions)
         setRefresh(!refresh);
         setOpen(false);
     }
@@ -168,7 +169,7 @@ const TestDetail = () => {
             method: 'delete',
             headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', "Authorization": `Bearer ${token}` }
         };
-        await fetch(`https://localhost:5000/api/Question/DeleteQuestion?questionId=${id}`, requestOptions)
+        await fetch(`${BASE_URL}Question/DeleteQuestion?questionId=${id}`, requestOptions)
         setRefresh(!refresh);
         setOpenDelete(false);
     }
@@ -179,7 +180,7 @@ const TestDetail = () => {
                 method: 'get',
                 headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', "Authorization": `Bearer ${token}` }
             };
-            const response = await fetch(`https://localhost:5000/api/Test/GetTestById?testId=${testId}`, requestOptions)
+            const response = await fetch(`${BASE_URL}Test/GetTestById?testId=${testId}`, requestOptions)
             const responseJSON = await response.json();
             setTest(responseJSON);
         }
@@ -193,7 +194,7 @@ const TestDetail = () => {
                 method: 'get',
                 headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', "Authorization": `Bearer ${token}` }
             };
-            const response = await fetch(`https://localhost:5000/api/Question/GetQuestionByTestId?TestId=${testId}`, requestOptions)
+            const response = await fetch(`${BASE_URL}Question/GetQuestionByTestId?TestId=${testId}`, requestOptions)
             const responseJSON = await response.json();
             setQuestion(responseJSON);
 

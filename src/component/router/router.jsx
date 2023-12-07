@@ -30,6 +30,7 @@ import { ROUTES, ROLE } from '../../Utils/Constants';
 import ChooseTestPart from '../pages/HomePage/Pages/ChooseTestPart';
 import CourseLearning from '../pages/HomePage/Pages/CourseLearning';
 import Order from '../pages/Payment/Order';
+import StudyProgress from '../pages/HomePage/Pages/StudyProgress';
 const TheRouter = () => {
   return (
     <Routes>
@@ -39,6 +40,12 @@ const TheRouter = () => {
       <Route path="/Course/:id" exact element={<Course />} />
       <Route path="/Test" exact element={<Tests />} />
       <Route path="/TakeTest" exact element={<TakeTest />} />
+      <Route path="/TestDetail" exact element={<ChooseTestPart />} />
+      <Route path="/CourseLearning" exact element={<CourseLearning />} />
+      <Route path="/TestDetail/:name" exact element={<ChooseTestPart />} />
+      <Route path="/StudyProgress" exact element={<StudyProgress />} />
+
+      {/* <Route path="/TestDetail/:data" exact element={<ChooseTestPart />} /> */}
       {/* Admin */}
       <Route element={<RequireAuth allow={ROLE.Admin} />}>
         <Route path='/Admin/Dashboard' exact element={<Dashboard />} />
@@ -54,10 +61,6 @@ const TheRouter = () => {
         <Route path="/Admin/CourseDetail/:courseId/:testId" exact element={<TestDetail />} />
       </Route>
       {/* Common */}
-      <Route path="/TestDetail" exact element={<ChooseTestPart />} />
-      <Route path="/CourseLearning" exact element={<CourseLearning />} />
-      <Route path="/TestDetail/:name" exact element={<ChooseTestPart />} />
-      {/* <Route path="/TestDetail/:data" exact element={<ChooseTestPart />} /> */}
       <Route path={ROUTES.common.register} exact element={<Register />} />
       <Route path={ROUTES.common.login} exact element={<Login />} />
       <Route path="/commonUser/userprofile" exact element={<UserProfile />} />

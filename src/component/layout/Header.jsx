@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Padding } from '@mui/icons-material'
 import { logoutUser } from '../../redux/Account/apiRequest'
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Account', 'Progress', 'Dashboard', 'Logout'];
 export default function Header() {
   const nav = useNavigate();
   const dispatch = useDispatch();

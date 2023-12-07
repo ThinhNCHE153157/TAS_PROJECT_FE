@@ -1,8 +1,9 @@
-import { Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { DataGrid, GridToolbarQuickFilter } from "@mui/x-data-grid";
 import React, { useState } from "react";
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+
 function QuickSearchToolbar() {
   return (
     <Box
@@ -45,7 +46,15 @@ function DataGridBase({ rows, columns, pageName }) {
       >
         {pageName}
       </Typography>
-      <Box sx={{ height: 50 }} />
+      <Box sx={{ height: 50 }}>
+        <IconButton color="primary"
+          sx={{ marginLeft: 'auto' }}
+        >
+          <PersonAddAltIcon />
+          <Typography variant="body1" sx={{ marginLeft: 1 }}>
+            Thêm user
+          </Typography></IconButton>
+      </Box>
       <DataGrid
         columns={columns}
         rows={rows}
@@ -57,7 +66,7 @@ function DataGridBase({ rows, columns, pageName }) {
         pagination
         slots={{ toolbar: QuickSearchToolbar }}
       />
-    </Box>
+    </Box >
 
   );
 }

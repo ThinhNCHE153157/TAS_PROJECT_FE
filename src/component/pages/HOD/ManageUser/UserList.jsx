@@ -1,14 +1,15 @@
-
-import React, { useMemo, useState } from 'react'
-import { Avatar, Box, Button, IconButton, Typography } from '@mui/material'
-import Sidebar from '../layout/Sidebar'
-import NavBar from '../layout/NavBar'
-import DataGridBase from '../../common/DataGridBase'
+import React, { useEffect, useState, useMemo } from 'react';
+import axios from 'axios';
+import { Avatar, Box, Button, IconButton, Typography, CircularProgress } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import UserEditionModal from './UserEditionModal'
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import UserAdditionModal from './UserAdditionModal'
-
+import Sidebar from '../layout/Sidebar';
+import NavBar from '../layout/NavBar';
+import DataGridBase from '../../common/DataGridBase';
+import UserEditionModal from './UserEditionModal';
+import UserAdditionModal from './UserAdditionModal';
+import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 const statusOptions = {
   0: 'Hoạt động',
   1: 'Chờ xử lý',
@@ -19,107 +20,70 @@ const getValueOption = (value) => {
   return statusOptions[value] || 'Không xác định';
 };
 
-const data = [
-  {
-    data_id: 1,
-    avatar: 'https://source.unsplash.com/100x100/?portrait?1',
-    username: 'john.doe',
-    email: 'john.doe@email.com',
-    phone: '0123456789',
-    first_name: 'John',
-    last_name: 'Doe',
-    status: 0 // hoạt động
-  },
-  {
-    data_id: 2,
-    avatar: 'https://source.unsplash.com/100x100/?portrait?2',
-    username: 'jane.doe',
-    email: 'jane.doe@email.com',
-    phone: '0123456780',
-    first_name: 'Jane',
-    last_name: 'Doe',
-    status: 1 // chờ xử lý
-  },
-  {
-    data_id: 3,
-    avatar: 'https://source.unsplash.com/100x100/?portrait?1',
-    username: 'john.doe',
-    email: 'john.doe@email.com',
-    phone: '0123456789',
-    first_name: 'John',
-    last_name: 'Doe',
-    status: 0 // hoạt động
-  }, {
-    data_id: 4,
-    avatar: 'https://source.unsplash.com/100x100/?portrait?1',
-    username: 'john.doe',
-    email: 'john.doe@email.com',
-    phone: '0123456789',
-    first_name: 'John',
-    last_name: 'Doe',
-    status: 0 // hoạt động
-  }, {
-    data_id: 5,
-    avatar: 'https://source.unsplash.com/100x100/?portrait?1',
-    username: 'john.doe',
-    email: 'john.doe@email.com',
-    phone: '0123456789',
-    first_name: 'John',
-    last_name: 'Doe',
-    status: 0 // hoạt động
-  }
-];
-const forRows = data.map(item => {
-  const { data_id, ...otherFields } = item;
-  return {
-    ...otherFields,
-    data_id: data_id,
-    id: data_id
-  };
-});
-
 const getColor = (value) => {
   switch (value) {
     case 0:
       return 'green';
-
     case 1:
       return 'blue';
-
     case 2:
       return 'red';
-
     default:
       return 'gray';
   }
-}
+};
+
 const UserList = () => {
+  const [rows, setRows] = useState([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
-  const [rows, setRows] = useState(forRows);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    axios.get('https://localhost:5000/api/Account/getUser')
+      .then(response => {
+        setRows(response.data.map(user => ({
+          ...user,
+          id: user.accountId,
+          avatar: user.avatar || 'https://source.unsplash.com/100x100/?portrait',
+        })));
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
   const columns = useMemo(() => [
     {
-      field: 'avatar', headerName: 'Avatar', flex: 0.5,
-      renderCell: params => <Avatar src={params.row.avatar} />,
+      field: 'avatar',
+      headerName: 'Avatar',
+      flex: 0.5,
+      renderCell: params => (
+        <Link to={`/ManageUser/UserDetail/${params.row.id}`}>
+          <Avatar src={params.row.avatar} />
+        </Link>
+      ),
       sortable: false,
       filterable: false,
     },
     { field: 'username', headerName: 'Username', flex: 1 },
-    // { field: 'username', headerName: 'Username', width: 100 },
     { field: 'email', headerName: 'Email', flex: 1 },
     { field: 'phone', headerName: 'Phone', flex: 1 },
     {
       field: 'name',
       headerName: 'Name',
       valueGetter: (params) =>
-        `${params.row.first_name || ''} ${params.row.last_name || ''}`,
+        `${params.row.firstName || ''} ${params.row.lastName || ''}`,
       flex: 1
     },
     {
-      field: 'status',
+      field: 'isVerified',
       headerName: 'Status',
-      editable: true,
       flex: 1,
       type: 'singleSelect',
       valueOptions: [
@@ -129,7 +93,7 @@ const UserList = () => {
       ],
       renderCell: (params) => {
         const color = getColor(params.value);
-        const statusText = getValueOption(params.value);;
+        const statusText = getValueOption(params.value);
         return (
           <div style={{ color }}>
             {statusText}
@@ -150,40 +114,13 @@ const UserList = () => {
         >
           <EditIcon />
         </Button>
-      )
-    }
-  ], [])
+      ),
+    },
+  ], []);
 
-
-
-
-
-  const updateRowData = (updatedData) => {
-    // Tìm chỉ mục của hàng trong mảng dựa trên id hoặc một trường duy nhất
-    console.log(updatedData)
-    const index = rows.findIndex((row) => row.id === updatedData.id);
-    if (index !== -1) {
-      const updatedRows = [...rows];
-      updatedRows[index] = updatedData;
-      setRows(updatedRows);
-    }
-  };
-
-  const addRowData = (addData) => {
-    // const data_id_max_row = data.find(item => item.data_id === Math.max(...data.map(item => item.data_id)));
-    // console.log(addData)
-    const data_id_max = Math.max(...data.map(item => item.data_id)) + 1;
-    addData = { ...addData, 'id': data_id_max, 'data_id': data_id_max, 'avatar': '' }
-    const updateRows = [...rows]
-    updateRows.push(addData)
-
-    setRows(updateRows)
-
-  };
-  // useEffect(() => {
-  //   // Lấy dữ liệu từ database hoặc từ một nguồn khác
-  //   setRows(rows);
-  // }, [rows]);
+  if (loading) {
+    return <CircularProgress />;
+  }
 
   return (
     <div>
@@ -191,21 +128,23 @@ const UserList = () => {
       <Box sx={{ display: 'flex' }}>
         <Sidebar />
         <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <IconButton
-              color="primary"
-              cursor="pointer"
-              sx={{ position: 'absolute', top: '25%', right: '7%', cursor: 'pointer', zIndex: 1 }}
-              onClick={() => {
-                setIsAddModalOpen(true);
-              }}
-            >
-              <PersonAddAltIcon />
-              <Typography variant="body2" sx={{ marginLeft: 1 }}>
-                Thêm user
-              </Typography>
-            </IconButton>
-            <DataGridBase columns={columns} rows={rows} pageName='User manager' columnsToSearch={['username']} />
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            {/* "Thêm user" button aligned to the right */}
+            {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <IconButton
+                color="primary"
+                onClick={() => setIsAddModalOpen(true)}
+                sx={{ mb: 2 }} // Margin for spacing between the button and the data grid
+              >
+                <PersonAddAltIcon />
+                <Typography variant="body2" sx={{ marginLeft: 1 }}>
+                  Thêm user
+                </Typography>
+              </IconButton> */}
+            {/* </Box> */}
+
+            {/* Data Grid */}
+            <DataGridBase columns={columns} rows={rows} pageName='User Manager' />
           </Box>
 
           {/* Edit modal */}
@@ -216,21 +155,33 @@ const UserList = () => {
               setSelectedRow(null);
             }}
             rowToEdit={selectedRow}
-            onSave={updateRowData}
+            onSave={(updatedData) => {
+              const index = rows.findIndex((row) => row.id === updatedData.id);
+              if (index !== -1) {
+                const updatedRows = [...rows];
+                updatedRows[index] = updatedData;
+                setRows(updatedRows);
+              }
+            }}
           />
 
           {/* Add modal */}
           <UserAdditionModal
             open={isAddModalOpen}
-            onClose={() => {
-              setIsAddModalOpen(false);
+            onClose={() => setIsAddModalOpen(false)}
+            onSubmit={(addData) => {
+              const newData = {
+                ...addData,
+                id: Math.max(...rows.map(row => row.id)) + 1,
+                avatar: addData.avatar || 'https://source.unsplash.com/100x100/?portrait',
+              };
+              setRows([...rows, newData]);
             }}
-            onSubmit={addRowData}
           />
         </Box>
       </Box>
-    </div>
+    </div >
   );
 }
 
-export default UserList
+export default UserList;

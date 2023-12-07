@@ -19,15 +19,13 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import FolderIcon from '@mui/icons-material/Folder';
 import AddIcon from '@mui/icons-material/AddBox';
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
 
 const UserManagement = () => {
     const [data, setData] = useState([]);
     const [listaccount, setListAccount] = useState([]);
     useEffect(() => {
         async function fetchData() {
-            const requestUrl = 'https://localhost:5000/api/Account/GetAccountManagement';
+            const requestUrl = 'https://localhost:5000/api/Account/GetAllAccount';
 
             try {
                 const response = await fetch(requestUrl);
@@ -72,6 +70,14 @@ const UserManagement = () => {
     };
 
     const handleStatusChange = () => {
+        // const updatedData = data.map((item) => {
+        //     if (item.id === selectedId) {
+        //         return { ...item, isActive: !item.isActive };
+        //     }
+        //     return item;
+        // });
+        // setData(updatedData);
+        // setOpenDialog(false);
         const updatedRowStatus = { ...rowStatus };
         updatedRowStatus[selectedId] = !rowStatus[selectedId];
         setRowStatus(updatedRowStatus);
@@ -103,56 +109,6 @@ const UserManagement = () => {
         return `${day}-${month}-${year}`;
     };
 
-    const handleExportToExcel = () => {
-        // const ws = XLSX.utils.json_to_sheet(data); // Create a worksheet with the data
-        // // Create a workbook and add the worksheet
-        // const wb = XLSX.utils.book_new();
-        // XLSX.utils.book_append_sheet(wb, ws, 'UserManagement');
-        // // Generate a blob with the Excel data
-        // const blob = XLSX.write(wb, { bookType: 'xlsx', type: 'blob' });
-        // //Create a URL for the blob
-        // const url = URL.createObjectURL(blob);
-        // // Create a link element for downloading the file
-        // const a = document.createElement('a');
-        // a.href = url;
-        // a.download = 'UserManagement.xlsx'; // Set the file name
-        // a.click();
-        // URL.revokeObjectURL(url);
-        // const ws = XLSX.utils.json_to_sheet(data);
-        // const wb = XLSX.utils.book_new();
-        // XLSX.utils.book_append_sheet(wb, ws, 'UserManagement');
-        // const blob = XLSX.write(wb, { bookType: 'xlsx', type: 'blob' });
-        // // Set appropriate headers for blob download
-        // const blobUrl = URL.createObjectURL(blob);
-        // const a = document.createElement('a');
-        // a.href = blobUrl;
-        // a.download = 'UserManagement.xlsx';
-        // document.body.appendChild(a);
-        // a.click();
-        // // Clean up
-        // document.body.removeChild(a);
-        // URL.revokeObjectURL(blobUrl);
-        // const ws = XLSX.utils.json_to_sheet(data);
-        // const wb = XLSX.utils.book_new();
-        // XLSX.utils.book_append_sheet(wb, ws, 'UserManagement');
-        // const blob = XLSX.write(wb, { bookType: 'xlsx', type: 'blob' });
-        // // Set appropriate headers for blob download
-        // const blobUrl = URL.createObjectURL(blob);
-        // const a = document.createElement('a');
-        // a.href = blobUrl;
-        // a.download = 'UserManagement.xlsx';
-        // document.body.appendChild(a);
-        // a.click();
-        // // Clean up
-        // document.body.removeChild(a);
-        // URL.revokeObjectURL(blobUrl);
-        //     const ws = XLSX.utils.json_to_sheet(data);
-        // const wb = XLSX.utils.book_new();
-        // XLSX.utils.book_append_sheet(wb, ws, 'UserManagement');
-        // const blob = XLSX.write(wb, { bookType: 'xlsx', type: 'blob' });
-        // saveAs(new Blob([blob], { type: 'application/octet-stream' }), 'UserManagement.xlsx');
-    };
-
     return (
         <div style={{ backgroundColor: '#299be4', padding: '20px', margin: '20px 20px 0 20px', borderRadius: '3px' }}>
             <Grid container spacing={2} alignItems="center" style={{ marginBottom: '10px' }}>
@@ -167,7 +123,6 @@ const UserManagement = () => {
                             backgroundColor: '#0047b3',
                             marginRight: '10px',
                         }}
-                        onClick={handleExportToExcel} //Add an onClick handler
                     >
                         Export to Excel
                     </Button>

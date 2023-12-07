@@ -23,6 +23,7 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Header from '../../../layout/Header';
 import VideoPlayer from '../Component/VideoPlayer'
+import { BASE_URL } from '../../../../Utils/Constants';
 
 const drawerWidth = 300;
 
@@ -74,7 +75,7 @@ export default function CourseLearning({
       topicName: 'There is topic 1 name',
       videos: [
 
-        { videoTitle: 'Video 1', videoId: '1', videoUrl: 'https://www.youtube.com/watch?v=oUFJJNQGwhk' },
+        { videoTitle: 'Video 1', videoId: '1', videoUrl: `${BASE_URL}Video/PreviewVideo?fileName=Miles Away - Bring Me Back (Official Lyric Video) ft. Claire Ridgely.mp4` },
         { videoTitle: 'Video 2', videoId: '2', videoUrl: 'https://www.youtube.com/watch?v=jNgP6d9HraI' },
         { videoTitle: 'Video 3', videoId: '3', videoUrl: 'https://www.youtube.com/watch?v=oUFJJNQGwhk' },
       ]

@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Padding } from '@mui/icons-material'
 import { logoutUser } from '../../redux/Account/apiRequest'
+import Popup from '../pages/HomePage/Component/Popup'
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 export default function Header() {
@@ -18,24 +19,17 @@ export default function Header() {
   };
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const auth = useSelector((state) => state.auth?.user);
-  const [tabValue, setTabValue] = useState(0)
+  const [tabValue, setTabValue] = useState()
   const theme = useTheme();
   const Pages = ['/', '/Test', '/flashcards']
 
-
   const handleChange = (event, newValue) => {
+    event.preventDefault();
     setTabValue(newValue);
+    nav(Pages[newValue]);
   };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleTabClick = (index) => {
-    // Update the tabValue state based on the clicked tab index
-    setTabValue(index);
-
-    // Navigate to the corresponding route using the useNavigate hook
-    nav(`/${Pages[index].toLowerCase()}`);
   };
 
   const handleCloseUserMenu = () => {
@@ -44,8 +38,8 @@ export default function Header() {
   // console.log(theme)
   const isMatch = useMediaQuery(theme.breakpoints.down('md'));
   return (
-
     <AppBar sx={{ background: 'white' }} >
+
       <Toolbar >
         {/* <Typography></Typography> */}
 
@@ -66,9 +60,9 @@ export default function Header() {
                 indicatorColor='primary'
                 sx={{ marginLeft: 'auto' }}
               >
-                <Tab key={0} value={0} label='Khoá học online' onClick={() => { nav('/') }} />
-                <Tab key={1} value={1} label='Đề thi online' onClick={() => nav('/Test')} />
-                <Tab key={2} value={2} label='Flashcards' onClick={() => nav('/flashcards')} />
+                <Tab key={0} value={0} label='Khoá học online' />
+                <Tab key={1} value={1} label='Đề thi online' />
+                <Tab key={2} value={2} label='Flashcards' />
               </Tabs>
               {!auth ? <>
                 <Button sx={{ marginLeft: 'auto' }} variant='outlined'><Link to="/Login" color="inherit" underline="none">Login</Link></Button>
@@ -114,6 +108,7 @@ export default function Header() {
             </>
           )
         }
+        <Popup />
 
       </Toolbar>
 

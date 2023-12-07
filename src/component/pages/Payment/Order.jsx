@@ -35,8 +35,8 @@ const Order = () => {
                 <div class="form-group">
                     <label for="ordertype">Loại hàng hóa </label>
                     <select name="OrderType" id="ordertype" class="form-control" onSelect={(e) => setOrderType(e.target.value)}>
-                        <option value="electric">Đồ điện tử</option>
-                        <option value="fashion">Thời trang</option>
+                        <option value="Course">Mua Course</option>
+                        <option value="Test">Đăng ký test</option>
                         <option value="other">Khác</option>
                     </select>
                 </div>

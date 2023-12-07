@@ -14,11 +14,11 @@ const Footer = () => {
     <footer style={footerStyle} >
       <Grid container spacing={3}>
         <Grid item xs={12} sm={4}>
-          <Typography variant="h6">Contact Us</Typography>
+          <Typography variant="h6">Liên hệ chúng tôi</Typography>
           <Typography>
-            Email: <Link href="mailto:info@example.com">info@example.com</Link>
+            Email: <Link href="emailto:toeicsystem@gmail.com">toeicsystem@gmail.com</Link>
           </Typography>
-          <Typography>Phone: (123) 456-7890</Typography>
+          <Typography>Điện thoại: (032) 829-9716</Typography>
         </Grid>
         <Grid item xs={12} sm={4}>
           <Typography variant="h6">Quick Links</Typography>
@@ -41,7 +41,7 @@ const Footer = () => {
         </Grid>
       </Grid>
       <Typography variant="body2" color="textSecondary" align="center">
-        &copy; 2023 Your Website Name. All rights reserved. | Designed by Your Company
+        &copy; 2023 Toeic Master. All rights reserved. | Designed by SEP490-G62
       </Typography>
     </footer>
   );

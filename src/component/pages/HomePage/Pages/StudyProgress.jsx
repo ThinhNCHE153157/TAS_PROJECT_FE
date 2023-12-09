@@ -1,15 +1,15 @@
 import React from 'react'
 import Header from '../../../layout/Header'
-import { Avatar, Box, Button, CardMedia, Divider, IconButton, Paper, Tab, Tabs, Typography } from '@mui/material'
+import { Avatar, Box, Button, CardMedia, IconButton, Paper, Tab, Typography } from '@mui/material'
 import { useState } from 'react'
-import styled from '@emotion/styled'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 const data = [
   {
     courseId: 1,
+    isCompleted: 0,
     courseName: 'Web Design for Everybody: Basics of Web Development & Coding',
     courseDescription: 'This Specialization covers the basics of how web pages are created –'
       + 'from writing syntactically correct HTML and CSS to adding JavaScript'
@@ -21,6 +21,7 @@ const data = [
     Topics: [
       {
         topicId: 1,
+        isCompleted: 0,
         topicName: 'Interactivity with JavaScript',
         topicDescription: 'This Specialization covers the basics of how web pages are created '
           + '– from writing syntactically correct HTML '
@@ -28,6 +29,7 @@ const data = [
       },
       {
         topicId: 2,
+        isCompleted: 1,
         topicName: 'Introduction to CSS3',
         topicDescription: 'The web today is almost unrecognizable from the early days'
           + 'of white pages with lists of blue links. Now, sites are designed with'
@@ -38,6 +40,7 @@ const data = [
   },
   {
     courseId: 2,
+    isCompleted: 0,
     courseName: 'Game Design: Art and concepts',
     courseDescription: 'This Specialization covers the basics of how web pages are created –'
       + 'from writing syntactically correct HTML and CSS to adding JavaScript'
@@ -49,6 +52,7 @@ const data = [
     Topics: [
       {
         topicId: 3,
+        isCompleted: 1,
         topicName: 'Interactivity with JavaScript',
         topicDescription: 'This Specialization covers the basics of how web pages are created '
           + '– from writing syntactically correct HTML '
@@ -56,6 +60,7 @@ const data = [
       },
       {
         topicId: 4,
+        isCompleted: 1,
         topicName: 'Introduction to CSS3',
         topicDescription: 'The web today is almost unrecognizable from the early days'
           + 'of white pages with lists of blue links. Now, sites are designed with'
@@ -64,6 +69,7 @@ const data = [
       },
       {
         topicId: 5,
+        isCompleted: 0,
         topicName: 'Advanced Styling with Responsive Design',
         topicDescription: 'The web today is almost unrecognizable from the early days'
           + 'of white pages with lists of blue links. Now, sites are designed with'
@@ -101,7 +107,7 @@ const StudyProgress = () => {
             mt: '5.5%',
             '&:hover': {
               color: 'blue',  // Thay đổi màu của icon khi hover
-              backgroundColor: 'transparent',  // Giữ màu nền là trong suốt
+              backgroundColor: 'transparent',  // Giữ màu nền là trong 
             },
           }}
         >
@@ -109,16 +115,40 @@ const StudyProgress = () => {
         </IconButton>
         <Box mt='5%'>
           <Typography fontSize='17px' fontWeight='500'>Topic {foundIndex + 1} :  {foundTopic.topicName}</Typography>
+          {
+            foundTopic.isCompleted === 1 ? (
+              <Box display='flex' alignItems='center' mt='1%' alignContent='center'>
+                <CheckCircleIcon fontSize='small' sx={{ color: 'green' }} />
+                <Typography fontSize='13px' fontWeight='600' color='green'>Completed</Typography>
+              </Box>
+            ) : (
+              ''
+            )
+          }
+
           <Typography fontSize='14px' mt='2%'>
             {foundTopic.topicDescription}
           </Typography>
-          <Button variant='outlined' sx={{
-            textTransform: 'none',
-            ml: '55%'
-          }}>
-            Go to topic
-          </Button>
 
+          {
+            foundTopic.isCompleted === 1 ? (
+              <Button variant='outlined' sx={{
+                textTransform: 'none',
+                ml: '55%',
+                borderColor: 'green',
+                color: 'green'
+              }}>
+                Review
+              </Button>
+            ) : (
+              <Button variant='outlined' sx={{
+                textTransform: 'none',
+                ml: '55%',
+              }}>
+                Go to topic
+              </Button>
+            )
+          }
         </Box>
       </Box>
     )
@@ -147,23 +177,43 @@ const StudyProgress = () => {
                   <Typography fontSize='15px' fontWeight='500' mr='1%'>Topic :</Typography>
                   {
                     course.Topics.map((topic, index) => (
-                      <Button
-                        key={topic.topicId}
-                        variant="outlined"
-                        sx={{
-                          borderRadius: '50%',
-                          height: '40px',
-                          minWidth: '20px',
-                          fontSize: '15px',
-                          border: selectedTopic === topic.topicId ? '' : '1px solid gray',
-                          bgcolor: selectedTopic === topic.topicId ? '#d1e3eb' : '',
-                          color: 'black',
-                          mr: '15px'
-                        }}
-                        onClick={() => setSelectedTopic(topic.topicId)}
-                      >
-                        {index + 1}
-                      </Button>
+                      topic.isCompleted === 0 ? (
+                        <Button
+                          key={topic.topicId}
+                          variant="outlined"
+                          sx={{
+                            borderRadius: '50%',
+                            height: '40px',
+                            minWidth: '20px',
+                            fontSize: '15px',
+                            border: selectedTopic === topic.topicId ? '' : '1px solid gray',
+                            bgcolor: selectedTopic === topic.topicId ? '#d1e3eb' : '',
+                            color: 'black',
+                            mr: '15px'
+                          }}
+                          onClick={() => setSelectedTopic(topic.topicId)}
+                        >
+                          {index + 1}
+                        </Button>
+                      ) : (
+                        <Button
+                          key={topic.topicId}
+                          variant="text"
+                          sx={{
+                            borderRadius: '50%',
+                            height: '41px',
+                            minWidth: '41px',
+                            fontSize: '15px',
+                            bgcolor: 'rgb(31, 131, 84)',
+                            color: 'White',
+                            mr: '15px'
+                          }}
+                          onClick={() => setSelectedTopic(topic.topicId)}
+                        >
+                          {index + 1}
+                        </Button>
+                      )
+
                     ))
                   }
                 </Box>

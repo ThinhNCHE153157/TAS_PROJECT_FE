@@ -4,7 +4,6 @@ import DrawerComponent from './DrawerComponent'
 import logo from '../../Assets/img/Logo1.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Padding } from '@mui/icons-material'
 import { logoutUser } from '../../redux/Account/apiRequest'
 
 const settings = ['Profile', 'Account', 'Progress', 'Dashboard', 'Logout'];

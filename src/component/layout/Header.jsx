@@ -67,7 +67,7 @@ export default function Header() {
               >
                 <Tab key={0} value={0} label='Khoá học online' onClick={() => { nav('/') }} />
                 <Tab key={1} value={1} label='Đề thi online' onClick={() => nav('/Test')} />
-                <Tab key={2} value={2} label='Flashcards' onClick={() => nav('/flashcards')} />
+                <Tab key={2} value={2} label='Flashcards' onClick={() => nav('/Flashcards')} />
               </Tabs>
               {!auth ? <>
                 <Button sx={{ marginLeft: 'auto' }} variant='outlined'><Link to="/Login" color="inherit" underline="none">Login</Link></Button>

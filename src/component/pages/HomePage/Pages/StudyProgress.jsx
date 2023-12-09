@@ -6,6 +6,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import Footer from '../../../layout/Footer'
 const data = [
   {
     courseId: 1,
@@ -78,6 +79,38 @@ const data = [
       }
     ]
   },
+
+  {
+    courseId: 3,
+    isCompleted: 1,
+    courseName: 'Web Design for Everybody: Basics of Web Development & Coding',
+    courseDescription: 'This Specialization covers the basics of how web pages are created –'
+      + 'from writing syntactically correct HTML and CSS to adding JavaScript'
+      + 'to create an interactive experience. While building your skills in'
+      + 'these topics you will create websites that work seamlessly on mobile,'
+      + 'tablet, and large screen browsers. During the capstone you will develop'
+      + 'a professional-quality web portfolio demonstrating your growth as a web'
+      + 'developer and your knowledge of accessible web design.',
+    Topics: [
+      {
+        topicId: 6,
+        isCompleted: 1,
+        topicName: 'Interactivity with JavaScript',
+        topicDescription: 'This Specialization covers the basics of how web pages are created '
+          + '– from writing syntactically correct HTML '
+          + 'and CSS to adding JavaScript to create an interactive experience.'
+      },
+      {
+        topicId: 7,
+        isCompleted: 1,
+        topicName: 'Introduction to CSS3',
+        topicDescription: 'The web today is almost unrecognizable from the early days'
+          + 'of white pages with lists of blue links. Now, sites are designed with'
+          + 'complex layouts, unique fonts, and customized color schemes. This course will show you the basics of Cascading Style Sheets (CSS3).'
+          + 'The emphasis will be on learning how to write CSS rules, how to test code, and how to establish good programming habits.'
+      }
+    ]
+  },
 ]
 
 const StudyProgress = () => {
@@ -136,7 +169,8 @@ const StudyProgress = () => {
                 textTransform: 'none',
                 ml: '55%',
                 borderColor: 'green',
-                color: 'green'
+                color: 'green',
+                mt: '2%'
               }}>
                 Review
               </Button>
@@ -144,6 +178,8 @@ const StudyProgress = () => {
               <Button variant='outlined' sx={{
                 textTransform: 'none',
                 ml: '55%',
+                mt: '2%'
+
               }}>
                 Go to topic
               </Button>
@@ -154,11 +190,12 @@ const StudyProgress = () => {
     )
   }
   const renderTab0 = () => {
+    var notCompleted = courses.filter(course => course.isCompleted === 0)
     return (
       <Box display='flex' flexDirection='column' alignItems='start' width='100%'>
         <Typography fontSize='26px' fontWeight='500' mb='3%'>My course</Typography>
         {
-          courses.map((course, index) => (
+          notCompleted.map((course, index) => (
             <Paper elevation={3} sx={{ width: '100%', display: 'flex', padding: '10px', mb: '3px' }} key={course.courseId}>
               <img width='100px' height='100px' src='https://source.unsplash.com/400x400?study?1' loading='lazy' />
               <Box ml='10px' >
@@ -229,11 +266,12 @@ const StudyProgress = () => {
   }
 
   const renderTab1 = () => {
+    const completedCourse = courses.filter(course => course.isCompleted === 1);
     return (
       <Box display='flex' flexDirection='column' alignItems='start' width='100%'>
         <Typography fontSize='26px' fontWeight='500' mb='3%'>My course</Typography>
         {
-          courses.map((course, index) => (
+          completedCourse.map((course, index) => (
             <Paper elevation={3} sx={{ width: '100%', display: 'flex', padding: '10px', mb: '3px' }} key={course.courseId}>
               <img width='100px' height='100px' src='https://source.unsplash.com/400x400?study?1' loading='lazy' />
               <Box ml='10px' >
@@ -360,6 +398,7 @@ const StudyProgress = () => {
         </Box>
 
       </Box >
+      <Footer />
     </>
   )
 }

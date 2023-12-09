@@ -31,6 +31,7 @@ import ChooseTestPart from '../pages/HomePage/Pages/ChooseTestPart';
 import CourseLearning from '../pages/HomePage/Pages/CourseLearning';
 import Order from '../pages/Payment/Order';
 import StudyProgress from '../pages/HomePage/Pages/StudyProgress';
+import FlashCard from '../pages/HomePage/Pages/FlashCard';
 const TheRouter = () => {
   return (
     <Routes>
@@ -44,6 +45,7 @@ const TheRouter = () => {
       <Route path="/CourseLearning" exact element={<CourseLearning />} />
       <Route path="/TestDetail/:name" exact element={<ChooseTestPart />} />
       <Route path="/StudyProgress" exact element={<StudyProgress />} />
+      <Route path="/Flashcards" exact element={<FlashCard />} />
 
       {/* <Route path="/TestDetail/:data" exact element={<ChooseTestPart />} /> */}
       {/* Admin */}

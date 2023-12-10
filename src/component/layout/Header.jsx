@@ -4,11 +4,10 @@ import DrawerComponent from './DrawerComponent'
 import logo from '../../Assets/img/Logo1.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Padding } from '@mui/icons-material'
 import { logoutUser } from '../../redux/Account/apiRequest'
 import Popup from '../pages/HomePage/Component/Popup'
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Account', 'Progress', 'Dashboard', 'Logout'];
 export default function Header() {
   const nav = useNavigate();
   const dispatch = useDispatch();

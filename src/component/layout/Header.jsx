@@ -24,7 +24,7 @@ export default function Header() {
 
   const handleChange = (event, newValue) => {
     event.preventDefault();
-    setTabValue(newValue);
+    //setTabValue(newValue);
     nav(Pages[newValue]);
   };
   const handleOpenUserMenu = (event) => {

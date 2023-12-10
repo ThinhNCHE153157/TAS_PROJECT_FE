@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Header from '../../../layout/Header';
 import Footer from '../../../layout/Footer';
 import { GetlistQuestionOfTest } from '../Services/TestService';
+import { Grid } from '@mui/material';
+import { Button, Typography } from '@mui/joy';
 
 const questions = [
     {
@@ -59,19 +61,64 @@ const TakeTest = () => {
         });
         return score;
     };
-
     return (
         <>
             <Header />
-            <div class="container" style={{ marginTop: "69.47px", minHeight: "100vh" }}>
-                <div className="row" style={{ marginTop: "100px", marginBottom: "10px" }}>
-                    <div className="col-12">
-                        <h1>Multiple Choice Test</h1>
+            <div class="container-fluid" style={{ marginTop: "100.47px", minHeight: "100vh" }}>
+                <div className="App" style={{ position: "relative" }}>
+                    <div style={{ position: "absolute", right: "100px", top: "10px" }}>
+                        <Button >Nộp bài</Button> &nbsp;&nbsp;&nbsp;
+                        <span style={{ fontSize: "20px" }}>Thời gian:</span>
                     </div>
-                </div>
-                <div className="App">
+                    <Grid container spacing={2} sx={{ flexGrow: 1, minHeight: "90vh", }}>
+                        <Grid xs={6} md={6} style={{ backgroundColor: "#ccc" }}>
+                            <div style={{ marginLeft: "50px", marginTop: "50px" }}>
+                                <Typography fontSize={20} >Câu hỏi:</Typography>
+                            </div>
+                            <div style={{ marginLeft: "50px", marginTop: "20px", marginRight: "50px", height: "70vh", backgroundColor: "#fff" }}>
+                                <div>
+                                    <img src='' />
+                                </div>
+                            </div>
+                        </Grid>
+                        <Grid xs={6} md={6} sx={{ backgroundColor: "#ccc" }}>
+                            <div style={{ marginLeft: "50px", marginTop: "50px" }}>
+                                <Typography fontSize={20} >Trả lời:</Typography>
+                            </div>
+                            <div style={{ marginLeft: "50px", marginTop: "20px", marginRight: "50px", height: "70vh", backgroundColor: "#fff", position: "relative" }}>
+                                {showResults ? (
+                                    <div>
+                                        <h2>Results</h2>
+                                        <p>Your Score: {calculateScore()} out of {questions.length}</p>
+                                        <button onClick={handleRestartQuiz}>Restart Quiz</button>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div style={{ marginLeft: "20px", position: "absolute", top: "20px" }}>
+                                            <h4>{questions[currentQuestion].question}</h4>
+                                            <div>
+                                                {questions[currentQuestion].options.map((option, index) => (
+                                                    <div key={index}>
+                                                        <input
+                                                            type="radio"
+                                                            id={option}
+                                                            name="answer"
+                                                            value={option}
+                                                            checked={userAnswers[currentQuestion] === option}
+                                                            onChange={() => handleOptionSelect(option)}
+                                                        />
+                                                        <label htmlFor={option}>{option}</label>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </>)}
+                            </div>
+                            <Button onClick={handleNextQuestion}>Next</Button>
+                        </Grid>
+                    </Grid>
 
-                    {showResults ? (
+                    {/* {showResults ? (
                         <div>
                             <h2>Results</h2>
                             <p>Your Score: {calculateScore()} out of {questions.length}</p>
@@ -99,9 +146,9 @@ const TakeTest = () => {
                                 </div>
                                 <button onClick={handleNextQuestion}>Next</button>
                             </div>
-                            <div>
+                            <div> */}
 
-                                {/* {Listquestions.map((question) => (
+                    {/* {Listquestions.map((question) => (
                                     <div>
                                         <h2>Question {currentQuestion + 1}</h2>
                                         <p>{question.question}</p>
@@ -123,11 +170,11 @@ const TakeTest = () => {
                                         <button onClick={handleNextQuestion}>Next</button>
                                     </div>
                                 ))} */}
-                            </div>
+                    {/* </div>
                         </>
-                    )}
-                </div>
-            </div>
+                    )} */}
+                </div >
+            </div >
             <Footer />
         </>
 

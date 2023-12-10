@@ -19,13 +19,14 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import FolderIcon from '@mui/icons-material/Folder';
 import AddIcon from '@mui/icons-material/AddBox';
+import { BASE_URL } from '../../../../Utils/Constants';
 
 const UserManagement = () => {
     const [data, setData] = useState([]);
     const [listaccount, setListAccount] = useState([]);
     useEffect(() => {
         async function fetchData() {
-            const requestUrl = 'https://localhost:5000/api/Account/GetAllAccount';
+            const requestUrl = `${BASE_URL}Account/GetAllAccount`;
 
             try {
                 const response = await fetch(requestUrl);

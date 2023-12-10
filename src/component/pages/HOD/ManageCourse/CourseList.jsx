@@ -5,6 +5,7 @@ import NavBar from '../layout/NavBar';
 import DataGridBase from '../../common/DataGridBase';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Link } from 'react-router-dom';
+import { BASE_URL } from '../../../../Utils/Constants';
 const statusOptions = {
     false: 'Hoạt động',
     true: 'Ngừng hoạt động',
@@ -52,7 +53,7 @@ const CourseList = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ courseName, courseDescription, courseLevel }),
         };
-        fetch(`https://localhost:5000/api/Course/AddCourse`, requestOptions)
+        fetch(`${BASE_URL}Course/AddCourse`, requestOptions)
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
@@ -109,7 +110,7 @@ const CourseList = () => {
     const [listcourse, setListcourse] = useState([]);
     useEffect(() => {
         async function getListcourse() {
-            const requestUrl = 'https://localhost:5000/api/Course/GetAllCourse';
+            const requestUrl = `${BASE_URL}Course/GetAllCourse`;
             const response = await fetch(requestUrl);
             const responseJSON = await response.json();
             setListcourse(responseJSON);

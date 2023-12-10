@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Header from '../../../layout/Header';
 import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Divider, Grid, Tab, Typography } from '@mui/material';
@@ -7,13 +7,15 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { DataGrid } from '@mui/x-data-grid';
+import { GetlistpartOfTest } from '../Services/TestService';
+import { set } from 'react-hook-form';
 
 const DataGridTest = ({
   rows,
   columns
 }) => {
   return (
-    <Box sx={{ height: 'auto', width: '70%' }}>
+    <Box sx={{ height: 'auto', width: '70%', marginBottom: "10px" }}>
       <DataGrid
         rowHeight={30}
         rows={rows}
@@ -21,6 +23,7 @@ const DataGridTest = ({
         hideFooterPagination
         checkboxSelection
         disableRowSelectionOnClick
+        hideFooter
       />
     </Box>
   );
@@ -47,16 +50,46 @@ const rows = [
   // Add more rows as needed
 ];
 const ChooseTestPart = () => {
-  const { data } = useParams();
+  const { id } = useParams();
   const [tabValue, setTabValue] = useState('1');
-  const [tests, setTests] = useState(rows);
+  const [tests, setTests] = useState([]);
+  const [rowAudio, setRowAudio] = useState([]);
+  const [rowReading, setRowReading] = useState([]);
   const [comments, setComments] = useState([]);
   const handleChange = (event, newTabValue) => {
     setTabValue(newTabValue);
   };
+  useEffect(() => {
+    GetlistpartOfTest(id).then((res) => {
+      setRowAudio(res.partAudio);
+      setRowReading(res.partReading);
+    })
+  }, [id]);
+  const rowAu = rowAudio.map((item) => {
+    const { partId, numberOfQuestion } = item;
+    return {
+      id: partId,
+      partId: partId,
+      part: 'Part ' + partId,
+      numOfQues: numberOfQuestion,
+      Title: 'Listening'
+    }
+  });
+
+  const rowRe = rowReading.map((item) => {
+    const { partId, numberOfQuestion } = item;
+    return {
+      id: partId,
+      partId: partId,
+      part: 'Part ' + partId,
+      numOfQues: numberOfQuestion,
+      Title: 'Reading'
+    }
+  });
+
   const renderTab1 = () => {
-    const listeningFilter = tests.filter(row => row.Title === 'Listening');
-    const readingFilter = tests.filter(row => row.Title === 'Reading')
+    const listeningFilter = rowAu; //tests.filter(row => row.Title === 'Listening');
+    const readingFilter = rowRe; //tests.filter(row => row.Title === 'Reading')
     return (
       <>
         {
@@ -109,12 +142,12 @@ const ChooseTestPart = () => {
           backgroundColor: '#f3f6f9',
         }}
       >
-        <Grid container ml='15%' width='70%' mt='8%' position='absolute' spacing={4}>
+        <Grid container ml='15%' width='70%' mt='3%' position='absolute' spacing={4}>
           <Grid item xs={9}>
             <Box
               sx={{
                 width: 'auto',
-                height: '700px',
+                height: '750px',
                 backgroundColor: 'white',
                 borderRadius: '10px', // Adjust the value as needed
               }}
@@ -122,7 +155,7 @@ const ChooseTestPart = () => {
               <Grid item xs={12} marginLeft="15px" >
                 <Box height="30px" />
                 <Typography gutterBottom variant="h4" component="div" fontWeight='bold' >
-                  IELTS Simulation Reading test 1
+                  test 1
                 </Typography>
                 <Box marginBottom='20px'>
                   <Button

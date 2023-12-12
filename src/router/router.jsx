@@ -32,6 +32,8 @@ import CourseLearning from '../pages/HomePage/Pages/CourseLearning';
 import Order from '../pages/Payment/Order';
 import StudyProgress from '../pages/HomePage/Pages/StudyProgress';
 import FlashCard from '../pages/HomePage/Pages/FlashCard';
+import ViewCourse from '../pages/Enterprise/ManageCourse/ViewCourse';
+import AddCourse from '../pages/Enterprise/ManageCourse/AddCourse';
 const TheRouter = () => {
   return (
     <Routes>
@@ -80,6 +82,10 @@ const TheRouter = () => {
       <Route path="/ManageTest/ListTest" exact element={<TestList />} />
       <Route path="/ManageTest/DetailTest" exact element={<DetailTest />} />
       <Route path="/ManageQuestion/ListQuestion" exact element={<QuestionList />} />
+
+      {/* Enterprise */}
+      <Route path='/Enterprise/ViewCourse' exact element={<ViewCourse />} />
+      <Route path='/Enterprise/AddCourse' exact element={<AddCourse />} />
     </Routes>
   )
 

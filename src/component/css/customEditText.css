@@ -1,0 +1,28 @@
+/* customEditText.css */
+.ql-toolbar .ql-picker-label,
+.ql-toolbar .ql-picker-options,
+.ql-toolbar .ql-bold,
+.ql-toolbar .ql-italic,
+.ql-toolbar .ql-link,
+.ql-toolbar .ql-list,
+.ql-toolbar .ql-underline,
+.ql-toolbar .ql-clean {
+    font-size: 20px; /* Adjust the font size for the toolbar components */
+    margin-left: 10px;
+}
+
+.ql-toolbar.ql-snow .ql-picker-label {
+    border: 1px solid transparent;
+    width: 105px;
+}
+
+.ql-snow.ql-toolbar button svg,
+.ql-snow .ql-toolbar button svg,
+.ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
+    width: 22px;
+    height: 22px;
+}
+
+.ql-editor {
+    font-size: 22px; /* Adjust the font size for the text content in the editor */
+}

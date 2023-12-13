@@ -34,12 +34,14 @@ import StudyProgress from '../pages/HomePage/Pages/StudyProgress';
 import FlashCard from '../pages/HomePage/Pages/FlashCard';
 import ViewCourse from '../pages/Enterprise/ManageCourse/ViewCourse';
 import AddCourse from '../pages/Enterprise/ManageCourse/AddCourse';
+import FirstStep from '../pages/Enterprise/ManageCourse/Step/FirstStep';
 const TheRouter = () => {
   return (
     <Routes>
       <Route path='/Order' exact element={<Order />} />
       {/* Homepage */}
       <Route path="/" exact element={<Homepage />} />
+      <Route path="/FirstStep" exact element={<FirstStep />} />
       <Route path="/Course/:id" exact element={<Course />} />
       <Route path="/Test" exact element={<Tests />} />
       <Route path="/TakeTest" exact element={<TakeTest />} />

@@ -11,11 +11,21 @@ const RenderStepper = ({
   currentStep
 }) => {
   const steps = ['Giới thiệu khóa học', 'Chương trình giảng dạy', 'Giá khóa học', 'Câu hỏi ôn tập', 'Xuất bản'];
+  const stepStyle = {
+
+    "& .MuiStepIcon-root": {
+      fontSize: "2.5rem",
+      margin: "0.5rem",
+    },
+    "& .MuiStepConnector-root": {
+      margin: "1rem",
+    }
+  }
   return (
     <Box sx={{ width: '100%' }}>
-      <Stepper activeStep={currentStep} alternativeLabel >
+      <Stepper activeStep={currentStep} alternativeLabel sx={stepStyle}>
         {steps.map((label) => (
-          <Step key={label} sx={{ fontSize: '100px', width: '33%', height: '40px' }} >
+          <Step key={label} sx={{ fontSize: '100px', width: '30%', height: '40px' }} >
             <StepLabel sx={{ fontSize: '20px' }}>{label}</StepLabel>
           </Step>
         ))}

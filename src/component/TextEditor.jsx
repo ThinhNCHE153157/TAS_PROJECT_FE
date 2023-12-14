@@ -3,11 +3,13 @@ import { Box } from '@mui/material'
 import ReactQuill from 'react-quill';
 import '../component/css/customEditText.css'
 import 'react-quill/dist/quill.snow.css';
-const TextEditor = () => {
+const TextEditor = ({
+  handleTextEditor
+}) => {
   const [content, setContent] = useState('');
   const handleChange = (value) => {
+    handleTextEditor(value);
     setContent(value);
-    console.log(value)
   };
   return (
     <Box height='auto' width='90%' minHeight='0'>

@@ -4,6 +4,7 @@ import TextEditor from '../../../../component/TextEditor'
 import { useState } from 'react';
 import SaveIcon from '@mui/icons-material/Save';
 import { Divider } from 'antd';
+import { API_FormFile } from "../../../../component/callApi"
 
 const FirstStep = ({
   onClickNext,
@@ -13,6 +14,8 @@ const FirstStep = ({
     onClickNext();
   }
   const handleImageChange = (event) => {
+    event.preventDefault();
+    setCourseImage(event.target.files[0]);
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -22,6 +25,34 @@ const FirstStep = ({
       reader.readAsDataURL(file);
     }
   };
+
+  const handleonchangeEditor = (e) => {
+    setCourseDescription(e.target.value.Des);
+    setCourseGoal(e.target.value.goal);
+  }
+
+  const [courseName, setCourseName] = useState('');
+  const [courseShortDescription, setCourseShortDescription] = useState('');
+  const [courseDescription, setCourseDescription] = useState('');
+  const [courseImage, setCourseImage] = useState('');
+  const [courseGoal, setCourseGoal] = useState('');
+  const [courseLevel, setCourseLevel] = useState('');
+  const savechange = () => {
+    const formData = new FormData();
+    formData.append('CourseName', courseName);
+    formData.append('CourseDescription', courseDescription);
+    formData.append('Image', courseImage);
+    formData.append('ShortDescription', courseShortDescription);
+    formData.append('CourseGoal', courseGoal);
+    formData.append('CourseLevel', 1);
+    API_FormFile.post('/Course/AddCourse', formData)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
   return (
     <Box width='100%'>
       <Typography fontSize='30px' fontWeight='500'>
@@ -48,7 +79,7 @@ const FirstStep = ({
                 fontSize: '18px', // Tăng kích thước của chữ trong helperText
               },
             }}
-
+            onChange={(e) => setCourseName(e.target.value)}
             placeholder='Tiêu đề khóa học'
             helperText="* Tiêu đề tối thiểu 10 kí tự và tối đa 200 ký tự"
           />
@@ -71,6 +102,7 @@ const FirstStep = ({
                 fontSize: '18px', // Tăng kích thước của chữ trong helperText
               },
             }}
+            onChange={(e) => setCourseShortDescription(e.target.value)}
             placeholder='Giới thiệu ngắn'
             helperText="* Giới thiệu tối thiểu 50 kí tự tối đa 500 kí tự"
           />
@@ -78,12 +110,12 @@ const FirstStep = ({
           <Typography fontSize='22px' fontWeight='bold' sx={{ marginTop: '2%' }}>
             Mô tả khóa học
           </Typography>
-          <TextEditor />
+          <TextEditor handleTextEditor={(value) => setCourseDescription(value)} />
 
           <Typography fontSize='22px' fontWeight='bold' sx={{ marginTop: '2%' }}>
             Học được gì sau khóa học ?
           </Typography>
-          <TextEditor />
+          <TextEditor handleTextEditor={(value) => setCourseGoal(value)} />
           <Box width='90%' display='flex' mt='2%'>
             <Box width='45%'>
               <Typography fontSize='22px' fontWeight='bold' sx={{ marginTop: '2%' }}>
@@ -118,11 +150,12 @@ const FirstStep = ({
                   </Button>
                 </label>
 
+
               </Box>
             </Box>
           </Box>
           <Divider />
-          <IconButton sx={{ m: '0 auto', bgcolor: 'green', borderRadius: '5px', width: '180px', mb: '5%' }}>
+          <IconButton onClick={savechange} sx={{ m: '0 auto', bgcolor: 'green', borderRadius: '5px', width: '180px', mb: '5%' }}>
             <SaveIcon sx={{ color: 'white' }} />
             <Typography fontSize='22px' fontWeight='bold' color='white' ml='1%' >
               Cập nhật

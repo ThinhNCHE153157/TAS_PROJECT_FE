@@ -7,6 +7,14 @@ export const API = axios.create({
   }
 })
 
+export const API_FormFile = axios.create({
+  baseURL: 'https://localhost:5000/api',
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  }
+})
+
+
 export const API_Auth = axios.create({
   baseURL: 'https://localhost:5000/api/',
   headers: {

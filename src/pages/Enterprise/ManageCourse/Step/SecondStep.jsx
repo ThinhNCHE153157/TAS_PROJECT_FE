@@ -13,14 +13,35 @@ const SecondStep = ({
   onClickNext,
 }) => {
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [course, setCourse] = useState({
+  const data = {
+
     Topics: [
       {
-        Videos: [],
+        topicName: 'This is topic name',
+        Videos: [
+          {
+            videoName: 'This is videoName 1'
+          },
+          {
+            videoName: 'This is videoName 2'
+          }
+        ],
+      },
+      {
+        topicName: 'This is topic name',
+        Videos: [
+          {
+            videoName: 'This is videoName 1'
+          },
+          {
+            videoName: 'This is videoName 3'
+          }
+        ],
       }
     ],
-  })
+  }
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [course, setCourse] = useState(data)
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -68,7 +89,7 @@ const SecondStep = ({
       {
         course.Topics.length === 0 ? ('') : (
           course.Topics.map((topic, index) => (
-            <TopicCard topic={topic} />
+            <TopicCard topic={topic} key={index} />
           ))
         )
 

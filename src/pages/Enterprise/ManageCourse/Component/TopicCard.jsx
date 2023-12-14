@@ -27,11 +27,16 @@ const TopicCard = ({
       </Typography>
       {
         topic.Videos.length === 0 ? ('') : (
-          topic.Videos.map((video, index) => {
-            <DetailTopicCard video={video} />
-          })
+          <DetailTopicCard Videos={topic.Videos} />
         )
       }
+      {/* {
+        topic.Videos.length === 0 ? (<DetailTopicCard />) : (
+          topic.Videos.map((video, index) => {
+            <DetailTopicCard video={video} key={index} />
+          })
+        )
+      } */}
       <Box display='flex' alignItems='center' alignContent='center' bgcolor='black' height='70px'>
         <IconButton sx={{ ml: '1%', width: '15%' }}>
           <AddCircleOutlineIcon fontSize='large' sx={{ color: 'white' }} />

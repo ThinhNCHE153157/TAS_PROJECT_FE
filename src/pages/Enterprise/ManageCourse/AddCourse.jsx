@@ -34,12 +34,15 @@ const RenderStepper = ({
   );
 }
 const AddCourse = () => {
+  const [courseId, setCourseId] = useState('');
   const [currentStep, setCurrentStep] = useState(0);
-  const onClickNext = () => {
+  const onClickNext = (data) => {
+    setCourseId(data);
     var newCur = currentStep + 1;
     setCurrentStep(newCur)
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+  console.log(courseId);
   return (
     <Box sx={{ backgroundColor: '#f5f3f0', }} width='100vw' height='300vh'>
       <NavBar />
@@ -66,7 +69,7 @@ const AddCourse = () => {
             </Box>
             <Box width='95%' mt='5%' >
               {currentStep === 0 ? <FirstStep onClickNext={onClickNext} /> : ''}
-              {currentStep === 1 ? <SecondStep onClickNext={onClickNext} /> : ''}
+              {currentStep === 1 ? <SecondStep onClickNext={onClickNext} id={courseId} /> : ''}
               {currentStep === 2 ? <SecondStep onClickNext={onClickNext} /> : ''}
               {currentStep === 3 ? <SecondStep onClickNext={onClickNext} /> : ''}
 

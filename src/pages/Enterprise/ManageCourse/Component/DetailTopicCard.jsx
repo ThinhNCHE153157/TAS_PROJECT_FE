@@ -7,7 +7,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { useState } from 'react';
 
 const DetailTopicCard = ({
-  Videos
+  Videos,
 }) => {
   const [isBox2Visible, setIsBox2Visible] = useState(false);
 
@@ -30,7 +30,7 @@ const DetailTopicCard = ({
     <>
       {
         Videos.map((video, index) => (
-          <Box ml='3%' width='95%' bgcolor='#edeff5' mt='1%' mb='1% '>
+          <Box ml='3%' width='95%' bgcolor='#edeff5' mt='1%' mb='1% ' key={index}>
             <Box display='flex' justifyContent='space-between' minHeight='80px' id='Box1'>
               <Box width='40%' display='flex' alignItems='center'>
                 <Typography fontSize='22px' ml='3%' fontWeight='600'>

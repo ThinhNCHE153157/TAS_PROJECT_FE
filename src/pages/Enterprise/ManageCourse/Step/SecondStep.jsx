@@ -1,6 +1,6 @@
 import { Box, Button, Collapse, IconButton, Modal, TextField, Typography } from '@mui/material'
 import AddCardIcon from '@mui/icons-material/AddCard';
-import React from 'react'
+import React, { useEffect } from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PlayCircleOutlineOutlinedIcon from '@mui/icons-material/PlayCircleOutlineOutlined';
@@ -42,15 +42,28 @@ const SecondStep = ({
   }
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [course, setCourse] = useState(data)
+  const [topicName, setTopicName] = useState({});
+  const [videoTitle, setVideoTitle] = useState({});
+  useEffect(() => {
+    console.log('renderer')
+  }, [topicName, videoTitle])
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
 
+  const handleAddTitle = (value) => {
+    console.log(value)
+    setVideoTitle({ ...videoTitle, 'videoTitle': value })
+
+  }
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-
+  const handleAddTopicName = (value) => {
+    console.log(value)
+    setTopicName({ ...topicName, 'topicName': value })
+  }
 
   const handleNext = () => {
     onClickNext();
@@ -89,7 +102,7 @@ const SecondStep = ({
       {
         course.Topics.length === 0 ? ('') : (
           course.Topics.map((topic, index) => (
-            <TopicCard topic={topic} key={index} />
+            <TopicCard topic={topic} key={index} handleAddTitle={handleAddTitle} />
           ))
         )
 
@@ -117,7 +130,7 @@ const SecondStep = ({
           Next
         </Button>
       </Box>
-      <AddTopicModel isModalOpen={isModalOpen} handleCloseModal={handleCloseModal} />
+      <AddTopicModel isModalOpen={isModalOpen} handleCloseModal={handleCloseModal} handleAdd={handleAddTopicName} />
     </Box >
   )
 }

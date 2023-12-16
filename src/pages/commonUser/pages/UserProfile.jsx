@@ -4,19 +4,12 @@ import { Avatar, Typography, Button, Paper, Box } from '@mui/material';
 import Header from '../../../layout/Header';
 import { API, API_FormFile } from '../../../component/callApi'
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { alertSuccess, alertError, alertWarning, alertInfo } from "../../../component/AlertComponent";
 
-const VisuallyHiddenInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    whiteSpace: 'nowrap',
-    width: 1,
-});
 const UserProfile = () => {
+    const nav = useNavigate();
     const AuthId = useSelector(state => state.auth?.user?.id);
     const [refesh, setRefesh] = useState(false);
     const changeimg = (e) => {
@@ -29,9 +22,11 @@ const UserProfile = () => {
             .then(res => {
                 setRefesh(!refesh);
                 console.log(res);
+                alertSuccess({ message: "Cập nhật ảnh đại diện thành công" });
             })
             .catch(err => {
                 console.log(err);
+                alertError({ message: "Cập nhật ảnh đại diện thất bại" });
             })
     }
     const deleteAvatar = () => {
@@ -39,9 +34,11 @@ const UserProfile = () => {
             .then(res => {
                 setRefesh(!refesh);
                 console.log(res);
+                alertSuccess({ message: "Xoá ảnh đại diện thành công" });
             })
             .catch(err => {
                 console.log(err);
+                alertError({ message: "Xoá ảnh đại diện thất bại" });
             })
     }
 
@@ -59,13 +56,14 @@ const UserProfile = () => {
     return (
         <>
             <Header />
+            <ToastContainer />
             <Paper elevation={3} sx={{ maxWidth: "70vw", maxHeight: "70vh", margin: '4% auto', paddingBottom: "4%" }}>
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '40px 0' }}>
                     <Box sx={{ width: '90%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: "30px" }}>
                         <Typography variant="h5" component="span">
                             Hồ sơ cá nhân
                         </Typography>
-                        <Button variant="contained" color="primary" style={{ marginLeft: '20px' }}>
+                        <Button onClick={() => nav("/userprofile/edit")} variant="contained" color="primary" style={{ marginLeft: '20px' }}>
                             Chỉnh sửa hồ sơ
                         </Button>
                     </Box>

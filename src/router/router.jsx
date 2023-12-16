@@ -70,7 +70,7 @@ const TheRouter = () => {
       <Route path={ROUTES.common.register} exact element={<Register />} />
       <Route path={ROUTES.common.login} exact element={<Login />} />
       <Route path="/userprofile" exact element={<UserProfile />} />
-      <Route path="/commonUser/userprofile/edit" exact element={<EditUserProfile />} />
+      <Route path="/userprofile/edit" exact element={<EditUserProfile />} />
       <Route path="/commonUser/usermanagement" exact element={<UserManagement />} />
       <Route path="/commonUser/FotgotPassword" exact element={<FotgotPassword />} />
       <Route path="/commonUser/ResetPassword" exact element={<ResetPassword />} />

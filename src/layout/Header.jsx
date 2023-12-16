@@ -52,7 +52,7 @@ export default function Header() {
             </>
           ) : (
             <>
-              <img src={logo} alt='' width='6%' style={{ minWidth: '5%', marginLeft: "7%" }} />
+              <img src={logo} alt='' width='6%' style={{ minWidth: '5%', marginLeft: "7%" }} onClick={() => nav("/")} />
               <Tabs
                 onChange={handleChange}
                 value={tabValue}

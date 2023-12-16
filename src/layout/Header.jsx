@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { logoutUser } from '../redux/Account/apiRequest'
 import Popup from '../pages/HomePage/Component/Popup'
 
-const settings = ['Profile', 'Account', 'Progress', 'Dashboard', 'Logout'];
+const settings = ['Account', 'Progress', 'Dashboard', 'Logout'];
 export default function Header() {
   const nav = useNavigate();
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ export default function Header() {
   // console.log(theme)
   const isMatch = useMediaQuery(theme.breakpoints.down('md'));
   return (
-    <AppBar sx={{ background: 'white' }} >
+    <AppBar position="sticky" sx={{ background: 'white' }} >
 
       <Toolbar >
         {/* <Typography></Typography> */}
@@ -91,10 +91,14 @@ export default function Header() {
                       open={Boolean(anchorElUser)}
                       onClose={handleCloseUserMenu}
                     >
+                      <MenuItem onClick={() => {
+                        setAnchorElUser(null);
+                        nav('/UserProfile')
+                      }
+                      }> Profile</MenuItem>
                       {settings.map((setting) => (
                         <MenuItem key={setting} onClick={handleCloseUserMenu}>
                           {(setting === 'Logout') ? <>
-                            {/* <Link to="/Login" color="inherit" underline="none">{setting}</Link> */}
                             <Typography textAlign="center" onClick={handleLogout}>{setting}</Typography>
                           </>
                             :

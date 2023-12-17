@@ -1,16 +1,14 @@
-import { Box, Button, Collapse, IconButton, Modal, TextField, Typography } from '@mui/material'
+import { Box, Button, Collapse, Divider, IconButton, Modal, TextField, Typography } from '@mui/material'
 import AddCardIcon from '@mui/icons-material/AddCard';
 import React, { useEffect } from 'react'
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import PlayCircleOutlineOutlinedIcon from '@mui/icons-material/PlayCircleOutlineOutlined';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { useState } from 'react';
 import AddTopicModel from '../AddModal/AddTopicModel';
 import TopicCard from '../Component/TopicCard';
+import SaveIcon from '@mui/icons-material/Save';
+
 const SecondStep = ({
   onClickNext,
+  onClickBack
 }) => {
 
   const data = {
@@ -68,6 +66,9 @@ const SecondStep = ({
   const handleNext = () => {
     onClickNext();
   }
+  const handleBack = () => {
+    onClickBack()
+  }
   return (
     <Box width='100%'>
       <Typography fontSize='30px' fontWeight='500'>
@@ -107,8 +108,17 @@ const SecondStep = ({
         )
 
       }
+      <Divider />
+      <Box width='100%' display='flex' mt='3%'>
+        <IconButton sx={{ m: '0 auto', bgcolor: 'green', borderRadius: '5px', width: '180px', mb: '5%' }}>
+          <SaveIcon sx={{ color: 'white' }} />
+          <Typography fontSize='22px' fontWeight='bold' color='white' ml='1%' >
+            Cập nhật
+          </Typography>
+        </IconButton>
+      </Box>
 
-      <Box sx={{ ml: '45%', mt: '3%' }}>
+      <Box sx={{ ml: '44%', mt: '2%' }}>
         <Button
           variant='contained'
           sx={{
@@ -116,6 +126,7 @@ const SecondStep = ({
             mr: '8%',
             textTransform: 'none'
           }}
+          onClick={handleBack}
         >
           Back
         </Button>

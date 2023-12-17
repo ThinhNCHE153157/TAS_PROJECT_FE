@@ -1,38 +1,73 @@
-import { Box, Button, Collapse, IconButton, Modal, TextField, Typography } from '@mui/material'
+import { Box, Button, Collapse, Divider, IconButton, Modal, TextField, Typography } from '@mui/material'
 import AddCardIcon from '@mui/icons-material/AddCard';
-import React from 'react'
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import PlayCircleOutlineOutlinedIcon from '@mui/icons-material/PlayCircleOutlineOutlined';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import AddTopicModel from '../AddModal/AddTopicModel';
 import TopicCard from '../Component/TopicCard';
+import SaveIcon from '@mui/icons-material/Save';
+
 const SecondStep = ({
   onClickNext,
+  onClickBack
 }) => {
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [course, setCourse] = useState({
+  const data = {
+
     Topics: [
       {
-        Videos: [],
+        topicName: 'This is topic name',
+        Videos: [
+          {
+            videoName: 'This is videoName 1'
+          },
+          {
+            videoName: 'This is videoName 2'
+          }
+        ],
+      },
+      {
+        topicName: 'This is topic name',
+        Videos: [
+          {
+            videoName: 'This is videoName 1'
+          },
+          {
+            videoName: 'This is videoName 3'
+          }
+        ],
       }
     ],
-  })
+  }
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [course, setCourse] = useState(data)
+  const [topicName, setTopicName] = useState({});
+  const [videoTitle, setVideoTitle] = useState({});
+  useEffect(() => {
+    console.log('renderer')
+  }, [topicName, videoTitle])
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
 
+  const handleAddTitle = (value) => {
+    console.log(value)
+    setVideoTitle({ ...videoTitle, 'videoTitle': value })
+
+  }
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-
+  const handleAddTopicName = (value) => {
+    console.log(value)
+    setTopicName({ ...topicName, 'topicName': value })
+  }
 
   const handleNext = () => {
     onClickNext();
+  }
+  const handleBack = () => {
+    onClickBack()
   }
   return (
     <Box width='100%'>
@@ -68,13 +103,22 @@ const SecondStep = ({
       {
         course.Topics.length === 0 ? ('') : (
           course.Topics.map((topic, index) => (
-            <TopicCard topic={topic} />
+            <TopicCard topic={topic} key={index} handleAddTitle={handleAddTitle} />
           ))
         )
 
       }
+      <Divider />
+      <Box width='100%' display='flex' mt='3%'>
+        <IconButton sx={{ m: '0 auto', bgcolor: 'green', borderRadius: '5px', width: '180px', mb: '5%' }}>
+          <SaveIcon sx={{ color: 'white' }} />
+          <Typography fontSize='22px' fontWeight='bold' color='white' ml='1%' >
+            Cập nhật
+          </Typography>
+        </IconButton>
+      </Box>
 
-      <Box sx={{ ml: '45%', mt: '3%' }}>
+      <Box sx={{ ml: '44%', mt: '2%' }}>
         <Button
           variant='contained'
           sx={{
@@ -82,6 +126,7 @@ const SecondStep = ({
             mr: '8%',
             textTransform: 'none'
           }}
+          onClick={handleBack}
         >
           Back
         </Button>
@@ -96,7 +141,7 @@ const SecondStep = ({
           Next
         </Button>
       </Box>
-      <AddTopicModel isModalOpen={isModalOpen} handleCloseModal={handleCloseModal} />
+      <AddTopicModel isModalOpen={isModalOpen} handleCloseModal={handleCloseModal} handleAdd={handleAddTopicName} />
     </Box >
   )
 }

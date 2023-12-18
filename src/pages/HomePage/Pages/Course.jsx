@@ -119,7 +119,7 @@ const Course = () => {
                     </div>
                 </div>
             </div>
-            <div class="container-fluid" style={{ minHeight: "auto", width: '100%', padding: "0", marginLeft: '8%' }}>
+            <div class="container-fluid" style={{ minHeight: "auto", width: '80%', padding: "0", marginLeft: '8%' }}>
                 <AppBar
                     sx={{
                         backgroundColor: "white",
@@ -152,9 +152,9 @@ const Course = () => {
                     </Toolbar>
                 </AppBar>
             </div>
-            <Box width='100vw' mt='30px'>
+            <Box width='96vw' mt='30px'>
                 {/* Nội dung của tab */}
-                <div ref={contentRefs[0]} style={{ backgroundColor: "#e9eaf5", minHeight: '0' }}>
+                <div ref={contentRefs[0]} style={{ backgroundColor: "#e9eaf5", minHeight: '0', width: '95vw' }}>
                     <Box width='55%' height='100%' ml='8%'>
                         <Typography fontSize='40px' fontWeight='500'>
                             There is course name
@@ -186,11 +186,11 @@ const Course = () => {
 
                     </Box>
                 </div>
-                <div ref={contentRefs[1]} style={{ backgroundColor: "#bdeaf0", height: "500px" }}>
+                <div ref={contentRefs[1]} style={{ backgroundColor: "#bdeaf0", height: "500px", width: '95vw' }}>
 
                 </div>
-                <div ref={contentRefs[2]} style={{ minHeight: '0' }}>
-                    <Box width='100%' height='100%' ml='8%'>
+                <div ref={contentRefs[2]} style={{ minHeight: '0', width: '95vw' }}>
+                    <Box maxWidth='100vw' height='100%' ml='8%'>
                         <Box width='50%' height='100%'>
                             <Typography fontSize='32px' fontWeight='500'>
                                 Khóa học bao gồm: 5 Topic
@@ -205,7 +205,7 @@ const Course = () => {
                             </Typography>
                         </Box>
                         <Box width='100%' height='100%' mt='3%'>
-                            <Grid container columnGap='20px'>
+                            <Grid container columnGap='20px' width='100%'>
                                 <Grid item xs={7} sx={{ border: "2px solid gray", borderRadius: '10px' }}>
                                     {
                                         Topics.map((topic, index) => (
@@ -260,7 +260,8 @@ const Course = () => {
                                             </Box>
                                         ))
                                     }
-
+                                </Grid>
+                                <Grid item xs={1} >
                                 </Grid>
                                 <Grid item xs={3} >
                                     <Box width='90%' ml='4%' sx={{ border: "2px solid gray", borderRadius: '10px' }}>
@@ -291,13 +292,15 @@ const Course = () => {
                                         </Box>
 
                                     </Box>
+
+
                                 </Grid>
                             </Grid>
                         </Box>
                     </Box>
 
                 </div >
-                <div ref={contentRefs[3]} style={{ backgroundColor: "#e7e8d1", height: "500px" }}>
+                <div ref={contentRefs[3]} style={{ backgroundColor: "#e7e8d1", height: "500px", width: '95vw' }}>
                     {/* Nội dung cho Đánh giá */}
                 </div>
             </Box >

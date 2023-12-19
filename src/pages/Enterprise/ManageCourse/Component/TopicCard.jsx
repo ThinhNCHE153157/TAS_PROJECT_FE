@@ -4,9 +4,20 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DetailTopicCard from './DetailTopicCard';
+import AddVideoTitle from '../AddModal/AddVideoTitle';
+import { useState } from 'react';
 const TopicCard = ({
-  topic
+  topic,
+  handleAddTitle
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   return (
     <Box mt='2%' bgcolor='white' display='flex' flexDirection='column'>
       <Box display='flex' justifyContent='space-between' mt='20px' mb='5px' alignItems='center'>
@@ -27,19 +38,25 @@ const TopicCard = ({
       </Typography>
       {
         topic.Videos.length === 0 ? ('') : (
-          topic.Videos.map((video, index) => {
-            <DetailTopicCard video={video} />
-          })
+          <DetailTopicCard Videos={topic.Videos} />
         )
       }
+      {/* {
+        topic.Videos.length === 0 ? (<DetailTopicCard />) : (
+          topic.Videos.map((video, index) => {
+            <DetailTopicCard video={video} key={index} />
+          })
+        )
+      } */}
       <Box display='flex' alignItems='center' alignContent='center' bgcolor='black' height='70px'>
-        <IconButton sx={{ ml: '1%', width: '15%' }}>
+        <IconButton sx={{ ml: '1%', width: '15%' }} onClick={handleOpenModal}>
           <AddCircleOutlineIcon fontSize='large' sx={{ color: 'white' }} />
           <Typography color='white' fontSize='25px' ml='10px'>
             Tạo bài giảng
           </Typography>
         </IconButton>
       </Box>
+      <AddVideoTitle isModalOpen={isModalOpen} handleCloseModal={handleCloseModal} handleAdd={handleAddTitle} />
     </Box>
   )
 }

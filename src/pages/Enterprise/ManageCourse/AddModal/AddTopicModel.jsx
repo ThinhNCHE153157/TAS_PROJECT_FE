@@ -7,7 +7,10 @@ const AddTopicModel = ({
   handleCloseModal,
   handleAdd,
 }) => {
-  const [Value, setValue] = useState('')
+  const [value, setValue] = useState('')
+  const handleAddButton = () => {
+    handleAdd(value.target.value)
+  }
   return (
     <Modal
       open={isModalOpen}
@@ -55,7 +58,7 @@ const AddTopicModel = ({
           <Button sx={{ fontSize: '18px' }} variant='contained' onClick={handleCloseModal}>
             Cancel
           </Button>
-          <Button sx={{ fontSize: '18px', ml: '2%' }} variant='contained'>
+          <Button sx={{ fontSize: '18px', ml: '2%' }} variant='contained' onClick={handleAddButton}>
             Add
           </Button>
         </Box>

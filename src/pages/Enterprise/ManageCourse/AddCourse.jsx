@@ -7,10 +7,13 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import FirstStep from './Step/FirstStep';
 import { useState } from 'react';
 import SecondStep from './Step/SecondStep';
+import ThirdStep from './Step/ThirdStep';
+import FouthStep from './Step/FouthStep';
+import FifthStep from './Step/FifthStep';
 const RenderStepper = ({
   currentStep
 }) => {
-  const steps = ['Giới thiệu khóa học', 'Chương trình giảng dạy', 'Giá khóa học', 'Câu hỏi ôn tập', 'Xuất bản'];
+  const steps = ['Giới thiệu khóa học', 'Chương trình giảng dạy', 'Câu hỏi ôn tập', 'Giá khóa học', 'Xuất bản'];
   const stepStyle = {
 
     "& .MuiStepIcon-root": {
@@ -42,6 +45,11 @@ const AddCourse = () => {
     setCurrentStep(newCur)
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+  const onClickBack = () => {
+    var newCur = currentStep - 1;
+    setCurrentStep(newCur)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
   console.log(courseId);
   return (
     <Box sx={{ backgroundColor: '#f5f3f0', }} width='100vw' height='300vh'>
@@ -69,10 +77,10 @@ const AddCourse = () => {
             </Box>
             <Box width='95%' mt='5%' >
               {currentStep === 0 ? <FirstStep onClickNext={onClickNext} /> : ''}
-              {currentStep === 1 ? <SecondStep onClickNext={onClickNext} id={courseId} /> : ''}
-              {currentStep === 2 ? <SecondStep onClickNext={onClickNext} /> : ''}
-              {currentStep === 3 ? <SecondStep onClickNext={onClickNext} /> : ''}
-
+              {currentStep === 1 ? <SecondStep onClickNext={onClickNext} id={courseId} onClickBack={onClickBack} /> : ''}
+              {currentStep === 2 ? <ThirdStep onClickNext={onClickNext} onClickBack={onClickBack} /> : ''}
+              {currentStep === 3 ? <FouthStep onClickNext={onClickNext} onClickBack={onClickBack} /> : ''}
+              {currentStep === 4 ? <FifthStep onClickNext={onClickNext} /> : ''}
               {/* <FirstStep /> */}
             </Box>
           </Box>

@@ -66,11 +66,17 @@ const TheRouter = () => {
         <Route path='/Admin/UserDetail/:id' exact element={<UserDetail />} />
         <Route path="/Admin/CourseDetail/:courseId/:testId" exact element={<TestDetail />} />
       </Route>
+
+      {/* Login */}
+      <Route element={<RequireAuth allow={[ROLE.Student, ROLE.Admin, ROLE.Enterprise, ROLE.Student]} />}>
+        <Route path="/userprofile" exact element={<UserProfile />} />
+        <Route path="/userprofile/edit" exact element={<EditUserProfile />} />
+      </Route>
+
+
       {/* Common */}
       <Route path={ROUTES.common.register} exact element={<Register />} />
       <Route path={ROUTES.common.login} exact element={<Login />} />
-      <Route path="/commonUser/userprofile" exact element={<UserProfile />} />
-      <Route path="/commonUser/userprofile/edit" exact element={<EditUserProfile />} />
       <Route path="/commonUser/usermanagement" exact element={<UserManagement />} />
       <Route path="/commonUser/FotgotPassword" exact element={<FotgotPassword />} />
       <Route path="/commonUser/ResetPassword" exact element={<ResetPassword />} />
@@ -81,13 +87,15 @@ const TheRouter = () => {
       <Route path={ROUTES.common.register} exact element={<Register />} />
       <Route path={ROUTES.common.login} exact element={<Login />} />
       <Route path={ROUTES.common.unauthorized} exact element={<Unauthorized />} />
-      <Route path="/ManageTest/ListTest" exact element={<TestList />} />
+      <Route path="/Admin/TestList" exact element={<TestList />} />
       <Route path="/ManageTest/DetailTest" exact element={<DetailTest />} />
       <Route path="/ManageQuestion/ListQuestion" exact element={<QuestionList />} />
 
       {/* Enterprise */}
-      <Route path='/Enterprise/ViewCourse' exact element={<ViewCourse />} />
-      <Route path='/Enterprise/AddCourse' exact element={<AddCourse />} />
+      <Route element={<RequireAuth allow={ROLE.Enterprise} />}>
+        <Route path='/Enterprise/ViewCourse' exact element={<ViewCourse />} />
+        <Route path='/Enterprise/AddCourse' exact element={<AddCourse />} />
+      </Route>
     </Routes>
   )
 

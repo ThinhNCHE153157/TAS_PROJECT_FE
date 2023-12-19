@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from 'react'
 import { Box, Button, Grid, InputAdornment, TextField, Typography } from '@mui/material'
-import NavBar from '../layout/NavBar'
+import Sidebar from '../layout/Sidebar';
+import NavBar from '../layout/NavBar';
 import SearchIcon from '@mui/icons-material/Search';
 import ListTestDetail from './ListTestDetail'
 import { BASE_URL } from '../../../Utils/Constants';
@@ -46,6 +47,7 @@ const TestList = () => {
         <div>
             <NavBar />
             <Box sx={{ display: 'flex' }}>
+                <Sidebar />
                 <Box>
                     <Box sx={{ height: 50 }} />
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2, mb: 3 }}>
@@ -55,7 +57,7 @@ const TestList = () => {
                                 variant="outlined"
                                 placeholder='Test Name'
                                 fullWidth
-                                sx={{ maxWidth: 400 }}
+                                sx={{ Width: 400 }}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">

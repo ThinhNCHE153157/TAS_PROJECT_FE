@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Banner from "../Component/Banner";
 import Popup from "../Component/Popup";
 import Card from '@mui/joy/Card';
+import { ToastContainer } from "react-toastify";
 
 
 const Homepage = () => {
@@ -22,6 +23,7 @@ const Homepage = () => {
     return (
         <>
             <Header />
+            <ToastContainer />
             {/* <Popup /> */}
             <div className="container" style={{ marginTop: "69.47px", minHeight: "100vh" }}>
                 <div className="row" style={{ marginTop: "100px", marginBottom: "10px" }}>

@@ -6,7 +6,8 @@ import { API, API_FormFile } from '../../../component/callApi'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { alertSuccess, alertError, alertWarning, alertInfo } from "../../../component/AlertComponent";
+import { alertSuccess, alertError } from "../../../component/AlertComponent";
+import { GetUserById } from '../../../Services/UserProfileService';
 
 const UserProfile = () => {
     const nav = useNavigate();
@@ -44,15 +45,14 @@ const UserProfile = () => {
 
     const [user, setUser] = useState({});
     useEffect(() => {
-        API.get(`/Account/GetAccountById?id=${AuthId}`)
-            .then(res => {
-                console.log(res.data);
-                setUser(res.data);
-            })
-            .catch(err => {
-                console.log(err);
-            })
+        GetUserById(AuthId).then(res => {
+            setUser(res);
+        }).catch(err => {
+            console.log(err);
+        })
+        console.log(user);
     }, [refesh])
+
     return (
         <>
             <Header />

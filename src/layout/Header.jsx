@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AppBar, Tabs, Tab, Toolbar, Button, useMediaQuery, useTheme, Box, Tooltip, IconButton, Avatar, Menu, Typography, MenuItem } from '@mui/material'
 import DrawerComponent from './DrawerComponent'
 import logo from '../Assets/img/Logo1.png'
@@ -6,11 +6,19 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { logoutUser } from '../redux/Account/apiRequest'
 import Popup from '../pages/HomePage/Component/Popup'
+import { GetUserById } from '../Services/UserProfileService'
 
 const settings = ['Account', 'Progress', 'Dashboard', 'Logout'];
 export default function Header() {
   const nav = useNavigate();
   const dispatch = useDispatch();
+  // const [userimg, setUserimg] = useState({})
+  // useEffect(() => {
+  //   const userImage = GetUserById(auth?.id)
+  //     .then(res => {
+  //       setUserimg(res)
+  //     })
+  // }, [])
   const user = useSelector((state) => state.user?.User?.username);
   const handleLogout = (e) => {
     e.preventDefault();
@@ -71,7 +79,7 @@ export default function Header() {
                   <Box sx={{ marginLeft: 'auto', flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                        <Avatar alt="Remy Sharp" src="" />
                         <Typography>&nbsp;&nbsp;   Hi, {user}</Typography>
                       </IconButton>
                     </Tooltip>

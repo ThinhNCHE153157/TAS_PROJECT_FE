@@ -19,6 +19,8 @@ import { FcGoogle as GoogleIcon } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../../redux/Account/apiRequest';
+import { alertSuccess } from '../../../component/AlertComponent';
+import { ToastContainer } from 'react-toastify';
 
 function Login() {
     const navigate = useNavigate();
@@ -64,12 +66,15 @@ function Login() {
 
     const handlesubmit = (e) => {
         e.preventDefault();
-        loginUser(userName, password, dispatch, navigate);
-        navigate("/");
+        const islogin = loginUser(userName, password, dispatch, navigate);
+        if (islogin) {
+            navigate('/');
+        }
     };
     return (
         <div>
             <Header />
+            <ToastContainer />
             <Grid mt={10}>
                 <Paper elevation={4} style={paperStyle} sx={{ borderRadius: '20px' }}>
                     <Grid align="center">

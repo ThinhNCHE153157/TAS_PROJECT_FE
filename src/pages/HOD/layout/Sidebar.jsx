@@ -310,6 +310,33 @@ export default function Sidebar() {
                             <ListItemText primary="Course Management" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
                     </ListItem>
+
+                    <ListItem
+                        disablePadding
+                        sx={{ display: 'block' }}
+                        onClick={() => {
+                            navigate('/Admin/TestList');
+                        }}
+                    >
+                        <ListItemButton
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <ChromeReaderModeIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Test Management" sx={{ opacity: open ? 1 : 0 }} />
+                        </ListItemButton>
+                    </ListItem>
                 </List>
             </Drawer>
         </Box>

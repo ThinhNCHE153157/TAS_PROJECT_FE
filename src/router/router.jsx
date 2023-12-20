@@ -92,7 +92,7 @@ const TheRouter = () => {
       <Route path="/ManageQuestion/ListQuestion" exact element={<QuestionList />} />
 
       {/* Enterprise */}
-      <Route element={<RequireAuth allow={ROLE.Enterprise} />}>
+      <Route element={<RequireAuth allow={[ROLE.Enterprise, ROLE.Admin]} />}>
         <Route path='/Enterprise/ViewCourse' exact element={<ViewCourse />} />
         <Route path='/Enterprise/AddCourse' exact element={<AddCourse />} />
       </Route>

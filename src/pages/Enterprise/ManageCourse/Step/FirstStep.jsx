@@ -13,9 +13,8 @@ const FirstStep = ({
   const handleNext = () => {
     API.get('/Course/GetCourseIdByName?name=' + courseName)
       .then(response => {
-        //console.log(response.data);
+        console.log(response.data);
         onClickNext(response.data);
-
       })
     //onClickNext(response);
   }

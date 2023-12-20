@@ -54,7 +54,25 @@ const AddTopicModel = ({
           }}
           placeholder='Topic'
         />
-
+        <Typography id='modal-description' sx={{ mt: 2 }} fontSize='25px'>
+          Mô tả
+        </Typography>
+        <TextField
+          onChange={(value) => setValue(value)}
+          component='div'
+          rows={2}
+          sx={{
+            mt: '1%',
+            width: '90%',
+            '& .MuiInputBase-input': {
+              fontSize: '20px', // Tăng kích thước của chữ trong TextField
+            },
+            '& .MuiFormHelperText-root': {
+              fontSize: '18px', // Tăng kích thước của chữ trong helperText
+            },
+          }}
+          placeholder='Mô tả'
+        />
         <Box mt='3%'>
           <Button sx={{ fontSize: '18px' }} variant='contained' onClick={handleCloseModal}>
             Cancel

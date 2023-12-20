@@ -7,7 +7,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { useState } from 'react';
 
 const DetailTopicCard = ({
-  Videos,
+  Videos
 }) => {
   const [isBox2Visible, setIsBox2Visible] = useState(false);
 

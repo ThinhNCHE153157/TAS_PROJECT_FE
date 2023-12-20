@@ -7,16 +7,146 @@ import { Button, Typography } from '@mui/joy';
 
 const questions = [
     {
-        question: 'What is the capital of France?',
-        options: ['Berlin', 'Madrid', 'Paris', 'Rome'],
-        correctAnswer: 'Paris',
+        "id": "1",
+        "question": "What is the capital of France?",
+        "correctAnswer": "Paris",
+        "options": ["Paris", 'abvdd', 'asdfasdfasdf', 'asdkfjh3iouwe'],
+        "partId": "1"
     },
     {
-        question: 'Which programming language is this app built with?',
-        options: ['Java', 'Python', 'JavaScript', 'C++'],
-        correctAnswer: 'JavaScript',
+        "id": "2",
+        "question": "Who painted the Mona Lisa?",
+        "correctAnswer": "Leonardo da Vinci",
+        "options": ["Canberra", 'Leonardo da Vinci', 'asdfasdfasdf', 'asdkfjh3iouwe'],
+        "partId": "2"
     },
-];
+    {
+        "id": "3",
+        "question": "What is the largest planet in our solar system?",
+        "correctAnswer": "Jupiter",
+        "options": ["Canberra", 'abvdd', 'Jupiter', 'asdkfjh3iouwe'],
+        "partId": "3"
+    },
+    {
+        "id": "4",
+        "question": "What is the chemical symbol for gold?",
+        "correctAnswer": "Au",
+        "options": ["Canberra", 'abvdd', 'Au', 'asdkfjh3iouwe'],
+        "partId": "4"
+    },
+    {
+        "id": "5",
+        "question": "Who wrote the play Romeo and Juliet?",
+        "correctAnswer": "William Shakespeare",
+        "options": ["Canberra", 'abvdd', 'asdfasdfasdf', 'William Shakespeare'],
+        "partId": "5"
+    },
+    {
+        "id": "6",
+        "question": "What is the tallest mountain in the world?",
+        "correctAnswer": "Mount Everest",
+        "options": ["Canberra", 'abvdd', 'Mount Everest', 'asdkfjh3iouwe'],
+        "partId": "6"
+    },
+    {
+        "id": "7",
+        "question": "What is the formula for water?",
+        "correctAnswer": "H2O",
+        "options": ["Canberra", 'H2O', 'asdfasdfasdf', 'asdkfjh3iouwe'],
+        "partId": "7"
+    },
+    {
+        "id": "8",
+        "question": "Who is the current president of the United States?",
+        "correctAnswer": "Joe Biden",
+        "options": ["Canberra", 'abvdd', 'asdfasdfasdf', 'Joe Biden'],
+        "partId": "1"
+    },
+    {
+        "id": "9",
+        "question": "What is the largest ocean on Earth?",
+        "correctAnswer": "Pacific Ocean",
+        "options": ["Canberra", 'Pacific Ocean', 'asdfasdfasdf', 'asdkfjh3iouwe'],
+        "partId": "2"
+    },
+    {
+        "id": "10",
+        "question": "What is the square root of 64?",
+        "correctAnswer": "8",
+        "options": ["Canberra", 'abvdd', '8', 'asdkfjh3iouwe'],
+        "partId": "3"
+    },
+    {
+        "id": "11",
+        "question": "Who invented the telephone?",
+        "correctAnswer": "Alexander Graham Bell",
+        "options": ["Canberra", 'Alexander Graham Bell', 'asdfasdfasdf', 'asdkfjh3iouwe'],
+        "partId": "4"
+    },
+    {
+        "id": "12",
+        "question": "What is the capital of Japan?",
+        "correctAnswer": "Tokyo",
+        "options": ["Canberra", 'abvdd', 'Tokyo', 'asdkfjh3iouwe'],
+        "partId": "5"
+    },
+    {
+        "id": "13",
+        "question": "What is the boiling point of water in Celsius?",
+        "correctAnswer": "100",
+        "options": ["Canberra", '100', 'asdfasdfasdf', 'asdkfjh3iouwe'],
+        "partId": "6"
+    },
+    {
+        "id": "14",
+        "question": "Who wrote the novel Pride and Prejudice?",
+        "correctAnswer": "Jane Austen",
+        "options": ["Canberra", 'abvdd', 'Jane Austen', 'asdkfjh3iouwe'],
+        "partId": "7"
+    },
+    {
+        "id": "15",
+        "question": "What is the largest country in the world by land area?",
+        "correctAnswer": "Russia",
+        "options": ["Canberra", 'Russia', 'asdfasdfasdf', 'asdkfjh3iouwe'],
+        "partId": "1"
+    },
+    {
+        "id": "16",
+        "question": "What is the symbol for the element oxygen?",
+        "correctAnswer": "O",
+        "options": ["Canberra", 'O', 'asdfasdfasdf', 'asdkfjh3iouwe'],
+        "partId": "2"
+    },
+    {
+        "id": "17",
+        "question": "Who discovered gravity?",
+        "correctAnswer": "Isaac Newton",
+        "options": ["Canberra", 'abvdd', 'Isaac Newton', 'asdkfjh3iouwe'],
+        "partId": "3"
+    },
+    {
+        "id": "18",
+        "question": "What is the capital of Australia?",
+        "correctAnswer": "Canberra",
+        "options": ["Canberra", 'abvdd', 'asdfasdfasdf', 'asdkfjh3iouwe'],
+        "partId": "4"
+    },
+    {
+        "id": "19",
+        "question": "What is the square root of 81?",
+        "correctAnswer": "9",
+        "options": ["Canberra", '9', 'asdfasdfasdf', 'asdkfjh3iouwe'],
+        "partId": "5"
+    },
+    {
+        "id": "20",
+        "question": "Who painted the Starry Night?",
+        "correctAnswer": "Vincent van Gogh",
+        "options": ["Vincent van Gogh", 'abvdd', 'asdfasdfasdf', 'asdkfjh3iouwe'],
+        "partId": "6"
+    }
+]
 
 const TakeTest = () => {
     const [Listquestions, setListQuestions] = useState([]);

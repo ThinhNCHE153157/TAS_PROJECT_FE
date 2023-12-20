@@ -15,6 +15,10 @@ const TopicCard = ({
     setIsModalOpen(true);
   };
 
+  const AddTitle = (value) => {
+    handleAddTitle(value)
+  }
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -56,7 +60,7 @@ const TopicCard = ({
           </Typography>
         </IconButton>
       </Box>
-      <AddVideoTitle isModalOpen={isModalOpen} handleCloseModal={handleCloseModal} handleAdd={handleAddTitle} />
+      <AddVideoTitle isModalOpen={isModalOpen} handleCloseModal={handleCloseModal} handleAdd={AddTitle} />
     </Box>
   )
 }

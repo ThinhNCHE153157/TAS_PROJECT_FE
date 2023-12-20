@@ -3,13 +3,15 @@ import React from 'react'
 import { useState } from 'react'
 
 const AddVideoTitle = ({
+  topicId,
   isModalOpen,
   handleCloseModal,
   handleAdd,
 }) => {
   const [value, setValue] = useState('')
   const handleAddButton = () => {
-    handleAdd(value.target.value);
+    const data = { title: value.target.value, topicId: topicId }
+    handleAdd(data);
   }
   return (
     <Modal

@@ -10,6 +10,7 @@ import SecondStep from './Step/SecondStep';
 import ThirdStep from './Step/ThirdStep';
 import FouthStep from './Step/FouthStep';
 import FifthStep from './Step/FifthStep';
+import { ToastContainer } from 'react-toastify';
 const RenderStepper = ({
   currentStep
 }) => {
@@ -37,8 +38,12 @@ const RenderStepper = ({
   );
 }
 const AddCourse = () => {
+  const [courseId, setCourseId] = useState('');
   const [currentStep, setCurrentStep] = useState(0);
-  const onClickNext = () => {
+  const onClickNext = (data) => {
+    if (data !== undefined) {
+      setCourseId(data);
+    }
     var newCur = currentStep + 1;
     setCurrentStep(newCur)
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -48,8 +53,10 @@ const AddCourse = () => {
     setCurrentStep(newCur)
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+  console.log(courseId);
   return (
     <Box sx={{ backgroundColor: '#f5f3f0', }} width='100vw' height='300vh'>
+      <ToastContainer />
       <NavBar />
       <Box display='flex' >
         <Sidebar />
@@ -74,11 +81,10 @@ const AddCourse = () => {
             </Box>
             <Box width='95%' mt='5%' >
               {currentStep === 0 ? <FirstStep onClickNext={onClickNext} /> : ''}
-              {currentStep === 1 ? <SecondStep onClickNext={onClickNext} onClickBack={onClickBack} /> : ''}
+              {currentStep === 1 ? <SecondStep onClickNext={onClickNext} id={courseId} onClickBack={onClickBack} /> : ''}
               {currentStep === 2 ? <ThirdStep onClickNext={onClickNext} onClickBack={onClickBack} /> : ''}
               {currentStep === 3 ? <FouthStep onClickNext={onClickNext} onClickBack={onClickBack} /> : ''}
               {currentStep === 4 ? <FifthStep onClickNext={onClickNext} /> : ''}
-
               {/* <FirstStep /> */}
             </Box>
           </Box>

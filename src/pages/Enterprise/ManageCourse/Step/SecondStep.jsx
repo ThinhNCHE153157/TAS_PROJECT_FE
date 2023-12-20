@@ -5,45 +5,60 @@ import { useState } from 'react';
 import AddTopicModel from '../AddModal/AddTopicModel';
 import TopicCard from '../Component/TopicCard';
 import SaveIcon from '@mui/icons-material/Save';
+import { getTopicBycourseId, AddTopic, AddVideo } from '../../../../Services/AddCourseService';
+import { alertSuccess, alertError } from '../../../../component/AlertComponent';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { message } from 'antd';
 
 const SecondStep = ({
   onClickNext,
-  onClickBack
+  onClickBack,
+  id
 }) => {
-
-  const data = {
-
-    Topics: [
+  const [refresh, setRefresh] = useState(false);
+  const [data, setData] = useState(
+    [
       {
+        topicId: 1,
         topicName: 'This is topic name',
-        Videos: [
+        videos: [
           {
-            videoName: 'This is videoName 1'
+            videoTitle: 'This is videoName 1'
           },
           {
-            videoName: 'This is videoName 2'
+            videoTitle: 'This is videoName 2'
           }
         ],
       },
       {
+        topicId: 2,
         topicName: 'This is topic name',
-        Videos: [
+        videos: [
           {
-            videoName: 'This is videoName 1'
+            videoTitle: 'This is videoName 1'
           },
           {
-            videoName: 'This is videoName 3'
+            videoTitle: 'This is videoName 3'
           }
         ],
       }
     ],
-  }
+  );
+  useEffect(() => {
+    getTopicBycourseId(id).then(res => {
+      console.log(res.data)
+      setData(res.data)
+      console.log(data)
+    })
+  }, [refresh])
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [course, setCourse] = useState(data)
   const [topicName, setTopicName] = useState({});
   const [videoTitle, setVideoTitle] = useState({});
   useEffect(() => {
     console.log('renderer')
+    //setRefresh(!refresh)
   }, [topicName, videoTitle])
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -51,15 +66,37 @@ const SecondStep = ({
 
   const handleAddTitle = (value) => {
     console.log(value)
-    setVideoTitle({ ...videoTitle, 'videoTitle': value })
+    AddVideo(JSON.stringify({
+      'topicId': value.topicId,
+      'videoTitle': value.title,
+    }))
+      .then(res => {
+        alertSuccess({ message: 'Thêm video thành công' })
+        setIsModalOpen(false);
+        console.log(res.data)
+        setRefresh(!refresh)
+      })
+    setVideoTitle({ ...videoTitle, 'videoTitle': value.title })
 
   }
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-  const handleAddTopicName = (value) => {
+  const handleAddTopicName = (value, topicId) => {
     console.log(value)
+    console.log(topicId)
+    AddTopic(JSON.stringify({
+      'courseId': id,
+      'topicName': value,
+      'topicDescription': 'This is topic description'
+    }))
+      .then(res => {
+        alertSuccess({ message: 'Thêm topic thành công' })
+        setIsModalOpen(false);
+        console.log(res.data)
+        setRefresh(!refresh)
+      })
     setTopicName({ ...topicName, 'topicName': value })
   }
 
@@ -71,6 +108,7 @@ const SecondStep = ({
   }
   return (
     <Box width='100%'>
+      <ToastContainer />
       <Typography fontSize='30px' fontWeight='500'>
         Chương trình giảng dạy
       </Typography>
@@ -101,8 +139,8 @@ const SecondStep = ({
         </Box>
       </Box>
       {
-        course.Topics.length === 0 ? ('') : (
-          course.Topics.map((topic, index) => (
+        data.length === 0 ? ('') : (
+          data.map((topic, index) => (
             <TopicCard topic={topic} key={index} handleAddTitle={handleAddTitle} />
           ))
         )

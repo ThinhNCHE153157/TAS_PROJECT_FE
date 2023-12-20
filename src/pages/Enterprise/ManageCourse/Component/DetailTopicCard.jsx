@@ -35,7 +35,7 @@ const DetailTopicCard = ({
               <Box width='40%' display='flex' alignItems='center'>
                 <Typography fontSize='22px' ml='3%' fontWeight='600'>
                   <PlayCircleOutlineOutlinedIcon sx={{ mr: '8px' }} />
-                  {video.videoName}
+                  {video.videoTitle}
                 </Typography>
                 <Box ml='3%'>
                   <IconButton>

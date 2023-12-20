@@ -4,14 +4,19 @@ import TextEditor from '../../../../component/TextEditor'
 import { useState } from 'react';
 import SaveIcon from '@mui/icons-material/Save';
 import { Divider } from 'antd';
-import { API_FormFile } from "../../../../component/callApi"
+import { API_FormFile, API } from "../../../../component/callApi"
 
 const FirstStep = ({
   onClickNext,
 }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const handleNext = () => {
-    onClickNext();
+    API.get('/Course/GetCourseIdByName?name=' + courseName)
+      .then(response => {
+        console.log(response.data);
+        onClickNext(response.data);
+      })
+    //onClickNext(response);
   }
   const handleImageChange = (event) => {
     event.preventDefault();

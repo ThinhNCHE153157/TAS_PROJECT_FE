@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { loginStart, loginSuccess, loginFailed, logout } from './AuthSlice';
 import { userStart, userSuccess, userFailed, userLogout } from './userSlice';
+import { alertError, alertSuccess } from '../../component/AlertComponent';
 
 axios.defaults.baseURL = 'https://localhost:5000/api'; // Đặt URL cơ sở
 axios.defaults.timeout = 5000; // Đặt thời gian chờ tối đa (milliseconds)
@@ -13,9 +14,12 @@ export const loginUser = async function (userName, password, dispatch, navigate)
         dispatch(loginSuccess(response.data));
         localStorage.setItem('token', response.data.accessToken.toString());
         getUser(response.data.id, dispatch);
-        //navigate('/Admin');
+        alertSuccess({ message: "Đăng nhập thành công" });
+        navigate('/');
     } catch (error) {
         dispatch(loginFailed(error));
+        alertError({ message: "Đăng nhập thất bại" });
+        navigate('/login');
     }
 };
 

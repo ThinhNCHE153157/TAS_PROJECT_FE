@@ -34,11 +34,11 @@ const TopicCard = ({
         </Box>
       </Box>
       <Typography fontSize='18px' ml='3%' color='rgba(0, 0, 0, 0.6)'>
-        Tổng số bài giảng : {topic.Videos.length}
+        Tổng số bài giảng : {topic.videos.length}
       </Typography>
       {
-        topic.Videos.length === 0 ? ('') : (
-          <DetailTopicCard Videos={topic.Videos} />
+        topic.videos.length === 0 ? ('') : (
+          <DetailTopicCard Videos={topic.videos} />
         )
       }
       {/* {
@@ -56,7 +56,7 @@ const TopicCard = ({
           </Typography>
         </IconButton>
       </Box>
-      <AddVideoTitle isModalOpen={isModalOpen} handleCloseModal={handleCloseModal} handleAdd={handleAddTitle} />
+      <AddVideoTitle topicId={topic.topicId} isModalOpen={isModalOpen} handleCloseModal={handleCloseModal} handleAdd={handleAddTitle} />
     </Box>
   )
 }

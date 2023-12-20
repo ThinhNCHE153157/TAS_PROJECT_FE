@@ -10,6 +10,7 @@ import SecondStep from './Step/SecondStep';
 import ThirdStep from './Step/ThirdStep';
 import FouthStep from './Step/FouthStep';
 import FifthStep from './Step/FifthStep';
+import { ToastContainer } from 'react-toastify';
 const RenderStepper = ({
   currentStep
 }) => {
@@ -40,7 +41,9 @@ const AddCourse = () => {
   const [courseId, setCourseId] = useState('');
   const [currentStep, setCurrentStep] = useState(0);
   const onClickNext = (data) => {
-    setCourseId(data);
+    if (data !== undefined) {
+      setCourseId(data);
+    }
     var newCur = currentStep + 1;
     setCurrentStep(newCur)
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -53,6 +56,7 @@ const AddCourse = () => {
   console.log(courseId);
   return (
     <Box sx={{ backgroundColor: '#f5f3f0', }} width='100vw' height='300vh'>
+      <ToastContainer />
       <NavBar />
       <Box display='flex' >
         <Sidebar />

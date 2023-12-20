@@ -35,10 +35,13 @@ import FlashCard from '../pages/HomePage/Pages/FlashCard';
 import ViewCourse from '../pages/Enterprise/ManageCourse/ViewCourse';
 import AddCourse from '../pages/Enterprise/ManageCourse/AddCourse';
 import StartTest from '../pages/HomePage/Pages/DoTest/StartTest';
+import TestComponent from '../pages/HomePage/Pages/DoTest/PartComponent/TestCom';
 const TheRouter = () => {
   return (
     <Routes>
       <Route path='/Order' exact element={<Order />} />
+      <Route path='/TestComponent' exact element={<TestComponent />} />
+
       {/* Homepage */}
       <Route path="/" exact element={<Homepage />} />
       <Route path="/Course/:id" exact element={<Course />} />

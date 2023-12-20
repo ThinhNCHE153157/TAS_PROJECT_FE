@@ -8,6 +8,7 @@ import Part2 from './PartComponent/Part2';
 import Part3 from './PartComponent/Part3';
 import CountDownTimer from './PartCardComponent/CountDownTimer';
 import { useEffect } from 'react';
+import { useRef } from 'react';
 
 const parts = [
   {
@@ -209,6 +210,7 @@ const partsWithIndex = parts.map((part, partIndex) => ({
   }))
 }));
 const StickyComponent = (listQuestion, listAnswer, listPart) => {
+
   const handleSubmit = () => {
     const isConfirmed = window.confirm("Bạn có chắc chắn muốn nộp bài?");
     if (isConfirmed) {
@@ -233,9 +235,11 @@ const StickyComponent = (listQuestion, listAnswer, listPart) => {
 
     }
   };
+  const handOnTimeOut = () => {
+
+  }
   return (
     <Box
-      display='flex'
       style={{
         minHeight: '0',
         width: '350px',
@@ -253,7 +257,7 @@ const StickyComponent = (listQuestion, listAnswer, listPart) => {
         <Typography fontSize='27px' fontWeight='400'>
           Thời gian còn lại
         </Typography>
-        <CountDownTimer initialTime={7200} />
+        <CountDownTimer initialTime={7200} onTimeout={handOnTimeOut} />
         <Button variant='contained' sx={{ mt: '2%' }} onClick={handleSubmit} >
           <Typography fontSize='20px' width='100px'>
             Nộp bài
@@ -270,10 +274,14 @@ const StickyComponent = (listQuestion, listAnswer, listPart) => {
                     <Grid container columns={15} mb='30px' >
                       {
                         part.questions.map((question) => {
+                          var isChecked = listAnswer.findIndex(x => x.id === question.id);
+                          console.log('isChecked: ', isChecked);
                           var indexButton = listQuestion.findIndex(x => x.id === question.id)
                           return (
                             <Grid xs={3}>
-                              <Button variant='outlined'>
+                              <Button
+                                variant={isChecked === -1 ? 'outlined' : 'contained'}
+                              >
                                 <Typography fontSize='20px'>{indexButton + 1}</Typography>
                               </Button>
                             </Grid>
@@ -322,6 +330,10 @@ const StartTest = () => {
     // Cập nhật state listQuestion
     setListQuestion(updatedList);
   }, [])
+
+  useEffect(() => {
+
+  }, [listAnswer])
 
   const hanldeAddAnswer = (id, userAnswer) => {
     const existingIndex = listAnswer.findIndex(x => x.id === id)

@@ -23,7 +23,8 @@ const Part1 = ({
               indexQues={question.indexQues}
               key={index}
               userAnswer={answerObject ? answerObject.userAnswer : null}
-              hanldeAddAnswer={hanldeAddAnswer} />
+              hanldeAddAnswer={hanldeAddAnswer}
+            />
           )
         }
         )

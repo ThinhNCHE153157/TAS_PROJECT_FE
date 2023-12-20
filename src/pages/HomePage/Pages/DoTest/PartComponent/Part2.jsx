@@ -17,11 +17,20 @@ const Part2 = ({
       </audio >
       <Grid container columns={12} rowGap={3} ml='3%'>
         {
-          listQuestion.map((question, index) => (
-            <Grid item xs={6}>
-              <SecondPartCard ques={question} key={index} listAnswer={listAnswer} hanldeAddAnswer={hanldeAddAnswer} />
-            </Grid>
-          ))
+          listQuestion.map((question, index) => {
+            const answerObject = listAnswer.find(answer => answer.id === question.id);
+            return (
+              <Grid item xs={6}>
+                <SecondPartCard
+                  ques={question}
+                  indexQues={question.indexQues}
+                  key={index}
+                  userAnswer={answerObject ? answerObject.userAnswer : null}
+                  hanldeAddAnswer={hanldeAddAnswer}
+                />
+              </Grid>
+            )
+          })
         }
       </Grid>
     </>

@@ -7,26 +7,29 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { useState } from 'react';
 
 const DetailTopicCard = ({
-  Videos
+  Videos,
+  handleAddVideo
 }) => {
   const [isBox2Visible, setIsBox2Visible] = useState(0);
-  const [selectedVideoSrc, setSelectedVideoSrc] = useState('');
+  const [selectedVideoSrc, setSelectedVideoSrc] = useState({});
+  const [videoName, setVideoName] = useState({});
   const handleSettingsClick = (value) => {
+    console.log(value)
     setIsBox2Visible(value);
-  };
-  const handleRarFileChange = (event) => {
-    const selectedRarFile = event.target.files[0];
-    // Xử lý tệp RAR đã chọn ở đây
-    console.log('Selected RAR File:', selectedRarFile);
   };
 
   const handleVideoChange = (event, videoId) => {
+    console.log('videoId: ', isBox2Visible)
     const selectedVideo = event.target.files[0];
-
-    console.log('videoId:', videoId);
-    console.log('Selected Video:', selectedVideo);
+    const video = { [isBox2Visible]: selectedVideo }
+    console.log(video)
+    handleAddVideo(video)
     const videoUrl = URL.createObjectURL(selectedVideo);
-    setSelectedVideoSrc(videoUrl);
+    const updateVideoName = { ...videoName, [isBox2Visible]: selectedVideo.name }
+    const updateVideoUrl = { ...videoName, [isBox2Visible]: videoUrl }
+    setVideoName(updateVideoName)
+    setSelectedVideoSrc(updateVideoUrl);
+
   };
   return (
     <>
@@ -54,7 +57,7 @@ const DetailTopicCard = ({
             </Box>
             <Collapse in={isBox2Visible === video.videoId}>
               <Box display='flex' justifyContent='space-between' id='Box2'>
-                <Box display='flex' alignItems='center' justifyContent='center' width='45%' height='400px' border='1px solid gray' ml='3%'>
+                <Box display='flex' alignItems='center' justifyContent='center' width='45%' height='400px' border='1px solid gray' ml='3%' flexDirection='column'>
                   <input
                     accept="video/mp4"
                     style={{ display: 'none' }}
@@ -68,14 +71,20 @@ const DetailTopicCard = ({
                       Choose Video
                     </Button>
                   </label>
+                  {videoName[video.videoId] && (
+                    <Typography fontSize="22px" mt="1%" color="rgba(0, 0, 0, 0.8)">
+                      {videoName[video.videoId]}
+                    </Typography>
+                  )}
+
                 </Box>
                 <Box display='flex' alignItems='center' justifyContent='center' width='45%' height='400px' border='1px solid gray' mr='3%'>
-                  {selectedVideoSrc && (
+                  {selectedVideoSrc[video.videoId] && (
                     <video
                       width="100%"
                       height="400px"
                       controls
-                      src={selectedVideoSrc}
+                      src={selectedVideoSrc[video.videoId]}
                     />
                   )}
                   {/* <input

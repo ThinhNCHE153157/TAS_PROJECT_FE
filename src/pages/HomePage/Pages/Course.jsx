@@ -111,7 +111,7 @@ const Course = () => {
     return (
         <>
             <Header />
-            <StickyCard />
+            {/* <StickyCard /> */}
             <div class="container-fluid" style={{ marginTop: "-640px" }}>
                 <div className="row" style={{ marginTop: "80px", marginBottom: "10px" }}>
                     <div className="col-12" style={{ padding: 0 }}>

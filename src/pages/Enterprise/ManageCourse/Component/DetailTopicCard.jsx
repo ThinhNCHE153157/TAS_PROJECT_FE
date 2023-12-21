@@ -7,24 +7,29 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { useState } from 'react';
 
 const DetailTopicCard = ({
-  Videos
+  Videos,
+  handleAddVideo
 }) => {
-  const [isBox2Visible, setIsBox2Visible] = useState(false);
-
-
-  const handleSettingsClick = () => {
-    setIsBox2Visible(!isBox2Visible);
-  };
-  const handleRarFileChange = (event) => {
-    const selectedRarFile = event.target.files[0];
-    // Xử lý tệp RAR đã chọn ở đây
-    console.log('Selected RAR File:', selectedRarFile);
+  const [isBox2Visible, setIsBox2Visible] = useState(0);
+  const [selectedVideoSrc, setSelectedVideoSrc] = useState({});
+  const [videoName, setVideoName] = useState({});
+  const handleSettingsClick = (value) => {
+    console.log(value)
+    setIsBox2Visible(value);
   };
 
-  const handleVideoChange = (event) => {
+  const handleVideoChange = (event, videoId) => {
+    console.log('videoId: ', isBox2Visible)
     const selectedVideo = event.target.files[0];
-    // Xử lý video đã chọn ở đây
-    console.log('Selected Video:', selectedVideo);
+    const video = { [isBox2Visible]: selectedVideo }
+    console.log(video)
+    handleAddVideo(video)
+    const videoUrl = URL.createObjectURL(selectedVideo);
+    const updateVideoName = { ...videoName, [isBox2Visible]: selectedVideo.name }
+    const updateVideoUrl = { ...videoName, [isBox2Visible]: videoUrl }
+    setVideoName(updateVideoName)
+    setSelectedVideoSrc(updateVideoUrl);
+
   };
   return (
     <>
@@ -46,19 +51,19 @@ const DetailTopicCard = ({
                   </IconButton>
                 </Box>
               </Box>
-              <IconButton sx={{ mr: '3%' }} onClick={handleSettingsClick}>
+              <IconButton sx={{ mr: '3%' }} onClick={() => handleSettingsClick(video.videoId)}>
                 <SettingsOutlinedIcon />
               </IconButton>
             </Box>
-            <Collapse in={isBox2Visible}>
+            <Collapse in={isBox2Visible === video.videoId}>
               <Box display='flex' justifyContent='space-between' id='Box2'>
-                <Box display='flex' alignItems='center' justifyContent='center' width='45%' height='300px' border='1px solid gray' ml='3%'>
+                <Box display='flex' alignItems='center' justifyContent='center' width='45%' height='400px' border='1px solid gray' ml='3%' flexDirection='column'>
                   <input
                     accept="video/mp4"
                     style={{ display: 'none' }}
                     id="video-input"
                     type="file"
-                    onChange={handleVideoChange}
+                    onChange={(event) => handleVideoChange(event, video.videoId)}
 
                   />
                   <label htmlFor="video-input">
@@ -66,21 +71,38 @@ const DetailTopicCard = ({
                       Choose Video
                     </Button>
                   </label>
+                  {videoName[video.videoId] && (
+                    <Typography fontSize="22px" mt="1%" color="rgba(0, 0, 0, 0.8)">
+                      {videoName[video.videoId]}
+                    </Typography>
+                  )}
+
                 </Box>
-                <Box display='flex' alignItems='center' justifyContent='center' width='45%' height='300px' border='1px solid gray' mr='3%'>
-                  <input
+                <Box display='flex' alignItems='center' justifyContent='center' width='45%' height='400px' border='1px solid gray' mr='3%'>
+                  {selectedVideoSrc[video.videoId] && (
+                    <video
+                      width="100%"
+                      height="400px"
+                      controls
+                      src={selectedVideoSrc[video.videoId]}
+                    />
+                  )}
+                  {/* <input
                     accept=".rar/*"
                     style={{ display: 'none' }}
                     id="file-input"
                     type="file"
-                    onChange={handleRarFileChange}
+                    onChange={(event) => handleRarFileChange(event)}
                   />
                   <label htmlFor="file-input">
                     <Button component="span" variant="contained" color="primary" sx={{ fontSize: '15px' }}>
                       Choose file
                     </Button>
-                  </label>
+                  </label> */}
                 </Box>
+              </Box>
+              <Box width='100%' height='30px'>
+
               </Box>
             </Collapse>
 

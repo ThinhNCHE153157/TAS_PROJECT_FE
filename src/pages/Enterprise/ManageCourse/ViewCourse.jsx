@@ -12,14 +12,14 @@ const formatMoneyVND = (number) => {
 const datas = [
   {
     courseName: 'course 1',
-    courseCost: '200000',
+    courseCost: 200000,
     discount: 30,
     createDate: '12/12/2001',
     status: 2,
   },
   {
     courseName: 'course 2',
-    courseCost: '200000',
+    courseCost: 200000,
     discount: 40,
     createDate: '13/12/2001',
     status: 1,

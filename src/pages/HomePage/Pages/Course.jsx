@@ -112,8 +112,8 @@ const Course = () => {
         <>
             <Header />
             {/* <StickyCard /> */}
-            <div class="container-fluid" style={{ marginTop: "-640px" }}>
-                <div className="row" style={{ marginTop: "80px", marginBottom: "10px" }}>
+            <div class="container-fluid" >
+                <div className="row" style={{ marginBottom: "10px" }}>
                     <div className="col-12" style={{ padding: 0 }}>
                         <Banner />
                     </div>

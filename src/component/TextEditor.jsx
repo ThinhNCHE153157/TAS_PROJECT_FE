@@ -8,6 +8,7 @@ const TextEditor = ({
 }) => {
   const [content, setContent] = useState('');
   const handleChange = (value) => {
+    console.log(value)
     handleTextEditor(value);
     setContent(value);
   };
@@ -16,7 +17,7 @@ const TextEditor = ({
       <ReactQuill
         theme='snow'
         value={content}
-        onChange={handleChange}
+        onChange={(value) => handleChange(value)}
         style={{ height: '100%', marginTop: '1%', fontSize: '20px' }} // Đặt chiều rộng cố định
         autoExpand={true} // Cho phép tự động mở rộng chiều cao
         placeholder='Nhập mô tả khóa học của bạn'

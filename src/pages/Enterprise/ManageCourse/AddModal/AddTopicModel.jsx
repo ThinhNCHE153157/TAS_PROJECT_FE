@@ -6,6 +6,7 @@ const AddTopicModel = ({
   isModalOpen,
   handleCloseModal,
   handleAdd,
+
 }) => {
   const [value, setValue] = useState('')
   const handleAddButton = () => {

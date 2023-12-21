@@ -17,6 +17,7 @@ const SecondStep = ({
   id
 }) => {
   const [refresh, setRefresh] = useState(false);
+  const [listVideo, setListVideo] = useState({});
   const [data, setData] = useState(
     [
       {
@@ -83,6 +84,13 @@ const SecondStep = ({
     setIsModalOpen(false);
   };
 
+  const handleAddVideo = (video) => {
+    console.log('video: ', video)
+    var updateData = { ...listVideo, ...video }
+    console.log('updateData: ', updateData)
+    setListVideo(updateData)
+  }
+
   const handleAddTopicName = (value, topicId) => {
     console.log(value)
     console.log(topicId)
@@ -141,7 +149,7 @@ const SecondStep = ({
       {
         data.length === 0 ? ('') : (
           data.map((topic, index) => (
-            <TopicCard topic={topic} key={index} handleAddTitle={handleAddTitle} />
+            <TopicCard topic={topic} key={index} handleAddTitle={handleAddTitle} handleAddVideo={handleAddVideo} />
           ))
         )
 

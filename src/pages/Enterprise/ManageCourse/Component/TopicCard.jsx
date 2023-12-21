@@ -8,7 +8,8 @@ import AddVideoTitle from '../AddModal/AddVideoTitle';
 import { useState } from 'react';
 const TopicCard = ({
   topic,
-  handleAddTitle
+  handleAddTitle,
+  handleAddVideo
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleOpenModal = () => {
@@ -42,7 +43,7 @@ const TopicCard = ({
       </Typography>
       {
         topic.videos.length === 0 ? ('') : (
-          <DetailTopicCard Videos={topic.videos} />
+          <DetailTopicCard Videos={topic.videos} handleAddVideo={handleAddVideo} />
         )
       }
       {/* {

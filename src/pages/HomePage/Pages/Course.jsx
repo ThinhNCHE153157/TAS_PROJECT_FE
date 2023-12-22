@@ -1,16 +1,16 @@
 import Header from "../../../layout/Header";
 import Footer from "../../../layout/Footer";
 import Banner from "../Component/Banner";
-import { AppBar, Avatar, AvatarGroup, Box, Button, Divider, Grid, Tab, Tabs, Toolbar, Typography } from "@mui/material";
+import { AppBar, Avatar, AvatarGroup, Box, Button, Card, CardContent, CardMedia, Divider, Grid, Tab, Tabs, Toolbar, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import StickyCard from "../Component/StickyCard";
 import { useEffect, useRef, useState } from "react";
-import { Settings } from "@mui/icons-material";
 import { format } from 'date-fns';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLess from '@mui/icons-material/ExpandLess';
+import CardMembershipIcon from '@mui/icons-material/CardMembership';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 
-
+const testm = '<ul><li>Được học kiến thức miễn phí với nội dung chất lượng hơn mất phí</li><li>Các kiến thức nâng cao của Javascript giúp code trở nên tối ưu hơn</li><li>Hiểu được cách tư duy nâng cao của các lập trình viên có kinh nghiệm</li><li>Hiểu được các khái niệm khó như từ khóa this, phương thức bind, call, apply &amp; xử lý bất đồng bộ</li><li>Có nền tảng Javascript vững chắc để làm việc với mọi thư viện, framework viết bởi Javascript</li><li>Nâng cao cơ hội thành công khi phỏng vấn xin việc nhờ kiến thức chuyên môn vững chắc</li></ul><p><br></p>'
 const Topics = [
     {
         topicId: 1, topicName: 'There is topic 1', topicDescription: 'Topic desciption here Topic desciption here Topic desciption here Topic desciption here Topic desciption here Topic desciption here'
@@ -25,42 +25,43 @@ const Topics = [
         topicId: 4, topicName: 'There is topic 4', topicDescription: 'Topic desciption here Topic desciption here Topic desciption here Topic desciption here Topic desciption here Topic desciption here'
     },
 ]
-const renderTeacher = (teachers, maxTeacher) => {
-    const visibleTeachers = teachers.slice(0, maxTeacher);
-    const remainingTeachersCount = teachers.length - maxTeacher;
+// const renderTeacher = (teachers, maxTeacher) => {
+//     const visibleTeachers = teachers.slice(0, maxTeacher);
+//     const remainingTeachersCount = teachers.length - maxTeacher;
 
-    return (
-        <Box display='flex' alignItems='center'>
-            <Typography variant="body1" ml='6px' fontWeight='bold'>
-                Instructors:
-            </Typography>
-            {visibleTeachers.map((teacher, index) => (
-                <Button variant="text" sx={{ textTransform: 'none', padding: 0, minWidth: 0 }}>
-                    <Typography
-                        variant="body1"
-                        color="textSecondary"
-                        ml='6px'
-                        sx={{
-                            textDecorationLine: 'underline',
-                            display: 'inline-block'
-                        }}
-                    >
-                        {teacher}
-                    </Typography>
-                </Button>
+//     return (
+//         <Box display='flex' alignItems='center'>
+//             <Typography fontSize='22px' ml='6px' fontWeight='bold'>
+//                 Instructors:
+//             </Typography>
+//             {visibleTeachers.map((teacher, index) => (
+//                 <Button variant="text" sx={{ textTransform: 'none', padding: 0, minWidth: 0 }}>
+//                     <Typography
+//                         fontSize='22px'
+//                         color="textSecondary"
+//                         ml='6px'
+//                         sx={{
+//                             textDecorationLine: 'underline',
+//                             display: 'inline-block'
+//                         }}
+//                     >
+//                         {teacher}
+//                     </Typography>
+//                 </Button>
 
-            ))}
-            {remainingTeachersCount > 0 && (
-                <Typography variant="body1" color="textSecondary" ml='6px' fontWeight='bold'>
-                    +{remainingTeachersCount} more
-                </Typography>
-            )}
-        </Box>
-    );
-};
+//             ))}
+//             {remainingTeachersCount > 0 && (
+//                 <Typography fontSize='22px' color="textSecondary" ml='6px' fontWeight='bold'>
+//                     +{remainingTeachersCount} more
+//                 </Typography>
+//             )}
+//         </Box>
+//     );
+// };
 const Course = () => {
     const [tabValue, setTabValue] = useState(0)
     const contentRefs = [useRef(), useRef(), useRef(), useRef()]; // Mỗi ref tương ứng với một tab
+    const [course, setCourse] = useState({ discount: 20, courseCost: 100000000 })
     const maxTeacher = 2;
     const [teachers, setTeachet] = useState(['Alice', 'Jayce', 'Annie', 'Mobby']);
     const [expandTopic, setExpandTopic] = useState([]);
@@ -101,6 +102,12 @@ const Course = () => {
         t--;
         return (-c / 2) * (t * (t - 2) - 1) + b;
     };
+    const formatCurrency = (amount) => {
+        return amount.toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        });
+    }
     useEffect(() => {
         // Di chuyển đến vùng nội dung của tab khi tab thay đổi
         if (contentRefs[tabValue].current) {
@@ -111,9 +118,9 @@ const Course = () => {
     return (
         <>
             <Header />
-            {/* <StickyCard /> */}
-            <div class="container-fluid" >
-                <div className="row" style={{ marginBottom: "10px" }}>
+            <Box width='100%' height='400px'></Box>
+            <div ref={contentRefs[0]} class="container-fluid" style={{ marginTop: "-480px" }}>
+                <div className="row" style={{ marginTop: "80px", marginBottom: "10px" }}>
                     <div className="col-12" style={{ padding: 0 }}>
                         <Banner />
                     </div>
@@ -143,26 +150,45 @@ const Course = () => {
                                     },
                                 }}
                             >
-                                <Tab value={0} label="Thông tin khoá học" id="tab-0" />
-                                <Tab value={1} label="Mục tiêu khoá học" id="tab-1" />
-                                <Tab value={2} label="Chương trình học" id="tab-2" />
-                                <Tab value={3} label="Đánh giá" id="tab-3" />
+                                <Tab value={1} label={<Typography fontSize='22px'>Thông tin khóa học </Typography>} id="tab-1" />
+                                <Tab value={2} label={<Typography fontSize='22px'>Mục tiêu khóa học </Typography>} id="tab-2" />
+                                <Tab value={3} label={<Typography fontSize='22px'>Chương trình học</Typography>} id="tab-3" />
                             </Tabs>
                         </div>
                     </Toolbar>
                 </AppBar>
             </div>
-            <Box width='96vw' mt='30px'>
+            <Box minWidth='0' mt='30px' display='flex' flexDirection='column'>
                 {/* Nội dung của tab */}
-                <div ref={contentRefs[0]} style={{ backgroundColor: "#e9eaf5", minHeight: '0', width: '95vw' }}>
+                <div ref={contentRefs[1]} style={{ backgroundColor: "#e9eaf5", minHeight: '0', width: '100%', display: 'flex', justifyContent: 'space-between' }}>
                     <Box width='55%' height='100%' ml='8%'>
                         <Typography fontSize='40px' fontWeight='500'>
                             There is course name
                         </Typography>
-                        <Typography mt='2%' variant="body1">
+                        <Typography mt='2%' fontSize='22px'>
                             There is course description
                         </Typography>
                         <Box mt='2%' display='flex' alignItems='center'>
+                            <Avatar src="https://source.unsplash.com/400x400?avatar?1" />
+                            <Typography fontSize='22px' ml='6px'>
+                                Tên giảng viên:
+                            </Typography>
+                            <Button variant="text" sx={{ textTransform: 'none', padding: 0, minWidth: 0 }}>
+                                <Typography
+                                    fontSize='22px'
+                                    color="textSecondary"
+                                    ml='6px'
+                                    sx={{
+                                        textDecorationLine: 'underline',
+                                        display: 'inline-block'
+                                    }}
+                                >
+                                    Tên giảng viên
+                                </Typography>
+                            </Button>
+                        </Box>
+
+                        {/* <Box mt='2%' display='flex' alignItems='center'>
                             <AvatarGroup max={3}>
                                 <Avatar src="https://source.unsplash.com/400x400?avatar?1" />
                                 <Avatar src="https://source.unsplash.com/400x400?avatar?2" />
@@ -170,11 +196,11 @@ const Course = () => {
                                 <Avatar src="https://source.unsplash.com/400x400?avatar?4" />
                             </AvatarGroup>
                             {renderTeacher(teachers, maxTeacher)}
-                        </Box>
+                        </Box> */}
                         <Button variant="contained" sx={{ mt: '5%', textTransform: 'none', width: '180px' }}>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                 <Typography width='100%' fontSize='20px' fontWeight='bold'>Enroll</Typography>
-                                <Typography variant="body1">Starts {format(new Date(), 'MMM dd')}</Typography>
+                                <Typography fontSize='22px'>Starts {format(new Date(), 'MMM dd')}</Typography>
                             </div>
                         </Button>
                         <Typography mt='3%' fontSize='15px' color='textSecondary'>Sponsored by 'Enterprise Name'</Typography>
@@ -182,27 +208,113 @@ const Course = () => {
                             <Typography fontSize='18px' fontWeight='bold' mr='5px'>50</Typography>
                             <Typography fontSize='18px'>already enrolled</Typography>
                         </Box>
-                        <Box width='100%' padding='30px'></Box>
+                        <Box width='100%' padding='20px'></Box>
+                    </Box>
 
+                    <Card elevation={6} sx={{ mt: '1%', width: '18%', marginRight: '10%', borderRadius: '10px', height: '450px' }}>
+                        <CardMedia
+                            component="img"
+                            height="160px"
+                            image='https://source.unsplash.com/400x400?avatar?1'
+                            alt={'title image'}
+                        />
+                        <CardContent>
+                            <Typography fontSize='24px' fontWeight={500} component="div">
+                                Name khóa học
+                            </Typography>
+                            <Typography fontSize='20px' color="text.secondary">
+                                mô tả ngắn
+                            </Typography>
+                            <Divider sx={{ bgcolor: 'black', mt: '1%' }} />
+                            <Typography fontSize='20px' mt='3%'>
+                                Trình độ :
+                            </Typography>
+                            <Box display='flex' mt='1%' >
+                                {
+                                    course.discount ? (
+                                        <>
+                                            <Typography fontSize='22px' fontWeight='bold' mr='8px'>
+                                                Giá tiền:
+                                            </Typography>
+                                            <Typography fontSize='22px' fontWeight='bold' color='red' mr='10px'>
+                                                {formatCurrency(course.courseCost * (100 - course.discount) / 100)}
+                                            </Typography>
+                                            <Typography fontSize='22px' color='textSecondary' style={{ textDecoration: 'line-through' }} >
+                                                {formatCurrency(course.courseCost)}
+                                            </Typography>
+                                        </>
+
+                                    ) : (
+                                        <Typography fontSize='22px' fontWeight='bold'>
+                                            Giá tiền: {formatCurrency(course.courseCost)}
+                                        </Typography>
+                                    )
+                                }
+                            </Box>
+                            {
+                                course.discount ? (
+                                    <Typography fontSize='16px' fontWeight='bold' color='red'>
+                                        (Giảm giá: {course.discount}%)
+                                    </Typography>
+                                ) : (
+                                    ''
+                                )
+                            }
+                            <Box mt='10%' display='flex' justifyContent='right'>
+                                <Button variant="contained" sx={{ textTransform: 'none', }}>
+                                    <Typography fontSize='22px'>
+                                        Mua khóa học
+                                    </Typography>
+                                </Button>
+                            </Box>
+
+
+                        </CardContent>
+                    </Card >
+                </div>
+                <div
+                    ref={contentRefs[2]}
+                    style={{
+                        // backgroundColor: "#bdeaf0",
+                        width: '100%'
+                    }}
+                >
+                    <Box maxWidth='100vw' height='100%' ml='8%' display='flex' flexDirection='column'>
+                        <Box width='50%' height='100%'>
+                            <Box display='flex' width='100%' alignItems='center'>
+                                <CardMembershipIcon sx={{ fontSize: "40px", color: '#4070ad' }} />
+                                <Typography color='#4070ad' fontSize='32px' fontWeight='bold' mt='2%' mb='2%' ml='1%'>
+                                    Mục tiêu khóa học
+                                </Typography>
+                            </Box>
+                            <div
+                                style={{
+                                    fontSize: '22px',
+                                    lineHeight: '1.5',
+                                }}
+                                dangerouslySetInnerHTML={{ __html: testm }}
+                            />
+
+                        </Box>
                     </Box>
                 </div>
-                <div ref={contentRefs[1]} style={{ backgroundColor: "#bdeaf0", height: "500px", width: '95vw' }}>
-
-                </div>
-                <div ref={contentRefs[2]} style={{ minHeight: '0', width: '95vw' }}>
-                    <Box maxWidth='100vw' height='100%' ml='8%'>
+                <div ref={contentRefs[3]} style={{ minHeight: '0', width: '100%' }}>
+                    <Box maxWidth='100vw' height='100%' ml='8%' display='flex' flexDirection='column'>
                         <Box width='50%' height='100%'>
-                            <Typography fontSize='32px' fontWeight='500'>
-                                Khóa học bao gồm: 5 Topic
-                            </Typography>
-                            <Typography mt='3%' variant="body1">
-                                Stemming from the principles of storytelling and design established in CalArts’
-                                renowned Animation programs, this Specialization lays a primary foundation for
-                                experimentation and exploration of video game design, story, character development,
-                                and winning gameplay before programming begins. These four courses emphasize the
-                                self-reliance and personal expression of the gaming artist, and encourage you to
-                                take conceptual risks and develop new modes of expression and form through gaming.
-                            </Typography>
+                            <Box display='flex' width='100%' alignItems='center'>
+                                <ContentPasteIcon sx={{ fontSize: "40px", color: '#4070ad' }} />
+                                <Typography color='#4070ad' fontSize='32px' fontWeight='bold' mt='2%' mb='2%' ml='1%'>
+                                    Khóa học gồm 5 chủ đề
+                                </Typography>
+                            </Box>
+                            <div
+                                style={{
+                                    marginTop: '2%',
+                                    fontSize: '22px',
+                                    lineHeight: '1.5',
+                                }}
+                                dangerouslySetInnerHTML={{ __html: testm }}
+                            />
                         </Box>
                         <Box width='100%' height='100%' mt='3%'>
                             <Grid container columnGap='20px' width='100%'>
@@ -238,12 +350,12 @@ const Course = () => {
                                                     </Button>
                                                 </div>
 
-                                                <Typography variant="body1" mt='1%'>Topic {index + 1} - 5 videos - 1 testing</Typography>
+                                                <Typography fontSize='22px' mt='1%'>Topic {index + 1} - 5 videos - 1 testing</Typography>
 
                                                 {expandTopic.includes(topic.topicId) ? (
                                                     <div>
-                                                        <Typography variant="body1" fontWeight='bold' mt='2%'>Nội dung topic</Typography>
-                                                        <Typography variant="body1" mt='1%' mb='2%'>
+                                                        <Typography fontSize='22px' fontWeight='bold' mt='2%'>Nội dung topic</Typography>
+                                                        <Typography fontSize='22px' mt='1%' mb='2%'>
                                                             Start creating your world. A game world is not just a backdrop for your
                                                             game—be it minimal or detailed, contained or part of a much bigger universe,
                                                             it provides the context for your player. Ultimately, a game world should feel
@@ -300,9 +412,6 @@ const Course = () => {
                     </Box>
 
                 </div >
-                <div ref={contentRefs[3]} style={{ backgroundColor: "#e7e8d1", height: "500px", width: '95vw' }}>
-                    {/* Nội dung cho Đánh giá */}
-                </div>
             </Box >
             <Footer />
         </>

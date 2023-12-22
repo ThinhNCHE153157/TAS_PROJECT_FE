@@ -10,23 +10,31 @@ const DetailTopicCard = ({
   Videos,
   handleAddVideo
 }) => {
-  const [isBox2Visible, setIsBox2Visible] = useState(0);
+  const [isBox2Visible, setIsBox2Visible] = useState([]);
   const [selectedVideoSrc, setSelectedVideoSrc] = useState({});
   const [videoName, setVideoName] = useState({});
+  const [selectedVideoId, setSelectedVideoId] = useState(0)
   const handleSettingsClick = (value) => {
     console.log(value)
-    setIsBox2Visible(value);
+    setIsBox2Visible((prevIsBox2Visible) => {
+      if (prevIsBox2Visible.includes(value)) {
+        return prevIsBox2Visible.filter((id) => id !== value);
+      } else {
+        return [...prevIsBox2Visible, value];
+      }
+    });
+    setSelectedVideoId(value)
   };
 
   const handleVideoChange = (event, videoId) => {
-    console.log('videoId: ', isBox2Visible)
+    console.log('videoId: ', selectedVideoId)
     const selectedVideo = event.target.files[0];
-    const video = { [isBox2Visible]: selectedVideo }
+    const video = { [selectedVideoId]: selectedVideo }
     console.log(video)
     handleAddVideo(video)
     const videoUrl = URL.createObjectURL(selectedVideo);
-    const updateVideoName = { ...videoName, [isBox2Visible]: selectedVideo.name }
-    const updateVideoUrl = { ...videoName, [isBox2Visible]: videoUrl }
+    const updateVideoName = { ...videoName, [selectedVideoId]: selectedVideo.name }
+    const updateVideoUrl = { ...videoName, [selectedVideoId]: videoUrl }
     setVideoName(updateVideoName)
     setSelectedVideoSrc(updateVideoUrl);
 
@@ -55,7 +63,7 @@ const DetailTopicCard = ({
                 <SettingsOutlinedIcon />
               </IconButton>
             </Box>
-            <Collapse in={isBox2Visible === video.videoId}>
+            <Collapse in={isBox2Visible.includes(video.videoId)} timeount="auto" unmountOnExit>
               <Box display='flex' justifyContent='space-between' id='Box2'>
                 <Box display='flex' alignItems='center' justifyContent='center' width='45%' height='400px' border='1px solid gray' ml='3%' flexDirection='column'>
                   <input

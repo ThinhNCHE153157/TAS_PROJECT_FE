@@ -36,11 +36,15 @@ import ViewCourse from '../pages/Enterprise/ManageCourse/ViewCourse';
 import AddCourse from '../pages/Enterprise/ManageCourse/AddCourse';
 import StartTest from '../pages/HomePage/Pages/DoTest/StartTest';
 import TestComponent from '../pages/HomePage/Pages/DoTest/PartComponent/TestCom';
+import TestResultDetail from '../pages/HomePage/Pages/DoTest/TestResultDetail';
+import ManageCourse from '../pages/HOD/ManageCourse/ManageCourse';
 const TheRouter = () => {
   return (
     <Routes>
       <Route path='/Order' exact element={<Order />} />
+      <Route path='/ManageCourse' exact element={<ManageCourse />} />
       <Route path='/TestComponent' exact element={<TestComponent />} />
+      <Route path='/TestResultDetail' exact element={<TestResultDetail />} />
 
       {/* Homepage */}
       <Route path="/" exact element={<Homepage />} />

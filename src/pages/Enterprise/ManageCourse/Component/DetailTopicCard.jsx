@@ -6,6 +6,7 @@ import PlayCircleOutlineOutlinedIcon from '@mui/icons-material/PlayCircleOutline
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import { useState } from 'react';
+import { API_FormFile } from '../../../../component/callApi';
 
 const DetailTopicCard = ({
   Videos,
@@ -49,6 +50,13 @@ const DetailTopicCard = ({
     const formdata = new FormData();
     formdata.append('videoId', selectedVideoId)
     formdata.append('video', videoFile)
+    API_FormFile.put("/Video/UpdateVideo", formdata)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
   return (
     <>

@@ -1,7 +1,7 @@
 import Header from "../../../layout/Header";
 import Footer from "../../../layout/Footer";
 import Banner from "../Component/Banner";
-import { AppBar, Avatar, AvatarGroup, Box, Button, Card, CardContent, CardMedia, Divider, Grid, Tab, Tabs, Toolbar, Typography } from "@mui/material";
+import { AppBar, Avatar, AvatarGroup, Box, Button, Card, CardContent, CardMedia, Dialog, DialogContent, DialogTitle, Divider, Grid, Tab, Tabs, TextField, Toolbar, Typography } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { format } from 'date-fns';
@@ -11,6 +11,8 @@ import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import { ToastContainer } from "react-toastify";
 import { GetCourseById } from "../../../Services/HomepageService";
+import OrderCourse from "../Component/OrderCourse";
+import { useSelector } from "react-redux";
 
 const testm = '<ul><li>Được học kiến thức miễn phí với nội dung chất lượng hơn mất phí</li><li>Các kiến thức nâng cao của Javascript giúp code trở nên tối ưu hơn</li><li>Hiểu được cách tư duy nâng cao của các lập trình viên có kinh nghiệm</li><li>Hiểu được các khái niệm khó như từ khóa this, phương thức bind, call, apply &amp; xử lý bất đồng bộ</li><li>Có nền tảng Javascript vững chắc để làm việc với mọi thư viện, framework viết bởi Javascript</li><li>Nâng cao cơ hội thành công khi phỏng vấn xin việc nhờ kiến thức chuyên môn vững chắc</li></ul><p><br></p>'
 const Topics = [
@@ -128,6 +130,34 @@ const Course = () => {
         , [id])
 
 
+    const user = useSelector((state) => state.user?.User);
+    const [orderType, setOrderType] = useState('Mua Khoá Học');
+    const [customerName, setCustomerName] = useState('');
+    const [price, setPrice] = useState('');
+    const [description, setDescription] = useState('');
+
+    // Function to handle form submission
+    const handleOrderSubmit = () => {
+        // You can perform any logic with the form values here
+        console.log('Submitting Order:', user.accountId)
+        console.log('Order Submitted:', user.accountId, {
+            orderType,
+            customerName,
+            price,
+            description,
+        });
+        handleCloseOrderForm();
+    };
+    const [openOrderForm, setOpenOrderForm] = useState(false);
+    const handleOpenOrderForm = () => {
+        setOpenOrderForm(true);
+    };
+
+    const handleCloseOrderForm = () => {
+        setOpenOrderForm(false);
+    };
+
+
     return (
         <>
             <Header />
@@ -210,7 +240,51 @@ const Course = () => {
                             </AvatarGroup>
                             {renderTeacher(teachers, maxTeacher)}
                         </Box> */}
-                        <Button variant="contained" sx={{ mt: '5%', textTransform: 'none', width: '180px' }}>
+                        <Dialog open={openOrderForm} onClose={handleCloseOrderForm}>
+                            <DialogTitle>Hoá đơn</DialogTitle>
+                            <DialogContent>
+                                <TextField
+                                    label="Loại đơn hàng"
+                                    fullWidth
+                                    margin="normal"
+                                    disabled
+                                    value={orderType}
+                                    onChange={(e) => setOrderType(e.target.value)}
+                                />
+                                <TextField
+                                    label="Tên khách hàng"
+                                    fullWidth
+                                    margin="normal"
+                                    disabled
+                                    value={customerName}
+                                    onChange={(e) => setCustomerName(e.target.value)}
+                                />
+                                <TextField
+                                    label="Đơn giá"
+                                    fullWidth
+                                    margin="normal"
+                                    type="number"
+                                    value={price}
+                                    onChange={(e) => setPrice(e.target.value)}
+                                />
+                                <TextField
+                                    label="Nội dung"
+                                    fullWidth
+                                    margin="normal"
+                                    multiline
+                                    rows={3}
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
+                                <Button variant="contained" color="primary" onClick={handleOrderSubmit}>
+                                    Place Order
+                                </Button>
+                                <Button variant="contained" onClick={handleCloseOrderForm}>
+                                    Cancel
+                                </Button>
+                            </DialogContent>
+                        </Dialog>
+                        <Button variant="contained" sx={{ mt: '5%', textTransform: 'none', width: '180px' }} onClick={handleOpenOrderForm}>
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                 <Typography width='100%' fontSize='20px' fontWeight='bold'>Enroll</Typography>
                                 <Typography fontSize='22px'>Starts {format(new Date(), 'MMM dd')}</Typography>

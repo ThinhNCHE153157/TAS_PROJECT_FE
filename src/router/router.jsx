@@ -42,7 +42,7 @@ const TheRouter = () => {
   return (
     <Routes>
       <Route path='/Order' exact element={<Order />} />
-      <Route path='/ManageCourse' exact element={<ManageCourse />} />
+      <Route path='/Admin/ManageCourse' exact element={<ManageCourse />} />
       <Route path='/TestComponent' exact element={<TestComponent />} />
       <Route path='/TestResultDetail' exact element={<TestResultDetail />} />
 

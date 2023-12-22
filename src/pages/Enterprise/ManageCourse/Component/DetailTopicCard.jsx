@@ -4,16 +4,19 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PlayCircleOutlineOutlinedIcon from '@mui/icons-material/PlayCircleOutlineOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import SaveIcon from '@mui/icons-material/Save';
 import { useState } from 'react';
 
 const DetailTopicCard = ({
   Videos,
-  handleAddVideo
+  handleAddVideo,
+  handleDeleteVideo
 }) => {
   const [isBox2Visible, setIsBox2Visible] = useState([]);
   const [selectedVideoSrc, setSelectedVideoSrc] = useState({});
   const [videoName, setVideoName] = useState({});
   const [selectedVideoId, setSelectedVideoId] = useState(0)
+  const [videoFile, setVideoFile] = useState(null)
   const handleSettingsClick = (value) => {
     console.log(value)
     setIsBox2Visible((prevIsBox2Visible) => {
@@ -29,6 +32,7 @@ const DetailTopicCard = ({
   const handleVideoChange = (event, videoId) => {
     console.log('videoId: ', selectedVideoId)
     const selectedVideo = event.target.files[0];
+    setVideoFile(selectedVideo)
     // const video = { [selectedVideoId]: selectedVideo }
     const video = { 'videoId': selectedVideoId, 'videoUrl': selectedVideo }
     console.log(video)
@@ -40,6 +44,12 @@ const DetailTopicCard = ({
     setSelectedVideoSrc(updateVideoUrl);
 
   };
+  const handleSaveVideo = (videoId) => {
+    console.log(videoFile)
+    const formdata = new FormData();
+    formdata.append('videoId', selectedVideoId)
+    formdata.append('video', videoFile)
+  }
   return (
     <>
       {
@@ -55,14 +65,21 @@ const DetailTopicCard = ({
                   <IconButton>
                     <EditIcon />
                   </IconButton>
-                  <IconButton sx={{ padding: '0' }}>
+                  <IconButton onClick={() => handleDeleteVideo(video.videoId)} sx={{ padding: '0' }}>
                     <DeleteIcon />
                   </IconButton>
                 </Box>
               </Box>
-              <IconButton sx={{ mr: '3%' }} onClick={() => handleSettingsClick(video.videoId)}>
-                <SettingsOutlinedIcon />
-              </IconButton>
+              <Box display='flex' alignItems='center' alignContent='center' sx={{ mr: '3%' }}>
+                <IconButton>
+                  <SaveIcon sx={{ color: 'green' }} onClick={() => handleSaveVideo(video.videoId)} />
+                </IconButton>
+                <IconButton onClick={() => handleSettingsClick(video.videoId)}>
+                  <SettingsOutlinedIcon />
+                </IconButton>
+
+              </Box>
+
             </Box>
             <Collapse in={isBox2Visible.includes(video.videoId)} timeount="auto" unmountOnExit>
               <Box display='flex' justifyContent='space-between' id='Box2'>

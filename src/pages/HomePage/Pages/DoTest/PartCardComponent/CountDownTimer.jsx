@@ -55,7 +55,3 @@ const CountDownTimer = ({ initialTime, onTimeout }) => {
 };
 
 export default CountDownTimer
-
-// return (
-
-// )

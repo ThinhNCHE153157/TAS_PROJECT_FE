@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Header from '../../../layout/Header';
 import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Divider, Grid, Tab, Typography } from '@mui/material';
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
@@ -50,6 +50,7 @@ const rows = [
   // Add more rows as needed
 ];
 const ChooseTestPart = () => {
+  const nav = useNavigate();
   const { id } = useParams();
   const [tabValue, setTabValue] = useState('1');
   const [tests, setTests] = useState([]);
@@ -115,7 +116,7 @@ const ChooseTestPart = () => {
           )
         }
         {/* <Typography component='div' variant='body1' fontStyle='italic' fontWeight='bold'>*Listening</Typography> */}
-        <Button variant='outlined' color="primary">
+        <Button variant='outlined' color="primary" onClick={(e) => nav(`/starttest/${id}`)}>
           Luyện tập
         </Button>
       </>

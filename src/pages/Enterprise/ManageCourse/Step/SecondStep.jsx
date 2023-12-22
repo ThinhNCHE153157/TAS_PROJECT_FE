@@ -97,6 +97,9 @@ const SecondStep = ({
     console.log('updateData: ', updateData)
     setListVideo(updateData)
   }
+  const handleDeleteVideo = (videoId) => {
+    console.log("videoId: ", videoId)
+  }
 
   const handleAddTopicName = (value, topicId) => {
     console.log(value)
@@ -156,7 +159,7 @@ const SecondStep = ({
       {
         data.length === 0 ? ('') : (
           data.map((topic, index) => (
-            <TopicCard topic={topic} key={index} handleAddTitle={handleAddTitle} handleAddVideo={handleAddVideo} />
+            <TopicCard topic={topic} key={index} handleAddTitle={handleAddTitle} handleAddVideo={handleAddVideo} handleDeleteVideo={handleDeleteVideo} />
           ))
         )
 

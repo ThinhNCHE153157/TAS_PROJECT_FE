@@ -9,7 +9,8 @@ import { useState } from 'react';
 const TopicCard = ({
   topic,
   handleAddTitle,
-  handleAddVideo
+  handleAddVideo,
+  handleDeleteVideo
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleOpenModal = () => {
@@ -43,7 +44,7 @@ const TopicCard = ({
       </Typography>
       {
         topic.videos.length === 0 ? ('') : (
-          <DetailTopicCard Videos={topic.videos} handleAddVideo={handleAddVideo} />
+          <DetailTopicCard Videos={topic.videos} handleAddVideo={handleAddVideo} handleDeleteVideo={handleDeleteVideo} />
         )
       }
       {/* {

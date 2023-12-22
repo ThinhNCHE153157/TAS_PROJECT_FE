@@ -2,13 +2,15 @@ import Header from "../../../layout/Header";
 import Footer from "../../../layout/Footer";
 import Banner from "../Component/Banner";
 import { AppBar, Avatar, AvatarGroup, Box, Button, Card, CardContent, CardMedia, Divider, Grid, Tab, Tabs, Toolbar, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { format } from 'date-fns';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import { ToastContainer } from "react-toastify";
+import { GetCourseById } from "../../../Services/HomepageService";
 
 const testm = '<ul><li>Được học kiến thức miễn phí với nội dung chất lượng hơn mất phí</li><li>Các kiến thức nâng cao của Javascript giúp code trở nên tối ưu hơn</li><li>Hiểu được cách tư duy nâng cao của các lập trình viên có kinh nghiệm</li><li>Hiểu được các khái niệm khó như từ khóa this, phương thức bind, call, apply &amp; xử lý bất đồng bộ</li><li>Có nền tảng Javascript vững chắc để làm việc với mọi thư viện, framework viết bởi Javascript</li><li>Nâng cao cơ hội thành công khi phỏng vấn xin việc nhờ kiến thức chuyên môn vững chắc</li></ul><p><br></p>'
 const Topics = [
@@ -59,6 +61,7 @@ const Topics = [
 //     );
 // };
 const Course = () => {
+    const { id } = useParams();
     const [tabValue, setTabValue] = useState(0)
     const contentRefs = [useRef(), useRef(), useRef(), useRef()]; // Mỗi ref tương ứng với một tab
     const [course, setCourse] = useState({ discount: 20, courseCost: 100000000 })
@@ -103,7 +106,7 @@ const Course = () => {
         return (-c / 2) * (t * (t - 2) - 1) + b;
     };
     const formatCurrency = (amount) => {
-        return amount.toLocaleString('vi-VN', {
+        return amount?.toLocaleString('vi-VN', {
             style: 'currency',
             currency: 'VND'
         });
@@ -114,6 +117,16 @@ const Course = () => {
             smoothScroll(contentRefs[tabValue]);
         }
     }, [tabValue]);
+
+    const [courses, setCourses] = useState({})
+    useEffect(() => {
+        GetCourseById(id).then((res) => {
+            setCourses(res)
+            console.log(res)
+        })
+    }
+        , [id])
+
 
     return (
         <>
@@ -163,10 +176,10 @@ const Course = () => {
                 <div ref={contentRefs[1]} style={{ backgroundColor: "#e9eaf5", minHeight: '0', width: '100%', display: 'flex', justifyContent: 'space-between' }}>
                     <Box width='55%' height='100%' ml='8%'>
                         <Typography fontSize='40px' fontWeight='500'>
-                            There is course name
+                            {courses.courseName}
                         </Typography>
                         <Typography mt='2%' fontSize='22px'>
-                            There is course description
+                            {courses.shortDescription}
                         </Typography>
                         <Box mt='2%' display='flex' alignItems='center'>
                             <Avatar src="https://source.unsplash.com/400x400?avatar?1" />
@@ -220,41 +233,41 @@ const Course = () => {
                         />
                         <CardContent>
                             <Typography fontSize='24px' fontWeight={500} component="div">
-                                Name khóa học
+                                {courses.courseName}
                             </Typography>
                             <Typography fontSize='20px' color="text.secondary">
-                                mô tả ngắn
+                                {courses.shortDescription}
                             </Typography>
                             <Divider sx={{ bgcolor: 'black', mt: '1%' }} />
                             <Typography fontSize='20px' mt='3%'>
-                                Trình độ :
+                                {(courses.courseLevel === 1) ? 'Sơ cấp' : (courses.courseLevel === 2) ? 'Trung cấp' : 'Cao cấp'}
                             </Typography>
                             <Box display='flex' mt='1%' >
                                 {
-                                    course.discount ? (
+                                    courses.discount ? (
                                         <>
                                             <Typography fontSize='22px' fontWeight='bold' mr='8px'>
                                                 Giá tiền:
                                             </Typography>
                                             <Typography fontSize='22px' fontWeight='bold' color='red' mr='10px'>
-                                                {formatCurrency(course.courseCost * (100 - course.discount) / 100)}
+                                                {formatCurrency(courses.courseCost * (100 - courses.discount) / 100)}
                                             </Typography>
                                             <Typography fontSize='22px' color='textSecondary' style={{ textDecoration: 'line-through' }} >
-                                                {formatCurrency(course.courseCost)}
+                                                {formatCurrency(courses.courseCost)}
                                             </Typography>
                                         </>
 
                                     ) : (
                                         <Typography fontSize='22px' fontWeight='bold'>
-                                            Giá tiền: {formatCurrency(course.courseCost)}
+                                            Giá tiền: {formatCurrency(courses.courseCost)}
                                         </Typography>
                                     )
                                 }
                             </Box>
                             {
-                                course.discount ? (
+                                courses.discount ? (
                                     <Typography fontSize='16px' fontWeight='bold' color='red'>
-                                        (Giảm giá: {course.discount}%)
+                                        (Giảm giá: {courses.discount}%)
                                     </Typography>
                                 ) : (
                                     ''
@@ -292,7 +305,7 @@ const Course = () => {
                                     fontSize: '22px',
                                     lineHeight: '1.5',
                                 }}
-                                dangerouslySetInnerHTML={{ __html: testm }}
+                                dangerouslySetInnerHTML={{ __html: courses.courseGoal }}
                             />
 
                         </Box>
@@ -313,14 +326,14 @@ const Course = () => {
                                     fontSize: '22px',
                                     lineHeight: '1.5',
                                 }}
-                                dangerouslySetInnerHTML={{ __html: testm }}
+                                dangerouslySetInnerHTML={{ __html: courses.courseDescription }}
                             />
                         </Box>
                         <Box width='100%' height='100%' mt='3%'>
                             <Grid container columnGap='20px' width='100%'>
                                 <Grid item xs={7} sx={{ border: "2px solid gray", borderRadius: '10px' }}>
                                     {
-                                        Topics.map((topic, index) => (
+                                        courses?.topics?.map((topic, index) => (
                                             <Box mt='2%' ml='3%' width='90%' >
                                                 <div style={{ display: 'flex' }}>
                                                     <Typography

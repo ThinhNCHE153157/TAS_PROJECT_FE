@@ -21,7 +21,14 @@ const GetlistpartOfTest = async (testId) => {
         .then(data => data);
 }
 
+const GetTestById = async (id) => {
+    return API.get(`/Test/GetTestById?TestId=${id}`)
+        .then(res => res.data)
+        .catch(err => console.log(err))
+}
+
 export {
     GetlistpartOfTest,
     GetlistQuestionOfTest,
+    GetTestById
 };

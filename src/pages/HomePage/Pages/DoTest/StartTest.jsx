@@ -9,6 +9,8 @@ import Part3 from './PartComponent/Part3';
 import CountDownTimer from './PartCardComponent/CountDownTimer';
 import { useEffect } from 'react';
 import { useRef } from 'react';
+import { GetTestById } from '../../../../Services/TestService'
+import { useParams } from 'react-router-dom';
 
 const parts = [
   {
@@ -312,10 +314,25 @@ const StickyComponent = (listQuestion, listAnswer, listPart) => {
 }
 
 const StartTest = () => {
+  const { id } = useParams();
   const [tabValue, setTabValue] = useState(1);
   const [listPart, setListPart] = useState(partsWithIndex)
   const [listQuestion, setListQuestion] = useState([])
   const [listAnswer, setListAnswer] = useState([])
+  const [TestPart, setTestPart] = useState([])
+
+
+  useEffect(() => {
+    GetTestById(id)
+      .then(res => {
+        setTestPart(res)
+        console.log(res)
+
+      })
+      .catch(err => console.log(err))
+  }, [])
+
+
   useEffect(() => {
     const updatedList = [];
     partsWithIndex.forEach(part => {

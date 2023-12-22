@@ -1,8 +1,7 @@
 import { Box, IconButton, Typography } from '@mui/material'
 import React from 'react'
 import PublishIcon from '@mui/icons-material/Publish';
-import { ToastContainer } from 'react-toastify';
-import { alertSuccess, alertInfo } from '../../../../component/AlertComponent';
+import { alertInfo } from '../../../../component/AlertComponent';
 const FifthStep = () => {
   const notify = () => {
     alertInfo({ message: "Khóa học của bạn đang chờ phê duyệt" });

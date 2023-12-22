@@ -12,7 +12,6 @@ import { useRef } from 'react';
 import { API } from '../../../../component/callApi'
 import { useParams } from 'react-router-dom';
 const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
-
   const handleSubmit = () => {
     const isConfirmed = window.confirm("Bạn có chắc chắn muốn nộp bài?");
     if (isConfirmed) {
@@ -131,7 +130,6 @@ const StartTest = () => {
   const [listQuestion, setListQuestion] = useState([])
   const [listAnswer, setListAnswer] = useState([])
   const [test, setTest] = useState({})
-
   useEffect(() => {
     API.get(`/Test/GetTestById?TestId=${id}`)
       .then(res => {

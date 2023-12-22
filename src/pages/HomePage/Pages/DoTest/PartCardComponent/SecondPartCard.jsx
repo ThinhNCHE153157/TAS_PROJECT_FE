@@ -38,11 +38,11 @@ const SecondPartCard = ({
           }}
         >
           {
-            ques.options.map((option, index) => (
+            ques.answers.map((answer, index) => (
               <FormControlLabel
-                value={option}
+                value={answer}
                 control={<Radio />}
-                label={<span style={{ fontSize: '20px' }}>{optionLecter[index] + '. ' + option}</span>}
+                label={<span style={{ fontSize: '20px' }}>{optionLecter[index] + '. ' + answer}</span>}
               />
             ))
           }

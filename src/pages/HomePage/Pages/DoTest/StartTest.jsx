@@ -9,216 +9,25 @@ import Part3 from './PartComponent/Part3';
 import CountDownTimer from './PartCardComponent/CountDownTimer';
 import { useEffect } from 'react';
 import { useRef } from 'react';
-import { GetTestById } from '../../../../Services/TestService'
+import { API } from '../../../../component/callApi'
 import { useParams } from 'react-router-dom';
-
-const parts = [
-  {
-    partId: 1,
-    urlSound: '',
-    questions: [
-      {
-        id: "1",
-        question: "What is the capital of France?",
-        correctAnswer: "Paris",
-        options: ["Paris", 'abvdd', 'asdfasdfasdf', 'asdkfjh3iouwe'],
-        urlPic: ''
-      },
-      {
-        id: "2",
-        question: "Who painted the Mona Lisa?",
-        correctAnswer: "Leonardo da Vinci",
-        options: ["Canberra", 'Leonardo da Vinci', 'asdfasdfasdf', 'asdkfjh3iouwe'],
-        urlPic: ''
-      },
-      {
-        id: "3",
-        question: "What is the largest planet in our solar system?",
-        correctAnswer: "Jupiter",
-        options: ["Canberra", 'abvdd', 'Jupiter', 'asdkfjh3iouwe'],
-        urlPic: ''
-      },
-    ]
-
-  },
-  {
-    partId: 2,
-    urlSound: '',
-    questions: [
-      {
-        id: "4",
-        question: "What is the chemical symbol for gold?",
-        correctAnswer: "Au",
-        options: ["Canberra", 'abvdd', 'Au', 'asdkfjh3iouwe'],
-        urlPic: ''
-      },
-      {
-        id: "5",
-        question: "Who wrote the play Romeo and Juliet?",
-        correctAnswer: "William Shakespeare",
-        options: ["Canberra", 'abvdd', 'asdfasdfasdf', 'William Shakespeare'],
-        urlPic: ''
-      },
-      {
-        id: "6",
-        question: "What is the tallest mountain in the world?",
-        correctAnswer: "Mount Everest",
-        options: ["Canberra", 'abvdd', 'Mount Everest', 'asdkfjh3iouwe'],
-        urlPic: ''
-      },
-    ]
-
-  },
-  {
-    partId: 3,
-    urlSound: '',
-    questions: [
-      {
-        id: "7",
-        question: "What is the formula for water?",
-        correctAnswer: "H2O",
-        options: ["Canberra", 'H2O', 'asdfasdfasdf', 'asdkfjh3iouwe'],
-        urlPic: ''
-      },
-      {
-        id: "8",
-        question: "Who is the current president of the United States?",
-        correctAnswer: "Joe Biden",
-        options: ["Canberra", 'abvdd', 'asdfasdfasdf', 'Joe Biden'],
-        urlPic: ''
-      },
-      {
-        id: "9",
-        question: "What is the largest ocean on Earth?",
-        correctAnswer: "Pacific Ocean",
-        options: ["Canberra", 'Pacific Ocean', 'asdfasdfasdf', 'asdkfjh3iouwe'],
-        urlPic: ''
-      },
-    ]
-
-  },
-  {
-    partId: 4,
-    urlSound: '',
-    questions: [
-      {
-        id: "10",
-        question: "What is the square root of 64?",
-        correctAnswer: "8",
-        options: ["Canberra", 'abvdd', '8', 'asdkfjh3iouwe'],
-        urlPic: ''
-      },
-      {
-        id: "11",
-        question: "Who invented the telephone?",
-        correctAnswer: "Alexander Graham Bell",
-        options: ["Canberra", 'Alexander Graham Bell', 'asdfasdfasdf', 'asdkfjh3iouwe'],
-        urlPic: ''
-      },
-      {
-        id: "12",
-        question: "What is the capital of Japan?",
-        correctAnswer: "Tokyo",
-        options: ["Canberra", 'abvdd', 'Tokyo', 'asdkfjh3iouwe'],
-        urlPic: ''
-      },
-    ]
-
-  },
-  {
-    partId: 5,
-    urlSound: '',
-    questions: [
-      {
-        id: "13",
-        question: "What is the boiling point of water in Celsius?",
-        correctAnswer: "100",
-        options: ["Canberra", '100', 'asdfasdfasdf', 'asdkfjh3iouwe'],
-        urlPic: ''
-      },
-      {
-        id: "14",
-        question: "Who wrote the novel Pride and Prejudice?",
-        correctAnswer: "Jane Austen",
-        options: ["Canberra", 'abvdd', 'Jane Austen', 'asdkfjh3iouwe'],
-        urlPic: ''
-      },
-      {
-        id: "15",
-        question: "What is the largest country in the world by land area?",
-        correctAnswer: "Russia",
-        options: ["Canberra", 'Russia', 'asdfasdfasdf', 'asdkfjh3iouwe'],
-        urlPic: ''
-      },
-    ]
-
-  },
-  {
-    partId: 6,
-    urlSound: '',
-    questions: [
-      {
-        id: "16",
-        question: "What is the symbol for the element oxygen?",
-        correctAnswer: "O",
-        options: ["Canberra", 'O', 'asdfasdfasdf', 'asdkfjh3iouwe'],
-        urlPic: ''
-      },
-      {
-        id: "17",
-        question: "Who discovered gravity?",
-        correctAnswer: "Isaac Newton",
-        options: ["Canberra", 'abvdd', 'Isaac Newton', 'asdkfjh3iouwe'],
-        urlPic: ''
-      },
-      {
-        id: "18",
-        question: "What is the capital of Australia?",
-        correctAnswer: "Canberra",
-        options: ["Canberra", 'abvdd', 'asdfasdfasdf', 'asdkfjh3iouwe'],
-        urlPic: ''
-      },
-    ]
-
-  },
-  {
-    partId: 7,
-    urlSound: '',
-    questions: [
-      {
-        id: "19",
-        question: "What is the square root of 81?",
-        correctAnswer: "9",
-        options: ["Canberra", '9', 'asdfasdfasdf', 'asdkfjh3iouwe'],
-        urlPic: ''
-      },
-      {
-        id: "20",
-        question: "Who painted the Starry Night?",
-        correctAnswer: "Vincent van Gogh",
-        options: ["Vincent van Gogh", 'abvdd', 'asdfasdfasdf', 'asdkfjh3iouwe'],
-        urlPic: ''
-      }
-    ]
-
-  },
-]
-
-const partsWithIndex = parts.map((part, partIndex) => ({
-  ...part,
-  questions: part.questions.map((question, questionIndex) => ({
-    ...question,
-    indexQues: partIndex * part.questions.length + questionIndex + 1
-  }))
-}));
-const StickyComponent = (listQuestion, listAnswer, listPart) => {
+const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
 
   const handleSubmit = () => {
     const isConfirmed = window.confirm("Bạn có chắc chắn muốn nộp bài?");
     if (isConfirmed) {
       var numberCorrectAnswer = 0;
-      console.log(listQuestion);
-      console.log(listAnswer);
+      const startTime = localStorage.getItem('startTime');
+      const endTime = Date.now();
+      const elapsedTimeInSeconds = Math.floor((endTime - parseInt(startTime, 10)) / 1000);
+
+      // Chuyển đổi thời gian thành định dạng mm:ss
+      const minutes = Math.floor(elapsedTimeInSeconds / 60);
+      const seconds = elapsedTimeInSeconds % 60;
+      const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+      // Hiển thị thời gian đã làm bài
+      console.log('Thời gian đã làm bài:', formattedTime);
 
       listQuestion.forEach((question) => {
         const i = listAnswer.findIndex(x => x.id === question.id);
@@ -230,9 +39,10 @@ const StickyComponent = (listQuestion, listAnswer, listPart) => {
           }
         }
       });
+
       const totalPoint = parseFloat((numberCorrectAnswer / listQuestion.length * 10).toFixed(2))
-      console.log('NumberCorrectAnswer: ', numberCorrectAnswer)
-      console.log('Total point:', totalPoint)
+      const object = { 'testId': id, 'testScore': totalPoint, 'testFinish': (seconds - 2), listAnswer }
+      console.log('object: ', object)
     } else {
 
     }
@@ -273,12 +83,13 @@ const StickyComponent = (listQuestion, listAnswer, listPart) => {
                 <>
                   <Typography fontSize='25px' mb='15px' fontWeight={500}>Part {part.partId}</Typography>
                   <Box width='100%'>
-                    <Grid container columns={15} mb='30px' >
+                    <Grid container columns={15} mb='30px' rowSpacing='10px' >
                       {
                         part.questions.map((question) => {
-                          var isChecked = listAnswer.findIndex(x => x.id === question.id);
+                          console.log('listAnswer: ', listAnswer)
+                          var isChecked = listAnswer.findIndex(x => x.questionId === question.questionId);
                           console.log('isChecked: ', isChecked);
-                          var indexButton = listQuestion.findIndex(x => x.id === question.id)
+                          var indexButton = listQuestion.findIndex(x => x.questionId === question.questionId)
                           return (
                             <Grid xs={3}>
                               <Button
@@ -316,7 +127,7 @@ const StickyComponent = (listQuestion, listAnswer, listPart) => {
 const StartTest = () => {
   const { id } = useParams();
   const [tabValue, setTabValue] = useState(1);
-  const [listPart, setListPart] = useState(partsWithIndex)
+  const [listPart, setListPart] = useState([])
   const [listQuestion, setListQuestion] = useState([])
   const [listAnswer, setListAnswer] = useState([])
   const [TestPart, setTestPart] = useState([])
@@ -334,26 +145,43 @@ const StartTest = () => {
 
 
   useEffect(() => {
-    const updatedList = [];
-    partsWithIndex.forEach(part => {
-      part.questions.forEach(question => {
-        const { id, correctAnswer, indexQues } = question;
-        updatedList.push({ id, correctAnswer, indexQues });
-      });
-    });
-    console.log(updatedList)
+    API.get(`/Test/GetTestById?TestId=${id}`)
+      .then(res => {
 
-    // console.log(partsWithIndex);
-    // Cập nhật state listQuestion
-    setListQuestion(updatedList);
-  }, [])
-
-  useEffect(() => {
-
+        var listParts = res.data.parts
+        var partsWithIndex = listParts.map((part, partIndex) => ({
+          ...part,
+          questions: part.questions.map((question, questionIndex) => ({
+            ...question,
+            indexQues: partIndex * part.questions.length + questionIndex + 1
+          }))
+        }));
+        const updatedList = [];
+        partsWithIndex.forEach(part => {
+          part.questions.forEach(question => {
+            const { questionId, correctAnswer, indexQues } = question;
+            updatedList.push({ questionId, correctAnswer, indexQues });
+          });
+        });
+        setListPart(partsWithIndex)
+        console.log('partsWithIndex: ', partsWithIndex)
+        console.log('updatedList: ', updatedList)
+        console.log(updatedList)
+        setListQuestion(updatedList);
+      })
   }, [listAnswer])
 
-  const hanldeAddAnswer = (id, userAnswer) => {
-    const existingIndex = listAnswer.findIndex(x => x.id === id)
+
+  const startTime = localStorage.getItem('startTime');
+  if (startTime === null) {
+    localStorage.setItem('startTime', Date.now());
+  }
+
+
+
+
+  const hanldeAddAnswer = (questionId, userAnswer) => {
+    const existingIndex = listAnswer.findIndex(x => x.questionId === questionId)
     if (existingIndex !== -1) {
       const updatedList = [...listAnswer];
       updatedList[existingIndex].userAnswer = userAnswer;
@@ -361,7 +189,7 @@ const StartTest = () => {
       setListAnswer(updatedList);
     } else {
       const updatedList = [...listAnswer];
-      updatedList.push({ id, userAnswer })
+      updatedList.push({ questionId, userAnswer })
       // setListAnswer(prevList => [...prevList, { id, userAnswer }]);
       setListAnswer(updatedList);
     }
@@ -431,7 +259,7 @@ const StartTest = () => {
           {tabValue === 3 ? (< Part3 testPart={listPart[2]} listAnswer={listAnswer} hanldeAddAnswer={hanldeAddAnswer} />) : ('')}
 
         </Box>
-        {StickyComponent(listQuestion, listAnswer, listPart)}
+        {StickyComponent(listQuestion, listAnswer, listPart, id)}
 
       </Box>
 

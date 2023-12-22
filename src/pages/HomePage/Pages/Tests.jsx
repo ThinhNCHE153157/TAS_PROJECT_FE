@@ -84,11 +84,11 @@ const Tests = () => {
                 sx={{
                     position: 'relative',
                     width: '100vw',
-                    height: '50vh',
+                    height: '35vh',
                     backgroundColor: '#f3f6f9',
                 }}
             >
-                <Grid container position='absolute' marginLeft='15%' marginTop="8%" width='70vw'>
+                <Grid container position='absolute' marginLeft='15%' marginTop="2%" width='70vw'>
                     <Grid item xs={10}>
                         <Typography variant="h4">Thư viện đề thi</Typography>
                     </Grid>

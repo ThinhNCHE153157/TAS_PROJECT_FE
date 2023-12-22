@@ -112,146 +112,148 @@ export default function TestSideBar({
   };
 
   return (
+    <>
 
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <Box sx={{ ml: '3%', mt: '8%', height: '20px' }}>
-        <IconButton
-
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerOpen}
-          edge="start"
-        >
-          <Box display='flex' >
-            <MenuIcon color='primary' />
-            <Typography color='primary'>Menu</Typography>
-          </Box>
-
-        </IconButton>
-      </Box>
-
-      <Drawer
-        sx={{
-
-          marginTop: styles.drawer.marginTop,
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            ...styles.drawer,
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <DrawerHeader>
-          <Toolbar >
-            <Stack
-              sx={{ width: "100%" }}
-              justifyContent="center"
-            >
-              <Typography variant='h6' color='Highlight' >
-                Tên khóa học
-              </Typography>
-
-            </Stack>
-
-          </Toolbar>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List disablePadding >
-
-          {Topics.map((topic, index) => (
-            <>
-              <ListItem
-                key={topic.topicId}
-                disablePadding
-                sx={{ display: 'block' }}
-                onClick={() => handleTopicToggle(topic.topicId)}>
-                <ListItemButton>
-                  <Typography
-                    variant='body1'
-                    children={`Topic ${index + 1}: ${topic.topicName}`}
-                    sx={{ fontWeight: 'bold' }}
-                  />
-                  {expandedTopics.includes(topic.topicId) ? <ExpandLess /> : <ExpandMore />}
-                </ListItemButton>
-              </ListItem>
-              <Collapse in={expandedTopics.includes(topic.topicId)} timeount="auto" unmountOnExit>
-                {topic.videos.map((video, index) => (
-                  <ListItem
-                    key={video.videoId}
-                    disablePadding
-                    sx={{
-                      display: 'block',
-                      backgroundColor: video.videoId === currentVideo.videoId ? '#f7f7f7' : 'inherit',
-                      borderLeft: '',
-                      borderLeftColor: ''
-                    }}>
-                    <ListItemButton onClick={() => {
-                      setCurrentTopic(topic)
-                      setCurrentVideo(video)
-                    }}>
-
-                      <Box
-                        display='flex'
-                        width='90%'
-
-                      >
-
-                        <PlayCircleOutlineIcon fontSize='medium' />
-                        <Typography
-                          variant='body1' sx={{ ml: '5%', fontWeight: 'bold' }}
-                          width='100%'
-                        >
-                          Video:
-                          <Typography display='inline' variant='body1' sx={{ ml: '2%', width: 'auto' }}>{video.videoTitle}</Typography>
-                        </Typography>
-                      </Box>
-
-
-                    </ListItemButton>
-                  </ListItem>
-                ))}
-              </Collapse>
-            </>
-
-
-          ))}
-        </List>
-        <Divider />
-
-      </Drawer>
       <Header />
-      <Main open={open} sx={{ mt: '7.1%' }}>
-        <Box
-          sx={{
-            width: '100%',
-            height: '100%',
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+        <Box sx={{ ml: '3%', mt: '1%', height: '20px' }}>
+          <IconButton
 
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+          >
+            <Box display='flex' >
+              <MenuIcon color='primary' />
+              <Typography color='primary'>Menu</Typography>
+            </Box>
+
+          </IconButton>
+        </Box>
+
+        <Drawer
+          sx={{
+
+            marginTop: styles.drawer.marginTop,
+            width: drawerWidth,
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              ...styles.drawer,
+              width: drawerWidth,
+              boxSizing: 'border-box',
+            },
           }}
+          variant="persistent"
+          anchor="left"
+          open={open}
         >
-          <Box display='flex'>
-            <AccountBalanceIcon sx={{ mr: '8px' }} />
-            <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
-            <Typography variant='body1' sx={{ mr: '8px' }}>{currentTopic.topicName} </Typography>
-            <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
-            <Typography variant='body1' sx={{ mr: '8px' }}>{currentVideo.videoTitle}</Typography>
-          </Box>
-          <VideoPlayer url={currentVideo.videoUrl} title={currentVideo.videoTitle} />
-          {/* <Box mt="3%" ml='10%' height="80vh">
+          <DrawerHeader>
+            <Toolbar >
+              <Stack
+                sx={{ width: "100%" }}
+                justifyContent="center"
+              >
+                <Typography variant='h6' color='Highlight' >
+                  Tên khóa học
+                </Typography>
+
+              </Stack>
+
+            </Toolbar>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <List disablePadding >
+
+            {Topics.map((topic, index) => (
+              <>
+                <ListItem
+                  key={topic.topicId}
+                  disablePadding
+                  sx={{ display: 'block' }}
+                  onClick={() => handleTopicToggle(topic.topicId)}>
+                  <ListItemButton>
+                    <Typography
+                      variant='body1'
+                      children={`Topic ${index + 1}: ${topic.topicName}`}
+                      sx={{ fontWeight: 'bold' }}
+                    />
+                    {expandedTopics.includes(topic.topicId) ? <ExpandLess /> : <ExpandMore />}
+                  </ListItemButton>
+                </ListItem>
+                <Collapse in={expandedTopics.includes(topic.topicId)} timeount="auto" unmountOnExit>
+                  {topic.videos.map((video, index) => (
+                    <ListItem
+                      key={video.videoId}
+                      disablePadding
+                      sx={{
+                        display: 'block',
+                        backgroundColor: video.videoId === currentVideo.videoId ? '#f7f7f7' : 'inherit',
+                        borderLeft: '',
+                        borderLeftColor: ''
+                      }}>
+                      <ListItemButton onClick={() => {
+                        setCurrentTopic(topic)
+                        setCurrentVideo(video)
+                      }}>
+
+                        <Box
+                          display='flex'
+                          width='90%'
+
+                        >
+
+                          <PlayCircleOutlineIcon fontSize='medium' />
+                          <Typography
+                            variant='body1' sx={{ ml: '5%', fontWeight: 'bold' }}
+                            width='100%'
+                          >
+                            Video:
+                            <Typography display='inline' variant='body1' sx={{ ml: '2%', width: 'auto' }}>{video.videoTitle}</Typography>
+                          </Typography>
+                        </Box>
+
+
+                      </ListItemButton>
+                    </ListItem>
+                  ))}
+                </Collapse>
+              </>
+
+
+            ))}
+          </List>
+          <Divider />
+
+        </Drawer>
+        <Main open={open}>
+          <Box
+            sx={{
+              width: '100%',
+              height: '100%',
+
+            }}
+          >
+            <Box display='flex'>
+              <AccountBalanceIcon sx={{ mr: '8px' }} />
+              <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
+              <Typography variant='body1' sx={{ mr: '8px' }}>{currentTopic.topicName} </Typography>
+              <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
+              <Typography variant='body1' sx={{ mr: '8px' }}>{currentVideo.videoTitle}</Typography>
+            </Box>
+            <VideoPlayer url={currentVideo.videoUrl} title={currentVideo.videoTitle} />
+            {/* <Box mt="3%" ml='10%' height="80vh">
             <Typography variant='h6'>{currentVideo.videoTitle}</Typography>
             <ReactPlayer controls={true} url={currentVideo.urlVideo} height="70%" width='90%' />
           </Box> */}
-        </Box>
-      </Main>
-    </Box >
+          </Box>
+        </Main>
+      </Box >
+    </>
 
   );
 }

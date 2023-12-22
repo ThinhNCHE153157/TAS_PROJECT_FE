@@ -17,7 +17,7 @@ const SecondStep = ({
   id
 }) => {
   const [refresh, setRefresh] = useState(false);
-  const [listVideo, setListVideo] = useState({});
+  const [listVideo, setListVideo] = useState([]);
   const [data, setData] = useState(
     [
       {
@@ -86,7 +86,14 @@ const SecondStep = ({
 
   const handleAddVideo = (video) => {
     console.log('video: ', video)
-    var updateData = { ...listVideo, ...video }
+    var i = listVideo.findIndex(v => v.videoId === video.videoId)
+    var updateData = [...listVideo]
+    if (i !== -1) {
+      updateData[i].videoUrl = video.videoUrl
+    } else {
+      updateData.push(video);
+    }
+
     console.log('updateData: ', updateData)
     setListVideo(updateData)
   }

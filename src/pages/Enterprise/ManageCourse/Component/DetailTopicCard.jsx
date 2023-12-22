@@ -29,7 +29,8 @@ const DetailTopicCard = ({
   const handleVideoChange = (event, videoId) => {
     console.log('videoId: ', selectedVideoId)
     const selectedVideo = event.target.files[0];
-    const video = { [selectedVideoId]: selectedVideo }
+    // const video = { [selectedVideoId]: selectedVideo }
+    const video = { 'videoId': selectedVideoId, 'videoUrl': selectedVideo }
     console.log(video)
     handleAddVideo(video)
     const videoUrl = URL.createObjectURL(selectedVideo);

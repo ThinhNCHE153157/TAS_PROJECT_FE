@@ -38,6 +38,7 @@ import StartTest from '../pages/HomePage/Pages/DoTest/StartTest';
 import TestComponent from '../pages/HomePage/Pages/DoTest/PartComponent/TestCom';
 import TestResultDetail from '../pages/HomePage/Pages/DoTest/TestResultDetail';
 import ManageCourse from '../pages/HOD/ManageCourse/ManageCourse';
+import Preview from '../pages/HOD/ManageCourse/Preview';
 const TheRouter = () => {
   return (
     <Routes>
@@ -49,6 +50,7 @@ const TheRouter = () => {
       {/* Homepage */}
       <Route path="/" exact element={<Homepage />} />
       <Route path="/Course/:id" exact element={<Course />} />
+      <Route path="/Preview" exact element={<Preview />} />
       <Route path="/StartTest/:id" exact element={<StartTest />} />
       <Route path="/Test" exact element={<Tests />} />
       <Route path="/TakeTest" exact element={<TakeTest />} />

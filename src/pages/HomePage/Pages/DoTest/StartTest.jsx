@@ -29,7 +29,7 @@ const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
       console.log('Thời gian đã làm bài:', formattedTime);
 
       listQuestion.forEach((question) => {
-        const i = listAnswer.findIndex(x => x.id === question.id);
+        const i = listAnswer.findIndex(x => x.questionId === question.questionId);
         if (i !== -1 && listAnswer[i].hasOwnProperty('userAnswer')) {
           var userAns = listAnswer[i].userAnswer;
 
@@ -129,11 +129,12 @@ const StartTest = () => {
   const [listPart, setListPart] = useState([])
   const [listQuestion, setListQuestion] = useState([])
   const [listAnswer, setListAnswer] = useState([])
+  const [test, setTest] = useState({})
   useEffect(() => {
     API.get(`/Test/GetTestById?TestId=${id}`)
       .then(res => {
-
         var listParts = res.data.parts
+        setTest(res.data)
         var partsWithIndex = listParts.map((part, partIndex) => ({
           ...part,
           questions: part.questions.map((question, questionIndex) => ({
@@ -189,9 +190,9 @@ const StartTest = () => {
     >
       <Header />
 
-      <Box sx={{ marginTop: '5%', display: 'flex', justifyContent: 'center', }}>
+      <Box sx={{ marginTop: '2%', display: 'flex', justifyContent: 'center', }}>
         <Typography fontSize='30px' fontWeight='bold'>
-          Tên đề test
+          {test.testName}
         </Typography>
       </Box>
       <Box

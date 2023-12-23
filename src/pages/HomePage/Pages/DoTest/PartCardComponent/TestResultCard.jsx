@@ -11,13 +11,13 @@ const TestResultCard = ({
   return (
     <Box display='flex' mt='1%' ml='4%'>
       {
-        ques.img && (
-          <img width='40%' height='auto' src='https://umaine.edu/edhd/wp-content/uploads/sites/54/2023/03/Teacher-burnout-news-feature.jpg' />
+        ques.image && (
+          <img width='40%' height='auto' src={ques.image} />
         )
       }
       <FormControl
         sx={{
-          width: ques.img === null || ques.img === undefined || ques.img === '' ? '80%' : '60%',
+          width: ques.image === null || ques.image === undefined || ques.image === '' ? '80%' : '60%',
           ml: '3%'
         }}
       >
@@ -28,9 +28,9 @@ const TestResultCard = ({
               {indexQues}
             </Typography>
           </Button>
-          <Box display='flex' justifyContent='space-between'>
+          <Box display='flex' justifyContent='space-between' width='100%'>
             <Typography fontSize='23px' fontWeight='600'>
-              {ques.question}
+              {ques.description}
             </Typography>
             {
               ques.correctAnswer === userAnswer ? (
@@ -53,11 +53,12 @@ const TestResultCard = ({
           }}
         >
           {
-            ques.options.map((option, index) => (
+            ques.answers &&
+            ques.answers.map((data, index) => (
               <FormControlLabel
-                value={option}
+                value={data}
                 control={<Radio readOnly />}
-                label={<span style={{ fontSize: '20px' }}>{optionLecter[index] + '. ' + option}</span>}
+                label={<span style={{ fontSize: '20px' }}>{optionLecter[index] + '. ' + data}</span>}
               />
             ))
           }

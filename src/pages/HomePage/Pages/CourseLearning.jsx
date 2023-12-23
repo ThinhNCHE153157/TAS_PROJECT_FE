@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import { Collapse } from '@mui/material';
+import { Collapse, Stack, Toolbar } from '@mui/material';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
@@ -18,6 +18,8 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Header from '../../../layout/Header';
 import VideoPlayer from '../Component/VideoPlayer'
 import { BASE_URL } from '../../../Utils/Constants';
+import { getTopicBycourseId } from '../../../Services/AddCourseService'
+import { useParams } from 'react-router-dom';
 
 const drawerWidth = 320;
 
@@ -58,43 +60,48 @@ export default function TestSideBar({
   // Topics,
   // Course
 }) {
+  const { id } = useParams();
   const theme = useTheme();
   const [open, setOpen] = useState(true);
   const [expandedTopics, setExpandedTopics] = useState([]);
   const [currentTopic, setCurrentTopic] = useState('');
   const [currentVideo, setCurrentVideo] = useState('')
-  const Topics = [
-    {
-      topicId: '1',
-      topicName: 'There is topic 1 name',
-      videos: [
+  const [Topics, setTopics] = useState(
+    [
+      {
+        topicId: '1',
+        topicName: 'There is topic 1 name',
+        videos: [
 
-        { videoTitle: 'Video 1', videoId: '1', videoUrl: `${BASE_URL}Video/PreviewVideo?fileName=Miles Away - Bring Me Back (Official Lyric Video) ft. Claire Ridgely.mp4` },
-        { videoTitle: 'Video 2', videoId: '2', videoUrl: 'https://www.youtube.com/watch?v=jNgP6d9HraI' },
-        { videoTitle: 'Video 3', videoId: '3', videoUrl: 'https://www.youtube.com/watch?v=oUFJJNQGwhk' },
-      ]
-    },
-    {
-      topicId: '2',
-      topicName: 'There is topic 2 name',
-      videos: [
+          { videoTitle: 'Video 1', videoId: '1', videoUrl: `${BASE_URL}Video/PreviewVideo?fileName=Miles Away - Bring Me Back (Official Lyric Video) ft. Claire Ridgely.mp4` },
+          { videoTitle: 'Video 2', videoId: '2', videoUrl: 'https://www.youtube.com/watch?v=jNgP6d9HraI' },
+          { videoTitle: 'Video 3', videoId: '3', videoUrl: 'https://www.youtube.com/watch?v=oUFJJNQGwhk' },
+        ]
+      },
+      {
+        topicId: '2',
+        topicName: 'There is topic 2 name',
+        videos: [
 
-        { videoTitle: 'Video 4', videoId: '4', videoUrl: 'https://www.youtube.com/watch?v=jNgP6d9HraI' },
-        { videoTitle: 'Video 5', videoId: '5', videoUrl: 'https://www.youtube.com/watch?v=oUFJJNQGwhk' },
-        { videoTitle: 'Video 6', videoId: '6', videoUrl: 'https://www.youtube.com/watch?v=oUFJJNQGwhk' },
-      ]
-    },
+          { videoTitle: 'Video 4', videoId: '4', videoUrl: 'https://www.youtube.com/watch?v=jNgP6d9HraI' },
+          { videoTitle: 'Video 5', videoId: '5', videoUrl: 'https://www.youtube.com/watch?v=oUFJJNQGwhk' },
+          { videoTitle: 'Video 6', videoId: '6', videoUrl: 'https://www.youtube.com/watch?v=oUFJJNQGwhk' },
+        ]
+      },
+    ]
+  )
+  useEffect(() => {
+    getTopicBycourseId(id).then((res) => {
+      console.log('res: ', res.data)
+      setTopics(res.data)
+      setCurrentTopic(res.data[0])
+      setCurrentVideo(res.data[0].videos[0])
+      setExpandedTopics([res.data[0].topicId])
+    })
+  }, [id])
 
-  ]
 
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
   const handleTopicToggle = (topicId) => {
     setExpandedTopics((prevExpandedTopics) => {
       if (prevExpandedTopics.includes(topicId)) {
@@ -129,11 +136,19 @@ export default function TestSideBar({
           open={open}
         >
           <DrawerHeader>
-            <Typography variant='h6' color='Highlight' ml='5%'>
-              Tên khóa học
-            </Typography>
+            <Toolbar >
+              <Stack
+                sx={{ width: "100%" }}
+                justifyContent="center"
+              >
+                <Typography variant='h6' color='Highlight' >
+                  {Topics.length > 0 ? Topics[0].courseName : ''}
+                </Typography>
 
-          </DrawerHeader>
+              </Stack>
+
+            </Toolbar>
+          </DrawerHeader >
           <Divider />
           <List disablePadding >
 
@@ -197,7 +212,7 @@ export default function TestSideBar({
           </List>
           <Divider />
 
-        </Drawer>
+        </Drawer >
         <Main open={open}>
           <Box
             sx={{

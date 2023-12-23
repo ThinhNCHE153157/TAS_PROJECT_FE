@@ -10,8 +10,12 @@ import CountDownTimer from './PartCardComponent/CountDownTimer';
 import { useEffect } from 'react';
 import { useRef } from 'react';
 import { API } from '../../../../component/callApi'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
+  const user = useSelector(state => state.user?.User)
+  const nav = useNavigate();
+
   const handleSubmit = () => {
     const isConfirmed = window.confirm("Bạn có chắc chắn muốn nộp bài?");
     if (isConfirmed) {
@@ -40,7 +44,17 @@ const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
       });
 
       const totalPoint = parseFloat((numberCorrectAnswer / listQuestion.length * 10).toFixed(2))
-      const object = { 'testId': id, 'testScore': totalPoint, 'testFinish': (seconds - 2), listAnswer }
+      const object = { 'accountId': user.accountId, 'testId': id, 'testScore': totalPoint, 'testFinish': elapsedTimeInSeconds, 'numberCorrect': numberCorrectAnswer + "", listAnswer }
+      API.post('/Test/SubmitTest', object)
+        .then(res => {
+          nav(`/testresultdetail/${id}`)
+
+          console.log(res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+
       console.log('object: ', object)
     } else {
 
@@ -130,6 +144,9 @@ const StartTest = () => {
   const [listQuestion, setListQuestion] = useState([])
   const [listAnswer, setListAnswer] = useState([])
   const [test, setTest] = useState({})
+  const [TestPart, setTestPart] = useState([])
+
+
   useEffect(() => {
     API.get(`/Test/GetTestById?TestId=${id}`)
       .then(res => {

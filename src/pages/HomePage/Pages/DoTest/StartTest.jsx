@@ -10,8 +10,11 @@ import CountDownTimer from './PartCardComponent/CountDownTimer';
 import { useEffect } from 'react';
 import { useRef } from 'react';
 import { API } from '../../../../component/callApi'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
+  const user = useSelector(state => state.user?.User)
+  const nav = useNavigate();
 
   const handleSubmit = () => {
     const isConfirmed = window.confirm("Bạn có chắc chắn muốn nộp bài?");
@@ -30,7 +33,7 @@ const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
       console.log('Thời gian đã làm bài:', formattedTime);
 
       listQuestion.forEach((question) => {
-        const i = listAnswer.findIndex(x => x.id === question.id);
+        const i = listAnswer.findIndex(x => x.questionId === question.questionId);
         if (i !== -1 && listAnswer[i].hasOwnProperty('userAnswer')) {
           var userAns = listAnswer[i].userAnswer;
 
@@ -41,7 +44,17 @@ const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
       });
 
       const totalPoint = parseFloat((numberCorrectAnswer / listQuestion.length * 10).toFixed(2))
-      const object = { 'testId': id, 'testScore': totalPoint, 'testFinish': (seconds - 2), listAnswer }
+      const object = { 'accountId': user.accountId, 'testId': id, 'testScore': totalPoint, 'testFinish': elapsedTimeInSeconds, 'numberCorrect': numberCorrectAnswer + "", listAnswer }
+      API.post('/Test/SubmitTest', object)
+        .then(res => {
+          nav(`/testresultdetail/${id}`)
+
+          console.log(res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+
       console.log('object: ', object)
     } else {
 
@@ -131,17 +144,6 @@ const StartTest = () => {
   const [listQuestion, setListQuestion] = useState([])
   const [listAnswer, setListAnswer] = useState([])
   const [TestPart, setTestPart] = useState([])
-
-
-  useEffect(() => {
-    GetTestById(id)
-      .then(res => {
-        setTestPart(res)
-        console.log(res)
-
-      })
-      .catch(err => console.log(err))
-  }, [])
 
 
   useEffect(() => {

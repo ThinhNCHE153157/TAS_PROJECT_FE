@@ -3,12 +3,18 @@ import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
+import MuiAppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import { Collapse, Stack, Toolbar } from '@mui/material';
+import { Button, Collapse, Stack } from '@mui/material';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
@@ -21,7 +27,7 @@ import { BASE_URL } from '../../../Utils/Constants';
 import { getTopicBycourseId } from '../../../Services/AddCourseService'
 import { useParams } from 'react-router-dom';
 
-const drawerWidth = 320;
+const drawerWidth = 300;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -102,6 +108,13 @@ export default function TestSideBar({
 
 
 
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
   const handleTopicToggle = (topicId) => {
     setExpandedTopics((prevExpandedTopics) => {
       if (prevExpandedTopics.includes(topicId)) {
@@ -118,6 +131,9 @@ export default function TestSideBar({
       <Header />
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
+        <Box sx={{ ml: '3%', mt: '1%', height: '20px' }}>
+
+        </Box>
 
         <Drawer
           sx={{
@@ -148,7 +164,7 @@ export default function TestSideBar({
               </Stack>
 
             </Toolbar>
-          </DrawerHeader >
+          </DrawerHeader>
           <Divider />
           <List disablePadding >
 
@@ -212,7 +228,7 @@ export default function TestSideBar({
           </List>
           <Divider />
 
-        </Drawer >
+        </Drawer>
         <Main open={open}>
           <Box
             sx={{
@@ -229,6 +245,10 @@ export default function TestSideBar({
               <Typography variant='body1' sx={{ mr: '8px' }}>{currentVideo.videoTitle}</Typography>
             </Box>
             <VideoPlayer url={currentVideo.videoUrl} title={currentVideo.videoTitle} />
+            {/* <Box mt="3%" ml='10%' height="80vh">
+            <Typography variant='h6'>{currentVideo.videoTitle}</Typography>
+            <ReactPlayer controls={true} url={currentVideo.urlVideo} height="70%" width='90%' />
+          </Box> */}
           </Box>
         </Main>
       </Box >

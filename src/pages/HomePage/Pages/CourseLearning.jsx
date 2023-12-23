@@ -3,18 +3,12 @@ import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import { Button, Collapse, Stack } from '@mui/material';
+import { Collapse } from '@mui/material';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
@@ -25,7 +19,7 @@ import Header from '../../../layout/Header';
 import VideoPlayer from '../Component/VideoPlayer'
 import { BASE_URL } from '../../../Utils/Constants';
 
-const drawerWidth = 300;
+const drawerWidth = 320;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -57,7 +51,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
+  justifyContent: 'flex-start',
 }));
 
 export default function TestSideBar({
@@ -65,7 +59,7 @@ export default function TestSideBar({
   // Course
 }) {
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [expandedTopics, setExpandedTopics] = useState([]);
   const [currentTopic, setCurrentTopic] = useState('');
   const [currentVideo, setCurrentVideo] = useState('')
@@ -117,21 +111,6 @@ export default function TestSideBar({
       <Header />
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <Box sx={{ ml: '3%', mt: '1%', height: '20px' }}>
-          <IconButton
-
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-          >
-            <Box display='flex' >
-              <MenuIcon color='primary' />
-              <Typography color='primary'>Menu</Typography>
-            </Box>
-
-          </IconButton>
-        </Box>
 
         <Drawer
           sx={{
@@ -150,21 +129,10 @@ export default function TestSideBar({
           open={open}
         >
           <DrawerHeader>
-            <Toolbar >
-              <Stack
-                sx={{ width: "100%" }}
-                justifyContent="center"
-              >
-                <Typography variant='h6' color='Highlight' >
-                  Tên khóa học
-                </Typography>
+            <Typography variant='h6' color='Highlight' ml='5%'>
+              Tên khóa học
+            </Typography>
 
-              </Stack>
-
-            </Toolbar>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-            </IconButton>
           </DrawerHeader>
           <Divider />
           <List disablePadding >
@@ -246,10 +214,6 @@ export default function TestSideBar({
               <Typography variant='body1' sx={{ mr: '8px' }}>{currentVideo.videoTitle}</Typography>
             </Box>
             <VideoPlayer url={currentVideo.videoUrl} title={currentVideo.videoTitle} />
-            {/* <Box mt="3%" ml='10%' height="80vh">
-            <Typography variant='h6'>{currentVideo.videoTitle}</Typography>
-            <ReactPlayer controls={true} url={currentVideo.urlVideo} height="70%" width='90%' />
-          </Box> */}
           </Box>
         </Main>
       </Box >

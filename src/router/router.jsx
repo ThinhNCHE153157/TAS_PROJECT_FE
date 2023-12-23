@@ -2,7 +2,6 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import UserList from '../pages/HOD/ManageUser/UserList';
 import Dashboard from '../pages/HOD/Dashboard';
-import CourseList from '../pages/HOD/ManageCourse/CourseList';
 import Register from '../pages/commonUser/pages/Register';
 import Login from '../pages/commonUser/pages/Login';
 import UserProfile from '../pages/commonUser/pages/UserProfile';
@@ -46,11 +45,11 @@ const TheRouter = () => {
       <Route path='/Admin/ManageCourse' exact element={<ManageCourse />} />
       <Route path='/TestComponent' exact element={<TestComponent />} />
       <Route path='/TestResultDetail' exact element={<TestResultDetail />} />
+      <Route path="/Preview/:id" exact element={<Preview />} />
 
       {/* Homepage */}
       <Route path="/" exact element={<Homepage />} />
       <Route path="/Course/:id" exact element={<Course />} />
-      <Route path="/Preview" exact element={<Preview />} />
       <Route path="/StartTest/:id" exact element={<StartTest />} />
       <Route path="/Test" exact element={<Tests />} />
       <Route path="/TakeTest" exact element={<TakeTest />} />
@@ -65,7 +64,6 @@ const TheRouter = () => {
       <Route element={<RequireAuth allow={ROLE.Admin} />}>
         <Route path='/Admin/Dashboard' exact element={<Dashboard />} />
         <Route path='/Homepage' exact element={<Homepage />} />
-        <Route path='/Admin/CourseList' exact element={<CourseList />} />
         <Route path='/Admin/ClassList' exact element={<ClassList />} />
         <Route path='/Admin/TeacherList' exact element={<TeacherList />} />
         <Route path='/Admin/UserList' exact element={<UserList />} />

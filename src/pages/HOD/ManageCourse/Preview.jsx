@@ -3,9 +3,11 @@ import React from 'react'
 import NavBar from '../layout/NavBar';
 import Sidebar from '../layout/Sidebar';
 import { useState } from 'react';
+import Step1 from './Step/Step1';
+import { useParams } from 'react-router-dom';
 
 const stepStyle = {
-  ml: '14%',
+  mb: '5%',
   "& .MuiStepIcon-root": {
     fontSize: "2.5rem",
     margin: "0.5rem",
@@ -18,6 +20,8 @@ const stepStyle = {
   }
 }
 const Preview = () => {
+  const { id } = useParams();
+  console.log('id: ', id)
   const steps = ['Giới thiệu khóa học', 'Chương trình giảng dạy', 'Câu hỏi ôn tập'];
   const [completed, setCompleted] = useState({});
   const [activeStep, setActiveStep] = React.useState(0);
@@ -26,11 +30,9 @@ const Preview = () => {
   };
   return (
     <>
-      <NavBar />
-      <Box sx={{ display: 'flex', height: '300vh' }}>
-        <Sidebar />
-        <Box component="main" sx={{ flexGrow: 1, p: 3, mt: "24px" }} display='flex' flexDirection='column'>
-          <Box sx={{ mt: '5%', width: '80%', top: '10%', position: 'sticky', zIndex: '1000' }}>
+      <Box sx={{ display: 'flex' }}>
+        <Box component="main" sx={{ flexGrow: 1, p: 3, mt: "24px" }} display='flex' flexDirection='column' alignItems='center'>
+          <Box sx={{ width: '80%', top: '5%', position: 'sticky', zIndex: '1000' }}>
             <Stepper nonLinear activeStep={activeStep} sx={stepStyle}>
               {steps.map((label, index) => (
                 <Step key={label} completed={completed[index]}>
@@ -41,6 +43,7 @@ const Preview = () => {
 
               ))}
             </Stepper>
+            <Step1 id={id} />
           </Box>
         </Box>
       </Box>

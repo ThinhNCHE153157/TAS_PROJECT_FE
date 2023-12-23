@@ -1,9 +1,11 @@
 import { Box, Button, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from '../../../../layout/Header'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import TestResultCard from './PartCardComponent/TestResultCard'
+import { useSelector } from 'react-redux'
+import { API } from '../../../../component/callApi'
 
 
 const list2 = [
@@ -64,9 +66,24 @@ const list1 = [
 ]
 const TestResultDetail = () => {
   // const [parts, setParts] = useState([])
-  const testId = useParams('testId');
+  const user = useSelector(state => state.user?.User)
+  const { id } = useParams();
   const [listQuestion, setListQuestion] = useState(list1)
   const [listAnswer, setListAnswer] = useState(list2)
+  const [response, setResponse] = useState({})
+
+  useEffect(() => {
+    API.get(`/Test/TestResultDetail?testId=${id}&accountId=${user.accountId}`)
+      .then(res => {
+        localStorage.removeItem('startTime');
+        localStorage.removeItem('countdownTimerTime');
+        localStorage.removeItem('countdownTimerTimestamp');
+        setResponse(res.data)
+        setListQuestion(res.data.questionDtos)
+        setListAnswer(res.data.userAnswers)
+      })
+  }, [id, user.accountId])
+
 
   return (
     <Box
@@ -117,9 +134,9 @@ const TestResultDetail = () => {
             mr: '1%'
 
           }}>
-          <Typography fontSize='25px' fontWeight='500' mt='5%' ml='5%'>Tên bài test</Typography>
-          <Typography fontSize='20px' fontWeight='500' mt='5%' ml='7%'>Số câu đúng: </Typography>
-          <Typography fontSize='20px' fontWeight='500' mt='5%' ml='7%'>Điểm: </Typography>
+          <Typography fontSize='25px' fontWeight='500' mt='5%' ml='5%'>{response.testName}</Typography>
+          <Typography fontSize='20px' fontWeight='500' mt='5%' ml='7%'>Số câu đúng: {response.numCorrect}/{response.questionDtos?.length}</Typography>
+          <Typography fontSize='20px' fontWeight='500' mt='5%' ml='7%'>Điểm: {parseFloat((response.numCorrect / response.questionDtos?.length * 10).toFixed(2))}</Typography>
           <Box mt='18%' ml='32%' display='flex'>
             <Button variant='contained'>
               <Typography fontSize='18px' fontWeight='500'>Làm lại </Typography>

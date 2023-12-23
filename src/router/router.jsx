@@ -44,7 +44,7 @@ const TheRouter = () => {
       <Route path='/Order' exact element={<Order />} />
       <Route path='/Admin/ManageCourse' exact element={<ManageCourse />} />
       <Route path='/TestComponent' exact element={<TestComponent />} />
-      <Route path='/TestResultDetail' exact element={<TestResultDetail />} />
+      <Route path='/TestResultDetail/:id' exact element={<TestResultDetail />} />
 
       {/* Homepage */}
       <Route path="/" exact element={<Homepage />} />

@@ -23,7 +23,7 @@ export default function Header() {
   const user = useSelector((state) => state.user?.User?.username);
   const auth = useSelector((state) => state.auth?.user);
   const token = localStorage.getItem('token');
-  const decoded = jwtDecode(token.toString());
+  const decoded = jwtDecode(token?.toString());
   const userRole = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
   const [userdata, setData] = useState()
   const handleLogout = (e) => {
@@ -31,7 +31,7 @@ export default function Header() {
     logoutUser(dispatch);
   };
   useEffect(() => {
-    GetUserById(auth.id)
+    GetUserById(auth?.id)
       .then(res => {
         setData(res)
       })

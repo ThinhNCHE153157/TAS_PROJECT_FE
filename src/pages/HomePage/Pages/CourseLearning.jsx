@@ -23,6 +23,7 @@ import { BASE_URL } from '../../../Utils/Constants';
 import { getQuestionByCourseId, getTopicBycourseId } from '../../../Services/AddCourseService'
 import { useParams } from 'react-router-dom';
 import GenderTest from '../Component/GenderTest';
+import QuizIcon from '@mui/icons-material/Quiz';
 
 const drawerWidth = 300;
 
@@ -217,7 +218,7 @@ export default function TestSideBar({
 
                               >
 
-                                <PlayCircleOutlineIcon fontSize='medium' />
+                                <QuizIcon fontSize='medium' />
                                 <Typography
                                   variant='body1' sx={{ ml: '5%', fontWeight: 'bold' }}
                                   width='100%'

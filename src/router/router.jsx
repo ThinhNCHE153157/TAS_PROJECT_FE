@@ -40,11 +40,13 @@ import ManageCourse from '../pages/HOD/ManageCourse/ManageCourse';
 import Preview from '../pages/HOD/ManageCourse/Preview';
 import ManageEnterprise from '../pages/HOD/ManageEnterprise/ManageEnterprise';
 import PaymentCallback from '../pages/Payment/PaymentCallback';
+import VerifyOTP from '../pages/commonUser/pages/VerifyOTP';
 const TheRouter = () => {
   return (
     <Routes>
       <Route path='/Order' exact element={<Order />} />
       <Route path='/TestComponent' exact element={<TestComponent />} />
+      <Route path='/VerifyOTP' exact element={<VerifyOTP />} />
 
       <Route path="/Preview/:id" exact element={<Preview />} />
       <Route path='/TestResultDetail/:id' exact element={<TestResultDetail />} />
@@ -90,10 +92,10 @@ const TheRouter = () => {
         <Route path={ROUTES.common.login} exact element={<Login />} />
       </Route>
       <Route path={ROUTES.common.register} exact element={<Register />} />
-      <Route path="/commonUser/usermanagement" exact element={<UserManagement />} />
-      <Route path="/commonUser/FotgotPassword" exact element={<FotgotPassword />} />
-      <Route path="/commonUser/ResetPassword" exact element={<ResetPassword />} />
-      <Route path="/commonUser/ChangePassword" exact element={<ChangePassword />} />
+      <Route path="/usermanagement" exact element={<UserManagement />} />
+      <Route path="/ForgotPassword" exact element={<FotgotPassword />} />
+      <Route path="/ResetPassword" exact element={<ResetPassword />} />
+      <Route path="/ChangePassword" exact element={<ChangePassword />} />
       <Route path={ROUTES.common.login} exact element={<Login />} />
       <Route path={ROUTES.common.register} exact element={<Register />} />
       <Route path={ROUTES.common.login} exact element={<Login />} />

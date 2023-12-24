@@ -17,7 +17,7 @@ import ResetPassword from '../pages/commonUser/pages/ResetPassword';
 import TeacherList from '../pages/HOD/ManageUser/ManageTeacher/TeacherList';
 import Homepage from '../pages/HomePage/Pages/Homepage';
 import QuestionList from '../pages/HOD/ManageQuestion/ListQuestion';
-import { RequireAuth } from '../pages/commonUser/RequireAuth';
+import { RequireAuth, RequireLogin } from '../pages/commonUser/RequireAuth';
 import Unauthorized from '../pages/commonUser/pages/Unauthorized';
 import DetailTest from '../pages/HOD/ManageTest/DetailTest';
 import TestDetail from '../pages/HOD/ManageCourse/TestDetail';
@@ -85,10 +85,11 @@ const TheRouter = () => {
         <Route path="/userprofile/edit" exact element={<EditUserProfile />} />
       </Route>
 
-
       {/* Common */}
+      <Route element={<RequireLogin />}>
+        <Route path={ROUTES.common.login} exact element={<Login />} />
+      </Route>
       <Route path={ROUTES.common.register} exact element={<Register />} />
-      <Route path={ROUTES.common.login} exact element={<Login />} />
       <Route path="/commonUser/usermanagement" exact element={<UserManagement />} />
       <Route path="/commonUser/FotgotPassword" exact element={<FotgotPassword />} />
       <Route path="/commonUser/ResetPassword" exact element={<ResetPassword />} />

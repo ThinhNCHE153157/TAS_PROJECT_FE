@@ -139,6 +139,7 @@ const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
 
 const StartTest = () => {
   const { id } = useParams();
+  const nav = useNavigate();
   const [tabValue, setTabValue] = useState(1);
   const [listPart, setListPart] = useState([])
   const [listQuestion, setListQuestion] = useState([])
@@ -149,7 +150,6 @@ const StartTest = () => {
   useEffect(() => {
     API.get(`/Test/GetTestById?TestId=${id}`)
       .then(res => {
-
         var listParts = res.data.parts
         var partsWithIndex = listParts.map((part, partIndex) => ({
           ...part,
@@ -170,6 +170,9 @@ const StartTest = () => {
         console.log('updatedList: ', updatedList)
         console.log(updatedList)
         setListQuestion(updatedList);
+      })
+      .catch(err => {
+        nav('/NotFound')
       })
   }, [listAnswer])
 

@@ -130,6 +130,9 @@ const Course = () => {
             setPrice(res?.courseCost - res?.courseCost * res?.discount / 100)
             setDescription(`Mua Khoá Học ${user?.accountId} ${res?.courseId}`)
         })
+            .catch((err) => {
+                nav('/NotFound')
+            })
     }
         , [id])
 

@@ -38,8 +38,7 @@ export default function Header() {
       .catch(err => {
       }
       )
-  }, [])
-  console.log("userdata", userdata)
+  }, [auth?.id])
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [tabValue, setTabValue] = useState()
   const theme = useTheme();

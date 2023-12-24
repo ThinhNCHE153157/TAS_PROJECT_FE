@@ -252,6 +252,35 @@ export default function Sidebar() {
                                         <ListItemText primary="Teacher Management" sx={{ opacity: open ? 1 : 0 }} />
                                     </ListItemButton>
                                 </ListItem>
+
+                                {/* enterprise Management */}
+                                <ListItem
+                                    disablePadding
+                                    sx={{ display: 'block', paddingLeft: 4 }}
+                                    onClick={() => {
+                                        navigate('/Admin/Enterprise');
+                                    }}
+                                >
+                                    <ListItemButton
+                                        sx={{
+                                            minHeight: 48,
+                                            justifyContent: open ? 'initial' : 'center',
+                                            px: 2.5,
+                                        }}
+                                    >
+                                        <ListItemIcon
+                                            sx={{
+                                                minWidth: 0,
+                                                mr: open ? 3 : 'auto',
+                                                justifyContent: 'center',
+                                            }}
+                                        >
+                                            {/* Add the appropriate icon for Teacher Management */}
+                                            {/* <TeacherIcon /> */}
+                                        </ListItemIcon>
+                                        <ListItemText primary="Enterprise Management" sx={{ opacity: open ? 1 : 0 }} />
+                                    </ListItemButton>
+                                </ListItem>
                             </List>
                         </Collapse>
                     </ListItem>

@@ -38,15 +38,17 @@ import TestComponent from '../pages/HomePage/Pages/DoTest/PartComponent/TestCom'
 import TestResultDetail from '../pages/HomePage/Pages/DoTest/TestResultDetail';
 import ManageCourse from '../pages/HOD/ManageCourse/ManageCourse';
 import Preview from '../pages/HOD/ManageCourse/Preview';
+import ManageEnterprise from '../pages/HOD/ManageEnterprise/ManageEnterprise';
+import PaymentCallback from '../pages/Payment/PaymentCallback';
 const TheRouter = () => {
   return (
     <Routes>
       <Route path='/Order' exact element={<Order />} />
-      <Route path='/Admin/ManageCourse' exact element={<ManageCourse />} />
       <Route path='/TestComponent' exact element={<TestComponent />} />
 
       <Route path="/Preview/:id" exact element={<Preview />} />
       <Route path='/TestResultDetail/:id' exact element={<TestResultDetail />} />
+      <Route path='/PaymentCallback' exact element={<PaymentCallback />} />
 
       {/* Homepage */}
       <Route path="/" exact element={<Homepage />} />
@@ -73,6 +75,8 @@ const TheRouter = () => {
         <Route path="/Admin/CourseDetail/:id" exact element={<CourseDetail />} />
         <Route path='/Admin/UserDetail/:id' exact element={<UserDetail />} />
         <Route path="/Admin/CourseDetail/:courseId/:testId" exact element={<TestDetail />} />
+        <Route path='/Admin/Enterprise' exact element={<ManageEnterprise />} />
+        <Route path='/Admin/ManageCourse' exact element={<ManageCourse />} />
       </Route>
 
       {/* Login */}

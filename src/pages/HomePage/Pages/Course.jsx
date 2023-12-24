@@ -2,9 +2,9 @@ import Header from "../../../layout/Header";
 import Footer from "../../../layout/Footer";
 import Banner from "../Component/Banner";
 import { AppBar, Avatar, AvatarGroup, Box, Button, Card, CardContent, CardMedia, Dialog, DialogContent, DialogTitle, Divider, Grid, Tab, Tabs, TextField, Toolbar, Typography } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { format } from 'date-fns';
+import { format, set } from 'date-fns';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
@@ -13,8 +13,10 @@ import { ToastContainer } from "react-toastify";
 import { GetCourseById } from "../../../Services/HomepageService";
 import OrderCourse from "../Component/OrderCourse";
 import { useSelector } from "react-redux";
+import { API } from '../../../component/callApi'
 
 const Course = () => {
+    const nav = useNavigate();
     const { id } = useParams();
     const [tabValue, setTabValue] = useState(0)
     const contentRefs = [useRef(), useRef(), useRef(), useRef()]; // Mỗi ref tương ứng với một tab
@@ -77,6 +79,8 @@ const Course = () => {
         GetCourseById(id).then((res) => {
             setCourses(res)
             console.log(res)
+            setPrice(res?.courseCost - res?.courseCost * res?.discount / 100)
+            setDescription(`Mua Khoá Học ${user?.accountId} ${res?.courseId}`)
         })
     }
         , [id])
@@ -84,7 +88,7 @@ const Course = () => {
 
     const user = useSelector((state) => state.user?.User);
     const [orderType, setOrderType] = useState('Mua Khoá Học');
-    const [customerName, setCustomerName] = useState('');
+    const [customerName, setCustomerName] = useState(`${user?.firstName} ${user?.lastName}`);
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
 
@@ -98,6 +102,18 @@ const Course = () => {
             price,
             description,
         });
+        API.post(`/Payment/CreatePaymentUrl`,
+            JSON.stringify({
+                OrderType: orderType,
+                Name: customerName,
+                Amount: price,
+                OrderDescription: description,
+            }),
+        )
+            .then((res) => {
+                console.log(res);
+                window.location.href = res.data.paymentUrl;
+            });
         handleCloseOrderForm();
     };
     const [openOrderForm, setOpenOrderForm] = useState(false);
@@ -216,6 +232,7 @@ const Course = () => {
                                     fullWidth
                                     margin="normal"
                                     type="number"
+                                    disabled
                                     value={price}
                                     onChange={(e) => setPrice(e.target.value)}
                                 />
@@ -225,14 +242,15 @@ const Course = () => {
                                     margin="normal"
                                     multiline
                                     rows={3}
+                                    disabled
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
                                 <Button variant="contained" color="primary" onClick={handleOrderSubmit}>
-                                    Place Order
+                                    Xác nhận
                                 </Button>
                                 <Button variant="contained" onClick={handleCloseOrderForm}>
-                                    Cancel
+                                    Đóng
                                 </Button>
                             </DialogContent>
                         </Dialog>

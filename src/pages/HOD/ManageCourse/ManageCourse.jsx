@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import NavBar from '../layout/NavBar'
 import { Box, Button, IconButton, InputAdornment, TextField, Tooltip, Typography, tooltipClasses } from '@mui/material'
 import Sidebar from '../layout/Sidebar'
@@ -10,8 +10,11 @@ import PreviewIcon from '@mui/icons-material/Preview';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import './css/ManageCourse.css'
 import styled from '@emotion/styled'
+import { GetAllCourse, changeStatus } from '../../../Services/ManageCourseService'
+import { alertError, alertSuccess } from '../../../component/AlertComponent'
+import { ToastContainer } from 'react-toastify'
 const formatMoneyVND = (number) => {
-  return number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+  return number?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
 }
 const BootstrapTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} arrow classes={{ popper: className }} />
@@ -136,6 +139,8 @@ const datas = [
     status: 1
   }
 ]
+
+
 const ManageCourse = () => {
   const [tabValue, setTabValue] = useState(1)
   const [data, setData] = useState(datas);
@@ -147,6 +152,16 @@ const ManageCourse = () => {
     },
   });
 
+  const [refresh, setRefresh] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    GetAllCourse().then(res => {
+      console.log(res.data)
+      setData(res.data)
+    })
+    setLoading(false);
+  }, [refresh]);
   const columns = [
     {
       title: 'Course Name',
@@ -156,6 +171,8 @@ const ManageCourse = () => {
     {
       title: 'Short Description',
       dataIndex: 'shortDescription',
+      width: 400,
+      resizable: true,
     },
     {
       title: 'Course Cost ',
@@ -166,7 +183,9 @@ const ManageCourse = () => {
     {
       title: 'Discount ',
       dataIndex: 'discount',
-      render: (text) => `${text}%`, // Thêm '%' vào đuôi
+      render: (text) => (
+        <Tag color='green' style={{ fontSize: "18px" }}>{text}%</Tag>
+      ), // Thêm '%' vào đuôi
       sorter: (a, b) => a.discount - b.discount,
     },
     {
@@ -183,9 +202,6 @@ const ManageCourse = () => {
             break;
           case 3:
             levelText = 'Toeic 700 +';
-            break;
-          case 4:
-            levelText = 'Toeic 800 +';
             break;
           default:
             break;
@@ -207,6 +223,7 @@ const ManageCourse = () => {
       dataIndex: 'status',
       render: (status, record) => {
         console.log(`status: ${status} , record: ${record}`)
+        console.log(record)
         const content = (
           <div>
             <Button variant='text' onClick={() => handleStatusChange(record, 1)}>Đang hoạt động</Button>
@@ -276,8 +293,19 @@ const ManageCourse = () => {
     const newTab = window.open(newTabUrl.href, '_blank');
   }
   const handleStatusChange = (record, key) => {
-    // Xử lý khi trạng thái thay đổi
-    console.log(`Change status of record ${record.key} to ${key}`);
+    const data = {
+      courseId: record.courseId,
+      status: key
+    }
+    changeStatus(data).then(res => {
+      console.log(res.data)
+      alertSuccess({ message: 'Thay đổi trạng thái thành công' })
+      setRefresh(!refresh)
+    }).catch(err => {
+      console.log(err)
+      alertError({ message: 'Thay đổi trạng thái thất bại' })
+    })
+    console.log(`Change status of record ${record.courseId} to ${key}`);
     // Gọi API hoặc thực hiện các xử lý khác tùy ý
   };
   const handleTableChange = (pagination, filters, sorter) => {
@@ -339,9 +367,10 @@ const ManageCourse = () => {
   return (
     <>
       <NavBar />
+      <ToastContainer />
       <Box sx={{ display: 'flex' }}>
         <Sidebar />
-        <Box component="main" sx={{ flexGrow: 1, p: 3, mt: "24px" }}>
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Box display='flex' mt='5%' height='80px' alignItems='center' width='95%'>
             <Typography width='82%' fontSize='35px' ml='3%' fontWeight={500}>
               Quản lý khóa học

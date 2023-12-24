@@ -8,10 +8,6 @@ import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import { Button, Collapse, Stack } from '@mui/material';
@@ -72,30 +68,7 @@ export default function TestSideBar({
   const [expandedTopics, setExpandedTopics] = useState([]);
   const [currentTopic, setCurrentTopic] = useState('');
   const [currentVideo, setCurrentVideo] = useState('')
-  const [Topics, setTopics] = useState(
-    [
-      {
-        topicId: '1',
-        topicName: 'There is topic 1 name',
-        videos: [
-
-          { videoTitle: 'Video 1', videoId: '1', videoUrl: `${BASE_URL}Video/PreviewVideo?fileName=Miles Away - Bring Me Back (Official Lyric Video) ft. Claire Ridgely.mp4` },
-          { videoTitle: 'Video 2', videoId: '2', videoUrl: 'https://www.youtube.com/watch?v=jNgP6d9HraI' },
-          { videoTitle: 'Video 3', videoId: '3', videoUrl: 'https://www.youtube.com/watch?v=oUFJJNQGwhk' },
-        ]
-      },
-      {
-        topicId: '2',
-        topicName: 'There is topic 2 name',
-        videos: [
-
-          { videoTitle: 'Video 4', videoId: '4', videoUrl: 'https://www.youtube.com/watch?v=jNgP6d9HraI' },
-          { videoTitle: 'Video 5', videoId: '5', videoUrl: 'https://www.youtube.com/watch?v=oUFJJNQGwhk' },
-          { videoTitle: 'Video 6', videoId: '6', videoUrl: 'https://www.youtube.com/watch?v=oUFJJNQGwhk' },
-        ]
-      },
-    ]
-  )
+  const [Topics, setTopics] = useState([])
   useEffect(() => {
     getTopicBycourseId(id).then((res) => {
       console.log('res: ', res.data)
@@ -106,15 +79,6 @@ export default function TestSideBar({
     })
   }, [id])
 
-
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
   const handleTopicToggle = (topicId) => {
     setExpandedTopics((prevExpandedTopics) => {
       if (prevExpandedTopics.includes(topicId)) {

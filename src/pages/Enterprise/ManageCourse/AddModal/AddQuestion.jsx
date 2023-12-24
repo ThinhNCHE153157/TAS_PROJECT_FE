@@ -1,19 +1,55 @@
 import { Box, Button, FormControlLabel, InputLabel, Modal, Radio, TextField, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 
 const options = ['A', 'B', 'C', 'D'];
 const AddQuestion = ({
   isOpenModal,
   handleCloseModal,
-  handleAdd
+  handleAdd,
+  testId
 }) => {
   const [selectedValue, setSelectedValue] = useState('');
+  const [obj, setObj] = useState({ 'testId': testId })
+  const [error, setError] = useState('')
   const handleChangeOption = (event) => {
-    console.log(event.target.value)
     setSelectedValue(event.target.value);
-
   };
+
+  useEffect(() => {
+
+  }, [error])
+  const isValidObj = (obj) => {
+    if (Object.keys(obj).length !== 7) {
+      return false;
+    }
+    for (const key in obj) {
+      if (!obj[key]) {
+        return false;
+      }
+    }
+    return true;
+  }
+  const handAddButton = () => {
+    var correctAnswer = obj[selectedValue]
+    var updateData = { ...obj, 'correctAnswer: ': correctAnswer }
+    if (isValidObj(updateData)) {
+      handleAdd(updateData)
+      setError('')
+    } else {
+      setError('*Bạn phải nhập đủ các trường và chọn đáp án đúng')
+    }
+
+  }
+
+  const handleChangeText = (event) => {
+    console.log('event: ', event)
+    var name = event.target.name
+    var text = event.target.value
+    var updateData = { ...obj, [name]: text }
+    console.log('updateData: ', updateData)
+    setObj(updateData)
+  }
   return (
     <Modal
       open={isOpenModal}
@@ -60,6 +96,8 @@ const AddQuestion = ({
             label="Câu hỏi"
             required
             multiline
+            name='description'
+            onChange={handleChangeText}
             rows={2}
           />
 
@@ -87,7 +125,9 @@ const AddQuestion = ({
                       },
                     }}
                     label={`Nhập đáp án ${option}`}
+                    onChange={handleChangeText}
                     required
+                    name={option}
                     multiline
                   />
                   <FormControlLabel
@@ -114,14 +154,15 @@ const AddQuestion = ({
               ))
             }
           </Box>
+          <Typography ml='1%' color='red' fontSize='18px'>{error} </Typography>
         </Box>
 
-        <Box mt='3%'>
-          <Button sx={{ fontSize: '18px', ml: '85%' }} variant='contained' onClick={handleCloseModal}>
-            Cancel
-          </Button>
-          <Button sx={{ fontSize: '18px', ml: '2%' }} variant='contained' >
+        <Box mt='3%' ml='40%'>
+          <Button sx={{ fontSize: '18px', mr: '10px' }} variant='contained' onClick={handAddButton}  >
             Add
+          </Button>
+          <Button sx={{ fontSize: '18px' }} variant='contained' onClick={handleCloseModal}>
+            Cancel
           </Button>
         </Box>
       </Box>

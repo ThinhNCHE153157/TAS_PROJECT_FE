@@ -1,4 +1,4 @@
-import { Box, Collapse, IconButton, Typography } from '@mui/material'
+import { Box, Collapse, Divider, IconButton, Typography } from '@mui/material'
 import React from 'react'
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import EditIcon from '@mui/icons-material/Edit';
@@ -9,23 +9,17 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import { useState } from 'react';
 const QuestionCard = ({
-  question
+  question = {},
+  number,
 }) => {
   const [isOpenCollapse, setIsOpenCollapse] = useState(false)
-  const temp = {
-    resultA: 1,
-    resultB: 2,
-    resultC: 3,
-    resultD: 4,
-    correctResult: 1,
-  }
   return (
     <Box display='flex' flexDirection='column'>
       <Box mt='1%' bgcolor='white' display='flex' justifyContent='space-between' minHeight='80px' alignItems='center'>
         <Box width='90%' ml='1%' display='flex' alignItems='center'>
           <HelpOutlineOutlinedIcon sx={{ fontSize: '30px', mr: '10px' }} />
           <Typography fontSize='22px' fontWeight='bold'>
-            1. klajsflkasfj na,mdsfn alksjf lkasjdfasg ajlksdflkajsdf ?
+            {`${number}. ${question.description}`}
           </Typography>
           <IconButton onClick={() => setIsOpenCollapse(!isOpenCollapse)}>
             {
@@ -50,21 +44,21 @@ const QuestionCard = ({
       <Collapse in={isOpenCollapse} >
         <Box display='flex' bgcolor='white' flexDirection='column'>
           {
-            Object.keys(temp).map((prop) => (
-              prop !== 'correctResult' ? (
+            Object.keys(question).map((prop) => (
+              prop !== 'correctResult' && prop !== 'description' && prop !== 'questionId' ? (
                 <Box
                   key={prop}
                   display='flex'
                   justifyContent='space-between'
                   width='100%'
-                  bgcolor={temp[prop] === temp.correctResult ? '#d1e3d2' : ''}
+                  bgcolor={question[prop] === question.correctResult ? '#d1e3d2' : ''}
                   padding='15px'
                 >
                   <Typography width='90%' ml='3%' fontSize='21px'>
-                    {prop} : {temp[prop]}
+                    {prop} : {question[prop]}
                   </Typography>
                   {
-                    temp[prop] === temp.correctResult ? (
+                    question[prop] === question.correctResult ? (
                       <CheckOutlinedIcon sx={{ color: 'green', mr: '3%', fontSize: '30px' }} />
                     ) : (
                       <CloseOutlinedIcon sx={{ color: 'red', mr: '3%', fontSize: '30px' }} />
@@ -79,6 +73,7 @@ const QuestionCard = ({
           <Box width='100%' height='15px'></Box>
         </Box>
       </Collapse>
+      <Divider sx={{ bgcolor: 'black' }} />
     </Box>
 
   )

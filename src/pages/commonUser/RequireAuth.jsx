@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Navigate, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { jwtDecode } from 'jwt-decode';
 import useAuth from '../../hooks/useAuth';
-import { alertSuccess } from '../../component/AlertComponent';
-import { ToastContainer } from 'react-toastify';
+import { GetUserCourse } from '../../Services/UserProfileService'
 
 export const RequireAuth = ({ allow }) => {
     const { auth: authValue } = useAuth();
@@ -34,7 +33,6 @@ export const RequireAuth = ({ allow }) => {
 };
 
 export const RequireLogin = () => {
-    const nav = useNavigate();
     const auth = useSelector((state) => state.auth.user);
     const location = useLocation();
     console.log(auth);
@@ -43,5 +41,39 @@ export const RequireLogin = () => {
 
     } else {
         return <Outlet />;
+    }
+};
+
+
+export const RequireCourse = () => {
+    const auth = useSelector((state) => state.auth.user);
+    const location = useLocation();
+    const [courseId, setCourseId] = useState([])
+    const [istrue, setIstrue] = useState(false)
+    const [isloading, setIsloading] = useState(true)
+    const { id } = useParams()
+    useEffect(() => {
+        GetUserCourse(auth?.id)
+            .then(res => {
+                if (res?.some((course) => parseInt(id, 10) == course)) {
+                    setIstrue(true)
+                    setIsloading(false)
+                } else {
+                    setIstrue(false)
+                    setIsloading(false)
+                }
+            })
+            .catch(err => {
+            }
+            )
+    }, [auth?.id])
+
+    if (isloading == false) {
+        if (istrue) {
+            return <Outlet />
+        }
+        else {
+            return <Navigate to={{ pathname: '/Course/' + id, state: { from: location } }} replace />;
+        }
     }
 };

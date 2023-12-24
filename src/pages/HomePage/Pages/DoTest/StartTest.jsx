@@ -139,6 +139,7 @@ const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
 
 const StartTest = () => {
   const { id } = useParams();
+  const nav = useNavigate();
   const [tabValue, setTabValue] = useState(1);
   const [listPart, setListPart] = useState([])
   const [listQuestion, setListQuestion] = useState([])
@@ -171,6 +172,9 @@ const StartTest = () => {
         console.log('updatedList: ', updatedList)
         console.log(updatedList)
         setListQuestion(updatedList);
+      })
+      .catch(err => {
+        nav('/NotFound')
       })
   }, [listAnswer])
 

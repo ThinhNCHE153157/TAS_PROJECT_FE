@@ -17,7 +17,7 @@ import ResetPassword from '../pages/commonUser/pages/ResetPassword';
 import TeacherList from '../pages/HOD/ManageUser/ManageTeacher/TeacherList';
 import Homepage from '../pages/HomePage/Pages/Homepage';
 import QuestionList from '../pages/HOD/ManageQuestion/ListQuestion';
-import { RequireAuth, RequireLogin } from '../pages/commonUser/RequireAuth';
+import { RequireAuth, RequireCourse, RequireLogin } from '../pages/commonUser/RequireAuth';
 import Unauthorized from '../pages/commonUser/pages/Unauthorized';
 import DetailTest from '../pages/HOD/ManageTest/DetailTest';
 import TestDetail from '../pages/HOD/ManageCourse/TestDetail';
@@ -41,9 +41,11 @@ import Preview from '../pages/HOD/ManageCourse/Preview';
 import ManageEnterprise from '../pages/HOD/ManageEnterprise/ManageEnterprise';
 import PaymentCallback from '../pages/Payment/PaymentCallback';
 import VerifyOTP from '../pages/commonUser/pages/VerifyOTP';
+import NotFound from '../pages/commonUser/pages/NotFound';
 const TheRouter = () => {
   return (
     <Routes>
+      <Route path='/NotFound' exact element={<NotFound />} />
       <Route path='/Order' exact element={<Order />} />
       <Route path='/TestComponent' exact element={<TestComponent />} />
       <Route path='/VerifyOTP' exact element={<VerifyOTP />} />
@@ -59,7 +61,9 @@ const TheRouter = () => {
       <Route path="/Test" exact element={<Tests />} />
       <Route path="/TakeTest" exact element={<TakeTest />} />
       <Route path="/TestDetail" exact element={<ChooseTestPart />} />
-      <Route path="/CourseLearning/:id" exact element={<CourseLearning />} />
+      <Route element={<RequireCourse />}>
+        <Route path="/CourseLearning/:id" exact element={<CourseLearning />} />
+      </Route>
       <Route path="/TestDetail/:id" exact element={<ChooseTestPart />} />
       <Route path="/StudyProgress" exact element={<StudyProgress />} />
       <Route path="/Flashcards" exact element={<FlashCard />} />

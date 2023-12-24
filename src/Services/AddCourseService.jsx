@@ -19,3 +19,8 @@ export const getTopicBycourseId = async (courseId) => {
     const res = await API.get(`/Topic/GetTopicByCourseId?courseid=${courseId}`);
     return res;
 }
+
+export const getQuestionByCourseId = async (courseId) => {
+    const res = await API.get(`/Question/GetQuestionByCourseId?request=${courseId}`)
+    return res
+}

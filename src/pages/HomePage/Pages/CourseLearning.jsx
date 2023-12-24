@@ -20,8 +20,9 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Header from '../../../layout/Header';
 import VideoPlayer from '../Component/VideoPlayer'
 import { BASE_URL } from '../../../Utils/Constants';
-import { getTopicBycourseId } from '../../../Services/AddCourseService'
+import { getQuestionByCourseId, getTopicBycourseId } from '../../../Services/AddCourseService'
 import { useParams } from 'react-router-dom';
+import GenderTest from '../Component/GenderTest';
 
 const drawerWidth = 300;
 
@@ -64,11 +65,12 @@ export default function TestSideBar({
 }) {
   const { id } = useParams();
   const theme = useTheme();
-  const [open, setOpen] = useState(true);
   const [expandedTopics, setExpandedTopics] = useState([]);
   const [currentTopic, setCurrentTopic] = useState('');
   const [currentVideo, setCurrentVideo] = useState('')
+  const [currentTest, setCurrentTest] = useState('')
   const [Topics, setTopics] = useState([])
+  const [listQuesTest, setListQuesTest] = useState([])
   useEffect(() => {
     getTopicBycourseId(id).then((res) => {
       console.log('res: ', res.data)
@@ -77,7 +79,11 @@ export default function TestSideBar({
       setCurrentVideo(res.data[0].videos[0])
       setExpandedTopics([res.data[0].topicId])
     })
+    getQuestionByCourseId(id).then(res1 => {
+      setListQuesTest(res1.data)
+    })
   }, [id])
+
 
   const handleTopicToggle = (topicId) => {
     setExpandedTopics((prevExpandedTopics) => {
@@ -113,7 +119,7 @@ export default function TestSideBar({
           }}
           variant="persistent"
           anchor="left"
-          open={open}
+          open={true}
         >
           <DrawerHeader>
             <Toolbar >
@@ -162,6 +168,7 @@ export default function TestSideBar({
                       <ListItemButton onClick={() => {
                         setCurrentTopic(topic)
                         setCurrentVideo(video)
+                        setCurrentTest('')
                       }}>
 
                         <Box
@@ -184,6 +191,50 @@ export default function TestSideBar({
                       </ListItemButton>
                     </ListItem>
                   ))}
+                  {
+                    topic.tests.map((test, index) => {
+                      var i = listQuesTest.findIndex(x => x.testId == test.testId)
+                      if (i !== -1) {
+                        return (
+                          <ListItem
+                            key={test.testId}
+                            disablePadding
+                            sx={{
+                              display: 'block',
+                              backgroundColor: test.testId === currentTest.testId ? '#f7f7f7' : 'inherit',
+                              borderLeft: '',
+                              borderLeftColor: ''
+                            }}>
+                            <ListItemButton onClick={() => {
+                              setCurrentTopic(topic)
+                              setCurrentTest(test)
+                              setCurrentVideo('')
+                            }}>
+
+                              <Box
+                                display='flex'
+                                width='90%'
+
+                              >
+
+                                <PlayCircleOutlineIcon fontSize='medium' />
+                                <Typography
+                                  variant='body1' sx={{ ml: '5%', fontWeight: 'bold' }}
+                                  width='100%'
+                                >
+                                  Test:
+                                  <Typography display='inline' variant='body1' sx={{ ml: '2%', width: 'auto' }}>{test.testName}</Typography>
+                                </Typography>
+                              </Box>
+                            </ListItemButton>
+                          </ListItem>
+                        )
+                      } else {
+                        return ('')
+                      }
+
+                    })
+                  }
                 </Collapse>
               </>
 
@@ -193,28 +244,52 @@ export default function TestSideBar({
           <Divider />
 
         </Drawer>
-        <Main open={open}>
-          <Box
-            sx={{
-              width: '100%',
-              height: '100%',
+        {
+          currentVideo ? (
+            <Main open={true}>
+              <Box
+                sx={{
+                  width: '100%',
+                  height: '100%',
 
-            }}
-          >
-            <Box display='flex'>
-              <AccountBalanceIcon sx={{ mr: '8px' }} />
-              <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
-              <Typography variant='body1' sx={{ mr: '8px' }}>{currentTopic.topicName} </Typography>
-              <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
-              <Typography variant='body1' sx={{ mr: '8px' }}>{currentVideo.videoTitle}</Typography>
-            </Box>
-            <VideoPlayer url={currentVideo.videoUrl} title={currentVideo.videoTitle} />
-            {/* <Box mt="3%" ml='10%' height="80vh">
-            <Typography variant='h6'>{currentVideo.videoTitle}</Typography>
-            <ReactPlayer controls={true} url={currentVideo.urlVideo} height="70%" width='90%' />
-          </Box> */}
-          </Box>
-        </Main>
+                }}
+              >
+                <Box display='flex'>
+                  <AccountBalanceIcon sx={{ mr: '8px' }} />
+                  <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
+                  <Typography variant='body1' sx={{ mr: '8px' }}>{currentTopic.topicName} </Typography>
+                  <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
+                  <Typography variant='body1' sx={{ mr: '8px' }}>{currentVideo.videoTitle}</Typography>
+                </Box>
+                <VideoPlayer url={currentVideo.videoUrl} title={currentVideo.videoTitle} />
+                {/* <Box mt="3%" ml='10%' height="80vh">
+              <Typography variant='h6'>{currentVideo.videoTitle}</Typography>
+              <ReactPlayer controls={true} url={currentVideo.urlVideo} height="70%" width='90%' />
+            </Box> */}
+              </Box>
+            </Main>
+          ) : (
+            <Main open={true}>
+              <Box
+                sx={{
+                  width: '100%',
+                  height: '100%',
+
+                }}
+              >
+                <Box display='flex'>
+                  <AccountBalanceIcon sx={{ mr: '8px' }} />
+                  <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
+                  <Typography variant='body1' sx={{ mr: '8px' }}>{currentTopic.topicName} </Typography>
+                  <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
+                  <Typography variant='body1' sx={{ mr: '8px' }}>{currentTest.testName}</Typography>
+                </Box>
+                <GenderTest id={currentTest.testId} />
+              </Box>
+            </Main>
+          )
+        }
+
       </Box >
     </>
 

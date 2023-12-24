@@ -1,15 +1,11 @@
 import { AppBar, Box, Button, Card, CardContent, Divider, Grid, Typography } from '@mui/material'
 import React from 'react'
-import Header from '../../../../layout/Header'
 import { useState } from 'react';
-import FirstPartCard from './PartCardComponent/FirstPartCard';
-import Part1 from './PartComponent/Part1';
-import Part2 from './PartComponent/Part2';
-import Part3 from './PartComponent/Part3';
-import CountDownTimer from './PartCardComponent/CountDownTimer';
+import Part1 from '../Pages/DoTest/PartComponent/Part1';
+import CountDownTimer from '../Pages/DoTest/PartCardComponent/CountDownTimer';
 import { useEffect } from 'react';
 import { useRef } from 'react';
-import { API } from '../../../../component/callApi'
+import API from '../../../component/callApi';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
@@ -32,7 +28,7 @@ const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
       // Hiển thị thời gian đã làm bài
       console.log('Thời gian đã làm bài:', formattedTime);
 
-      listQuestion?.forEach((question) => {
+      listQuestion.forEach((question) => {
         const i = listAnswer.findIndex(x => x.questionId === question.questionId);
         if (i !== -1 && listAnswer[i].hasOwnProperty('userAnswer')) {
           var userAns = listAnswer[i].userAnswer;
@@ -43,7 +39,7 @@ const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
         }
       });
 
-      const totalPoint = parseFloat((numberCorrectAnswer / listQuestion?.length * 10).toFixed(2))
+      const totalPoint = parseFloat((numberCorrectAnswer / listQuestion.length * 10).toFixed(2))
       const object = { 'accountId': user.accountId, 'testId': id, 'testScore': totalPoint, 'testFinish': elapsedTimeInSeconds, 'numberCorrect': numberCorrectAnswer + "", listAnswer }
       API.post('/Test/SubmitTest', object)
         .then(res => {
@@ -90,7 +86,7 @@ const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
         </Button>
         <Grid container sx={{ ml: '5%', mt: '50px' }}>
           {
-            listPart?.map((part) => {
+            listPart.map((part) => {
 
               return (
                 <>
@@ -98,7 +94,7 @@ const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
                   <Box width='100%'>
                     <Grid container columns={15} mb='30px' rowSpacing='10px' >
                       {
-                        part?.questions?.map((question) => {
+                        part.questions.map((question) => {
                           console.log('listAnswer: ', listAnswer)
                           var isChecked = listAnswer.findIndex(x => x.questionId === question.questionId);
                           console.log('isChecked: ', isChecked);
@@ -137,14 +133,14 @@ const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
   );
 }
 
-const StartTest = () => {
-  const { id } = useParams();
+const GenderTest = ({
+  id
+}) => {
   const [tabValue, setTabValue] = useState(1);
   const [listPart, setListPart] = useState([])
   const [listQuestion, setListQuestion] = useState([])
   const [listAnswer, setListAnswer] = useState([])
   const [test, setTest] = useState({})
-  // const [TestPart, setTestPart] = useState([])
 
 
   useEffect(() => {
@@ -152,16 +148,16 @@ const StartTest = () => {
       .then(res => {
         var listParts = res.data.parts
         setTest(res.data)
-        var partsWithIndex = listParts?.map((part, partIndex) => ({
+        var partsWithIndex = listParts.map((part, partIndex) => ({
           ...part,
-          questions: part?.questions?.map((question, questionIndex) => ({
+          questions: part.questions.map((question, questionIndex) => ({
             ...question,
-            indexQues: partIndex * part?.questions?.length + questionIndex + 1
+            indexQues: partIndex * part.questions.length + questionIndex + 1
           }))
         }));
         const updatedList = [];
-        partsWithIndex?.forEach(part => {
-          part?.questions?.forEach(question => {
+        partsWithIndex.forEach(part => {
+          part.questions.forEach(question => {
             const { questionId, correctAnswer, indexQues } = question;
             updatedList.push({ questionId, correctAnswer, indexQues });
           });
@@ -179,6 +175,8 @@ const StartTest = () => {
   if (startTime === null) {
     localStorage.setItem('startTime', Date.now());
   }
+
+
 
 
   const hanldeAddAnswer = (questionId, userAnswer) => {
@@ -203,7 +201,6 @@ const StartTest = () => {
       display='flex'
       flexDirection='column'
     >
-      <Header />
       <Box sx={{ marginTop: '2%', display: 'flex', justifyContent: 'center', }}>
         <Typography fontSize='30px' fontWeight='bold'>
           {test.testName}
@@ -227,8 +224,8 @@ const StartTest = () => {
         >
           <Box display='flex' mb='2%' mt='2%'>
             {
-              listPart?.length !== 1 ? (
-                listPart?.map((part, index) => (
+              listPart.length !== 1 ? (
+                listPart.map((part, index) => (
                   <Button
                     key={index}
                     variant='outlined'
@@ -255,8 +252,6 @@ const StartTest = () => {
 
           </Box>
           {tabValue === 1 ? (< Part1 testPart={listPart[0]} listAnswer={listAnswer} hanldeAddAnswer={hanldeAddAnswer} />) : ('')}
-          {tabValue === 2 ? (< Part2 testPart={listPart[1]} listAnswer={listAnswer} hanldeAddAnswer={hanldeAddAnswer} />) : ('')}
-          {tabValue === 3 ? (< Part3 testPart={listPart[2]} listAnswer={listAnswer} hanldeAddAnswer={hanldeAddAnswer} />) : ('')}
 
         </Box>
         {StickyComponent(listQuestion, listAnswer, listPart, id)}
@@ -269,4 +264,4 @@ const StartTest = () => {
   )
 }
 
-export default StartTest
+export default GenderTest

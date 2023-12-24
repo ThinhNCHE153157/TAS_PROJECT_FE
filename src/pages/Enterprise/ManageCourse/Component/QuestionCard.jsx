@@ -42,39 +42,45 @@ const QuestionCard = ({
 
       </Box>
       <Collapse in={isOpenCollapse} >
-        <Box display='flex' bgcolor='white' flexDirection='column'>
-          {
-            Object.keys(question).map((prop) => (
-              prop !== 'correctResult' && prop !== 'description' && prop !== 'questionId' ? (
-                <Box
-                  key={prop}
-                  display='flex'
-                  justifyContent='space-between'
-                  width='100%'
-                  bgcolor={question[prop] === question.correctResult ? '#d1e3d2' : ''}
-                  padding='15px'
-                >
-                  <Typography width='90%' ml='3%' fontSize='21px'>
-                    {prop} : {question[prop]}
-                  </Typography>
-                  {
-                    question[prop] === question.correctResult ? (
-                      <CheckOutlinedIcon sx={{ color: 'green', mr: '3%', fontSize: '30px' }} />
-                    ) : (
-                      <CloseOutlinedIcon sx={{ color: 'red', mr: '3%', fontSize: '30px' }} />
-                    )
-                  }
-                </Box>
-              ) : (
-                ''
-              )
-            ))
-          }
-          <Box width='100%' height='15px'></Box>
+        <Box display='flex' justifyContent='space-between'>
+          <Box display='flex' bgcolor='white' flexDirection='column' width='70%'>
+            {
+              Object.keys(question).map((prop) => (
+                prop !== 'correctResult' && prop !== 'description' && prop !== 'questionId' && prop !== 'image' ? (
+                  <Box
+                    key={prop}
+                    display='flex'
+                    justifyContent='space-between'
+                    width='100%'
+                    bgcolor={question[prop] === question.correctResult ? '#d1e3d2' : ''}
+                    padding='15px'
+                  >
+                    <Typography width='90%' ml='3%' fontSize='21px'>
+                      {prop} : {question[prop]}
+                    </Typography>
+                    {
+                      question[prop] === question.correctResult ? (
+                        <CheckOutlinedIcon sx={{ color: 'green', mr: '3%', fontSize: '30px' }} />
+                      ) : (
+                        <CloseOutlinedIcon sx={{ color: 'red', mr: '3%', fontSize: '30px' }} />
+                      )
+                    }
+                  </Box>
+                ) : (
+                  ''
+                )
+              ))
+            }
+            <Box width='100%' height='15px'></Box>
+          </Box>
+          <Box width='28%'>
+            <img src={question.image} width='100%' height='auto' alt="Ảnh câu hỏi" />
+          </Box>
         </Box>
-      </Collapse>
+
+      </Collapse >
       <Divider sx={{ bgcolor: 'black' }} />
-    </Box>
+    </Box >
 
   )
 }

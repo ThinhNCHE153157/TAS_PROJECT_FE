@@ -5,7 +5,7 @@ import { useState } from 'react';
 import QuestionCard from '../Component/QuestionCard';
 import AddQuestion from '../AddModal/AddQuestion';
 import SaveIcon from '@mui/icons-material/Save';
-import { getTopicBycourseId } from '../../../../Services/AddCourseService';
+import { getQuestionByCourseId, getTopicBycourseId } from '../../../../Services/AddCourseService';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AddTest from '../AddModal/AddTest';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -21,80 +21,17 @@ const ThirdStep = ({
   const [openAddTestModal, setOpenAddTestModal] = useState(false);
   const [openAddQuestionModal, setOpenAddQuestionModal] = useState(false);
   const [datas, setDatas] = useState([]);
-  const [listQuesTest, setListQuesTest] = useState([
-    {
-      testId: 3,
-      questions: [
-        {
-          questionId: 1,
-          description: 'What is true number?',
-          resultA: 1,
-          resultB: 2,
-          resultC: 3,
-          resultD: 4,
-          correctResult: 1,
-        },
-        {
-          questionId: 2,
-          description: 'What is true number?',
-          resultA: 1,
-          resultB: 2,
-          resultC: 3,
-          resultD: 4,
-          correctResult: 4,
-        },
-        {
-          questionId: 3,
-          description: 'What is true number?',
-          resultA: 1,
-          resultB: 2,
-          resultC: 3,
-          resultD: 4,
-          correctResult: 1,
-        }
-      ]
-    },
-    {
-      testId: 4,
-      questions: [
-        {
-          questionId: 4,
-          description: 'What is true number?',
-          resultA: 1,
-          resultB: 2,
-          resultC: 3,
-          resultD: 4,
-          correctResult: 1,
-        },
-        {
-          questionId: 5,
-          description: 'What is true number?',
-          resultA: 1,
-          resultB: 2,
-          resultC: 3,
-          resultD: 4,
-          correctResult: 1,
-        },
-        {
-          questionId: 6,
-          description: 'What is true number?',
-          resultA: 1,
-          resultB: 2,
-          resultC: 3,
-          resultD: 4,
-          correctResult: 1,
-        }
-      ]
-    }
-  ])
+  const [listQuesTest, setListQuesTest] = useState([])
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     getTopicBycourseId(id).then(res => {
-      console.log(res.data)
       setDatas(res.data)
-      console.log(res.data)
     })
+    getQuestionByCourseId(id).then(res => {
+      setListQuesTest(res.data)
+    })
+
   }, [])
   const renderQuestion = (test) => {
     console.log(test)

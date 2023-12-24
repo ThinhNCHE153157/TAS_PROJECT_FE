@@ -55,7 +55,7 @@ const AddCourse = () => {
   }
   console.log(courseId);
   return (
-    <Box sx={{ backgroundColor: '#f5f3f0', }} width='100vw' height='300vh'>
+    <Box sx={{ backgroundColor: '#f5f3f0', }} width='99vw' height='300vh'>
       <ToastContainer />
       <NavBar />
       <Box display='flex' >

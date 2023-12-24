@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from '../../../layout/Header'
 import { Avatar, Box, Button, CardMedia, IconButton, Paper, Tab, Typography } from '@mui/material'
 import { useState } from 'react'
@@ -7,6 +7,8 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Footer from '../../../layout/Footer'
+import { GetUserById } from '../../../Services/UserProfileService'
+import { useSelector } from 'react-redux'
 const data = [
   {
     courseId: 1,
@@ -117,6 +119,15 @@ const StudyProgress = () => {
   const [tabValue, setTabValue] = useState('0')
   const [courses, setCourses] = useState(data);
   const [selectedTopic, setSelectedTopic] = useState(null);
+  const [userdata, setUserdata] = useState()
+  const [refresh, setRefresh] = useState(false)
+  const userId = useSelector(state => state.auth?.user?.id)
+
+  useEffect(() => {
+    GetUserById(userId).then(res => {
+      setUserdata(res)
+    })
+  }, [refresh])
 
   const renderTopicComp = () => {
     const foundIndex = courses
@@ -351,7 +362,7 @@ const StudyProgress = () => {
 
         >
           <Avatar
-            src='https://source.unsplash.com/400x400?portrait?1'
+            src={userdata?.avatar}
             sx={{ width: '15%', height: 'auto', m: '0 auto', mt: '50px', border: '3px solid white' }}
           />
 

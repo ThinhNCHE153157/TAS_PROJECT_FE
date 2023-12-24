@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { logoutUser } from '../redux/Account/apiRequest'
 import Popup from '../pages/HomePage/Component/Popup'
 import { GetUserById } from '../Services/UserProfileService'
+import { jwtDecode } from 'jwt-decode'
 
 const settings = ['Account', 'Progress', 'Dashboard', 'Logout'];
 export default function Header() {
@@ -20,12 +21,26 @@ export default function Header() {
   //     })
   // }, [])
   const user = useSelector((state) => state.user?.User?.username);
+  const auth = useSelector((state) => state.auth?.user);
+  const token = localStorage.getItem('token');
+  const decoded = jwtDecode(token.toString());
+  const userRole = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+  const [userdata, setData] = useState()
   const handleLogout = (e) => {
     e.preventDefault();
     logoutUser(dispatch);
   };
+  useEffect(() => {
+    GetUserById(auth.id)
+      .then(res => {
+        setData(res)
+      })
+      .catch(err => {
+      }
+      )
+  }, [])
+  console.log("userdata", userdata)
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const auth = useSelector((state) => state.auth?.user);
   const [tabValue, setTabValue] = useState()
   const theme = useTheme();
   const Pages = ['/', '/Test', '/flashcards']
@@ -79,8 +94,8 @@ export default function Header() {
                   <Box sx={{ marginLeft: 'auto', flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                        <Avatar alt="Remy Sharp" src="" />
-                        <Typography>&nbsp;&nbsp;   Hi, {user}</Typography>
+                        <Avatar alt="Remy Sharp" src={userdata?.avatar} />
+                        <Typography>&nbsp;&nbsp;   Chào, {userdata?.lastName}</Typography>
                       </IconButton>
                     </Tooltip>
                     <Menu
@@ -99,20 +114,33 @@ export default function Header() {
                       open={Boolean(anchorElUser)}
                       onClose={handleCloseUserMenu}
                     >
-                      <MenuItem onClick={() => {
+                      <MenuItem textAlign="center" onClick={() => {
                         setAnchorElUser(null);
                         nav('/UserProfile')
                       }
-                      }> Profile</MenuItem>
-                      {settings.map((setting) => (
-                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                          {(setting === 'Logout') ? <>
-                            <Typography textAlign="center" onClick={handleLogout}>{setting}</Typography>
-                          </>
-                            :
-                            <Typography textAlign="center">{setting}</Typography>}
-                        </MenuItem>
-                      ))}
+                      }> Trang cá nhân</MenuItem>
+                      <MenuItem textAlign="center" onClick={() => {
+                        setAnchorElUser(null);
+                        nav('/StudyProgress')
+                      }
+                      }> Tiến trình học</MenuItem>
+                      {
+                        userRole?.find((role) => "Admin".includes(role)) ? <MenuItem textAlign="center" onClick={() => {
+                          setAnchorElUser(null);
+                          nav('/Admin')
+                        }
+                        }>Quản trị viên</MenuItem> : ''
+                      }
+                      {
+                        userRole?.find((role) => "Enterprise".includes(role)) ? <MenuItem textAlign="center" onClick={() => {
+                          setAnchorElUser(null);
+                          nav('/Enterprise')
+                        }
+                        }>Quản lí doanh nghiệp</MenuItem> : ''
+                      }
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography textAlign="center" onClick={handleLogout}>Đăng Xuất</Typography>
+                      </MenuItem>
                     </Menu>
                   </Box>
                 </>}

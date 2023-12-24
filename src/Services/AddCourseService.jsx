@@ -11,7 +11,7 @@ export const AddTopic = async (data) => {
 }
 
 export const AddVideo = async (data) => {
-    const res = await API.post('/Video/AddVideo', data);
+    const res = await API_Auth.post('/Video/AddVideo', data);
     return res;
 }
 

@@ -21,9 +21,10 @@ const GetlistTest = async () => {
 };
 
 const GetCourseById = async (id) => {
+
     return API.get(`Course/GetCourseById?id=${id}`)
         .then(res => res.data)
-        .catch(err => console.log(err))
+        .catch(err => window.location.href = '/NotFound')
 }
 
 export {

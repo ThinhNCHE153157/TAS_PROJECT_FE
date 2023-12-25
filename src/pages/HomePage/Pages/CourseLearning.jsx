@@ -140,17 +140,17 @@ export default function TestSideBar({
           <Divider />
           <List disablePadding >
 
-            {Topics.map((topic, index) => (
+            {Topics?.map((topic, index) => (
               <>
                 <ListItem
                   key={topic.topicId}
                   disablePadding
                   sx={{ display: 'block' }}
-                  onClick={() => handleTopicToggle(topic.topicId)}>
+                  onClick={() => handleTopicToggle(topic?.topicId)}>
                   <ListItemButton>
                     <Typography
                       variant='body1'
-                      children={`Topic ${index + 1}: ${topic.topicName}`}
+                      children={`Topic ${index + 1}: ${topic?.topicName}`}
                       sx={{ fontWeight: 'bold' }}
                     />
                     {expandedTopics.includes(topic.topicId) ? <ExpandLess /> : <ExpandMore />}
@@ -259,11 +259,11 @@ export default function TestSideBar({
                 <Box display='flex'>
                   <AccountBalanceIcon sx={{ mr: '8px' }} />
                   <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
-                  <Typography variant='body1' sx={{ mr: '8px' }}>{currentTopic.topicName} </Typography>
+                  <Typography variant='body1' sx={{ mr: '8px' }}>{currentTopic?.topicName} </Typography>
                   <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
-                  <Typography variant='body1' sx={{ mr: '8px' }}>{currentVideo.videoTitle}</Typography>
+                  <Typography variant='body1' sx={{ mr: '8px' }}>{currentVideo?.videoTitle}</Typography>
                 </Box>
-                <VideoPlayer url={currentVideo.videoUrl} title={currentVideo.videoTitle} />
+                <VideoPlayer url={currentVideo.videoUrl} title={currentVideo?.videoTitle} />
                 {/* <Box mt="3%" ml='10%' height="80vh">
               <Typography variant='h6'>{currentVideo.videoTitle}</Typography>
               <ReactPlayer controls={true} url={currentVideo.urlVideo} height="70%" width='90%' />

@@ -3,7 +3,7 @@ import { loginStart, loginSuccess, loginFailed, logout } from './AuthSlice';
 import { userStart, userSuccess, userFailed, userLogout } from './userSlice';
 import { alertError, alertSuccess } from '../../component/AlertComponent';
 
-axios.defaults.baseURL = 'https://localhost:5000/api'; // Đặt URL cơ sở
+axios.defaults.baseURL = 'http://103.179.173.136:5000/api'; // Đặt URL cơ sở
 axios.defaults.timeout = 5000; // Đặt thời gian chờ tối đa (milliseconds)
 axios.defaults.headers.post['Content-Type'] = 'application/json'; // Đặt kiểu dữ liệu gửi đi
 

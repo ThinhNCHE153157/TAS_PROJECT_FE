@@ -1,14 +1,14 @@
 import axios from 'axios'
 
 export const API = axios.create({
-  baseURL: 'https://localhost:5000/api',
+  baseURL: 'http://103.179.173.136:5000/api',
   headers: {
     'Content-Type': 'application/json',
   }
 })
 
 export const API_FormFile = axios.create({
-  baseURL: 'https://localhost:5000/api',
+  baseURL: 'http://103.179.173.136:5000/api',
   headers: {
     'Content-Type': 'multipart/form-data',
   }
@@ -16,7 +16,7 @@ export const API_FormFile = axios.create({
 
 
 export const API_Auth = axios.create({
-  baseURL: 'https://localhost:5000/api/',
+  baseURL: 'http://103.179.173.136:5000/api/',
   headers: {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${localStorage.getItem('token')}`

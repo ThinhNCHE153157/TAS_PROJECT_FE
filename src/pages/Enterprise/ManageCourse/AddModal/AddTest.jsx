@@ -13,7 +13,7 @@ const AddTest = ({
   const [audioFile, setAudioFile] = useState(null)
   const [audioUrl, setAudioUrl] = useState({})
   const [error, setError] = useState('')
-  const [object, setObject] = useState({ 'topicId': topicId, 'type': 0 })
+  const [object, setObject] = useState({ 'topicId': topicId, 'type': 0, 'url': null })
   const handleAudioChange = (event) => {
     const selectedAudio = event.target.files[0];
     setAudioFile(selectedAudio)
@@ -28,7 +28,8 @@ const AddTest = ({
 
     if (event.target.value == 0) {
       if (object.hasOwnProperty('url')) {
-        delete updateData['url']
+        // delete updateData['url']
+        updateData['url'] = null
         console.log('update:', updateData)
       }
       setAudioFile(null)
@@ -45,23 +46,16 @@ const AddTest = ({
   }
 
   const isValidObject = (object) => {
-    if (object.type === '0' || object.type === 0) {
-      if (Object.keys(object).length !== 3) {
+    if (Object.keys(object).length !== 4) {
+      return false;
+    }
+
+    if ((object['type'] === 1 || object['type'] === '1') && object['url'] === null) {
+      return false;
+    }
+    for (const key in object) {
+      if (object[key] === '') {
         return false;
-      }
-      for (const key in object) {
-        if (object[key] === '') {
-          return false;
-        }
-      }
-    } else {
-      if (Object.keys(object).length !== 4) {
-        return false;
-      }
-      for (const key in object) {
-        if (object[key] === '') {
-          return false;
-        }
       }
     }
     return true;

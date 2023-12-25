@@ -24,3 +24,7 @@ export const getQuestionByCourseId = async (courseId) => {
     const res = await API.get(`/Question/GetQuestionByCourseId?request=${courseId}`)
     return res
 }
+
+export const AddNewQuestion = async (data) => {
+    return await API.post(`/Question/CreateQuestionForTest`, data)
+}

@@ -84,8 +84,8 @@ const AddCourse = () => {
                 {currentStep === 0 ? <FirstStep onClickNext={onClickNext} /> : ''}
                 {currentStep === 1 ? <SecondStep onClickNext={onClickNext} id={courseId} onClickBack={onClickBack} /> : ''}
                 {currentStep === 2 ? <ThirdStep onClickNext={onClickNext} id={courseId} onClickBack={onClickBack} /> : ''}
-                {currentStep === 3 ? <FouthStep onClickNext={onClickNext} onClickBack={onClickBack} /> : ''}
-                {currentStep === 4 ? <FifthStep onClickNext={onClickNext} /> : ''}
+                {currentStep === 3 ? <FouthStep onClickNext={onClickNext} id={courseId} onClickBack={onClickBack} /> : ''}
+                {currentStep === 4 ? <FifthStep onClickNext={onClickNext} id={courseId} /> : ''}
                 {/* <FirstStep /> */}
               </Box>
             </Box>

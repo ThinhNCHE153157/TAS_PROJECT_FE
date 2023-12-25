@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Header from '../../../layout/Header'
-import { Avatar, Box, Button, CardMedia, IconButton, Paper, Tab, Typography } from '@mui/material'
+import { Avatar, Box, Button, CardMedia, IconButton, Paper, Tab, Tooltip, Typography, tooltipClasses } from '@mui/material'
 import { useState } from 'react'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
@@ -9,6 +9,49 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Footer from '../../../layout/Footer'
 import { GetUserById } from '../../../Services/UserProfileService'
 import { useSelector } from 'react-redux'
+import PreviewIcon from '@mui/icons-material/Preview';
+import { Space, Table } from 'antd'
+import styled from '@emotion/styled'
+import { useNavigate } from 'react-router-dom'
+
+const BootstrapTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} arrow classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.arrow}`]: {
+    color: 'black',
+  },
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: 'black',
+    fontSize: '16px',
+  },
+}));
+
+const secondsToMinutesAndSeconds = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+
+  // Sử dụng template literals để tạo chuỗi định dạng mm:ss
+  const formattedTime = `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+
+  return formattedTime;
+}
+
+const temp = [
+  {
+    testId: 1,
+    testName: 'sfsdfsdf',
+    testFinish: 4333,
+    description: 3,
+    testScore: 5
+  },
+  {
+    testId: 2,
+    testName: 'sdffms,sdffmsd.f',
+    testFinish: 2100,
+    description: 3,
+    testScore: 5
+  },
+]
 const data = [
   {
     courseId: 1,
@@ -115,6 +158,7 @@ const data = [
   },
 ]
 
+
 const StudyProgress = () => {
   const [tabValue, setTabValue] = useState('0')
   const [courses, setCourses] = useState(data);
@@ -122,7 +166,64 @@ const StudyProgress = () => {
   const [userdata, setUserdata] = useState()
   const [refresh, setRefresh] = useState(false)
   const userId = useSelector(state => state.auth?.user?.id)
-
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const [tableParams, setTableParams] = useState({
+    pagination: {
+      current: 1,
+      pageSize: 10,
+    },
+  });
+  const handleTableChange = (pagination, filters, sorter) => {
+    setTableParams({
+      pagination,
+      filters,
+      ...sorter,
+    });
+    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+      setLoading(true); // Set loading state while fetching new data
+      // Fetch data based on the new pagination parameters
+      // After fetching data, set setLoading(false) to stop loading state
+      // setData(newData);
+    }
+  };
+  const columns = [
+    {
+      title: 'Bài thi thử',
+      dataIndex: 'testName',
+      sorter: true,
+    },
+    {
+      title: 'Thời gian',
+      dataIndex: 'testFinish',
+      width: 400,
+      resizable: true,
+      render: (_, record) => (
+        secondsToMinutesAndSeconds(record.testFinish)
+      )
+    },
+    {
+      title: 'Điểm',
+      dataIndex: 'testScore',
+    },
+    {
+      title: 'Số câu đúng',
+      dataIndex: 'description',
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <Space size="middle">
+          <BootstrapTooltip title="Chi tiết" placement="top">
+            <IconButton onClick={() => navigate(`/TestResultDetail/${record.testId}`)}>
+              <PreviewIcon />
+            </IconButton>
+          </BootstrapTooltip>
+        </Space>
+      ),
+    },
+  ]
   useEffect(() => {
     GetUserById(userId).then(res => {
       setUserdata(res)
@@ -204,7 +305,7 @@ const StudyProgress = () => {
     var notCompleted = courses.filter(course => course.isCompleted === 0)
     return (
       <Box display='flex' flexDirection='column' alignItems='start' width='100%'>
-        <Typography fontSize='26px' fontWeight='500' mb='3%'>My course</Typography>
+        <Typography fontSize='26px' fontWeight='500' mb='3%'>Khóa học của tôi</Typography>
         {
           notCompleted.map((course, index) => (
             <Paper elevation={3} sx={{ width: '100%', display: 'flex', padding: '10px', mb: '3px' }} key={course.courseId}>
@@ -280,7 +381,7 @@ const StudyProgress = () => {
     const completedCourse = courses.filter(course => course.isCompleted === 1);
     return (
       <Box display='flex' flexDirection='column' alignItems='start' width='100%'>
-        <Typography fontSize='26px' fontWeight='500' mb='3%'>My course</Typography>
+        <Typography fontSize='26px' fontWeight='500' mb='3%'>Khóa học của tôi</Typography>
         {
           completedCourse.map((course, index) => (
             <Paper elevation={3} sx={{ width: '100%', display: 'flex', padding: '10px', mb: '3px' }} key={course.courseId}>
@@ -341,6 +442,23 @@ const StudyProgress = () => {
   }
   const renderTab2 = () => {
 
+    return (
+
+      <Box display='flex' flexDirection='column' alignItems='start' width='100%'>
+        <Typography fontSize='26px' fontWeight='500' >Lịch sử thi</Typography>
+        <Table
+          columns={columns}
+          dataSource={temp}
+          style={{ width: '100%', marginTop: '5%' }}
+          rowKey={(record) => record.testId}
+          pagination={tableParams.pagination}
+          loading={loading} s
+          onChange={handleTableChange}
+        >
+
+        </Table>
+      </Box>
+    )
   }
 
   return (

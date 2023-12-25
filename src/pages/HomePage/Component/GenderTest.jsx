@@ -8,6 +8,7 @@ import { useRef } from 'react';
 import API from '../../../component/callApi';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Timer } from '@mui/icons-material';
 const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
   const user = useSelector(state => state.user?.User)
   const nav = useNavigate();
@@ -78,7 +79,7 @@ const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
         <Typography fontSize='27px' fontWeight='400'>
           Thời gian còn lại
         </Typography>
-        <CountDownTimer initialTime={7200} onTimeout={handOnTimeOut} />
+        <Timer initialTime={3600} onTimeout={handOnTimeOut} />
         <Button variant='contained' sx={{ mt: '2%' }} onClick={handleSubmit} >
           <Typography fontSize='20px' width='100px'>
             Nộp bài
@@ -134,7 +135,7 @@ const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
 }
 
 const GenderTest = ({
-  id
+  id = 1
 }) => {
   const [tabValue, setTabValue] = useState(1);
   const [listPart, setListPart] = useState([])

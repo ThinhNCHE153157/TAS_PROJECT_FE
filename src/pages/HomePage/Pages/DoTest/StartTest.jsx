@@ -146,7 +146,19 @@ const StartTest = () => {
   const [listAnswer, setListAnswer] = useState([])
   const [test, setTest] = useState({})
   // const [TestPart, setTestPart] = useState([])
+  useEffect(() => {
+    const unload = (e) => {
+      var listObj = JSON.stringify(listAnswer)
+      console.log(listObj)
+      localStorage.setItem('listObj', listObj)
+      e.returnValue = listObj
+    }
+    window.addEventListener('beforeunload', unload)
+    return () => {
+      window.removeEventListener('beforeunload', unload)
+    }
 
+  }, [])
 
   useEffect(() => {
     API.get(`/Test/GetTestById?TestId=${id}`)
@@ -176,7 +188,7 @@ const StartTest = () => {
       .catch(err => {
         nav('/NotFound')
       })
-  }, [listAnswer])
+  }, [])
 
 
   const startTime = localStorage.getItem('startTime');
@@ -187,13 +199,13 @@ const StartTest = () => {
 
   const hanldeAddAnswer = (questionId, userAnswer) => {
     const existingIndex = listAnswer.findIndex(x => x.questionId === questionId)
+    const updatedList = [...listAnswer];
+
     if (existingIndex !== -1) {
-      const updatedList = [...listAnswer];
       updatedList[existingIndex].userAnswer = userAnswer;
 
       setListAnswer(updatedList);
     } else {
-      const updatedList = [...listAnswer];
       updatedList.push({ questionId, userAnswer })
       // setListAnswer(prevList => [...prevList, { id, userAnswer }]);
       setListAnswer(updatedList);

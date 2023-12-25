@@ -24,6 +24,7 @@ import { getQuestionByCourseId, getTopicBycourseId } from '../../../Services/Add
 import { useParams } from 'react-router-dom';
 import GenderTest from '../Component/GenderTest';
 import QuizIcon from '@mui/icons-material/Quiz';
+import Footer from '../../../layout/Footer';
 
 const drawerWidth = 300;
 
@@ -68,7 +69,7 @@ export default function TestSideBar({
   const theme = useTheme();
   const [expandedTopics, setExpandedTopics] = useState([]);
   const [currentTopic, setCurrentTopic] = useState('');
-  const [currentVideo, setCurrentVideo] = useState('')
+  const [currentVideo, setCurrentVideo] = useState('1')
   const [currentTest, setCurrentTest] = useState('')
   const [Topics, setTopics] = useState([])
   const [listQuesTest, setListQuesTest] = useState([])
@@ -285,12 +286,11 @@ export default function TestSideBar({
                   <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
                   <Typography variant='body1' sx={{ mr: '8px' }}>{currentTest.testName}</Typography>
                 </Box>
-                <GenderTest id={currentTest.testId} />
+                <GenderTest id={currentTest?.testId} />
               </Box>
             </Main>
           )
         }
-
       </Box >
     </>
 

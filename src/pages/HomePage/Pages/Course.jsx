@@ -14,15 +14,16 @@ import { GetCourseById } from "../../../Services/HomepageService";
 import OrderCourse from "../Component/OrderCourse";
 import { useSelector } from "react-redux";
 import { API } from '../../../component/callApi'
+import { GetUserCourse } from "../../../Services/UserProfileService";
 
 const Course = () => {
     const nav = useNavigate();
     const { id } = useParams();
     const [tabValue, setTabValue] = useState(0)
     const contentRefs = [useRef(), useRef(), useRef(), useRef()]; // Mỗi ref tương ứng với một tab
-    const [course, setCourse] = useState({ discount: 20, courseCost: 100000000 })
-    const maxTeacher = 2;
-    const [teachers, setTeachet] = useState(['Alice', 'Jayce', 'Annie', 'Mobby']);
+    const [registed, setRegisted] = useState([])
+    const navigate = useNavigate();
+    const [teachers,] = useState(['Alice', 'Jayce', 'Annie', 'Mobby']);
     const [expandTopic, setExpandTopic] = useState([]);
     const handleTopicExpand = (topicId) => {
         setExpandTopic((prevExpandedTopics) => {
@@ -74,6 +75,7 @@ const Course = () => {
         }
     }, [tabValue]);
 
+
     const [courses, setCourses] = useState({})
     useEffect(() => {
         GetCourseById(id).then((res) => {
@@ -81,15 +83,19 @@ const Course = () => {
             console.log(res)
             setPrice(res?.courseCost - res?.courseCost * res?.discount / 100)
             setDescription(`Mua Khoá Học ${user?.accountId} ${res?.courseId}`)
+        }).catch((err) => {
+            nav('/NotFound')
         })
-            .catch((err) => {
-                nav('/NotFound')
-            })
-    }
-        , [id])
-
+    }, [id])
 
     const user = useSelector((state) => state.user?.User);
+    useEffect(() => {
+        GetUserCourse(user?.accountId).then((res) => {
+            setRegisted(res.data)
+        })
+
+    }, [])
+
     const [orderType, setOrderType] = useState('Mua Khoá Học');
     const [customerName, setCustomerName] = useState(`${user?.firstName} ${user?.lastName}`);
     const [price, setPrice] = useState('');
@@ -257,12 +263,29 @@ const Course = () => {
                                 </Button>
                             </DialogContent>
                         </Dialog>
-                        <Button variant="contained" sx={{ mt: '5%', textTransform: 'none', width: '180px' }} onClick={handleOpenOrderForm}>
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <Typography width='100%' fontSize='20px' fontWeight='bold'>Enroll</Typography>
-                                <Typography fontSize='22px'>Starts {format(new Date(), 'MMM dd')}</Typography>
-                            </div>
-                        </Button>
+                        {
+                            registed.includes(id) ? (
+                                <Button
+                                    variant="contained"
+                                    sx={{
+                                        mt: '5%',
+                                        textTransform: 'none',
+                                        width: '180px'
+                                    }}
+                                    onClick={() => navigate(`/CourseLearning/${id}`)}
+                                >
+                                    <Typography width='100%' fontSize='20px' fontWeight='bold'>Tiếp Tục</Typography>
+                                </Button>
+                            ) : (
+                                <Button variant="contained" sx={{ mt: '5%', textTransform: 'none', width: '180px' }} onClick={handleOpenOrderForm}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                        <Typography width='100%' fontSize='20px' fontWeight='bold'>Enroll</Typography>
+                                        <Typography fontSize='22px'>Starts {format(new Date(), 'MMM dd')}</Typography>
+                                    </div>
+                                </Button>
+                            )
+                        }
+
                         <Typography mt='3%' fontSize='15px' color='textSecondary'>Sponsored by 'Enterprise Name'</Typography>
                         <Box display='flex' mt='3%'>
                             <Typography fontSize='18px' fontWeight='bold' mr='5px'>50</Typography>
@@ -331,7 +354,7 @@ const Course = () => {
 
                         </CardContent>
                     </Card >
-                </div>
+                </div >
                 <div
                     ref={contentRefs[2]}
                     style={{

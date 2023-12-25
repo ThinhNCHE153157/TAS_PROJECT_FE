@@ -2,7 +2,6 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import UserList from '../pages/HOD/ManageUser/UserList';
 import Dashboard from '../pages/HOD/Dashboard';
-import CourseList from '../pages/HOD/ManageCourse/CourseList';
 import Register from '../pages/commonUser/pages/Register';
 import Login from '../pages/commonUser/pages/Login';
 import UserProfile from '../pages/commonUser/pages/UserProfile';
@@ -38,8 +37,10 @@ import StartTest from '../pages/HomePage/Pages/DoTest/StartTest';
 import TestComponent from '../pages/HomePage/Pages/DoTest/PartComponent/TestCom';
 import TestResultDetail from '../pages/HomePage/Pages/DoTest/TestResultDetail';
 import ManageCourse from '../pages/HOD/ManageCourse/ManageCourse';
+import Preview from '../pages/HOD/ManageCourse/Preview';
 import ManageEnterprise from '../pages/HOD/ManageEnterprise/ManageEnterprise';
 import PaymentCallback from '../pages/Payment/PaymentCallback';
+import VerifyOTP from '../pages/commonUser/pages/VerifyOTP';
 import NotFound from '../pages/commonUser/pages/NotFound';
 const TheRouter = () => {
   return (
@@ -47,6 +48,9 @@ const TheRouter = () => {
       <Route path='/NotFound' exact element={<NotFound />} />
       <Route path='/Order' exact element={<Order />} />
       <Route path='/TestComponent' exact element={<TestComponent />} />
+      <Route path='/VerifyOTP' exact element={<VerifyOTP />} />
+
+      <Route path="/Preview/:id" exact element={<Preview />} />
       <Route path='/TestResultDetail/:id' exact element={<TestResultDetail />} />
       <Route path='/PaymentCallback' exact element={<PaymentCallback />} />
 
@@ -69,7 +73,6 @@ const TheRouter = () => {
       <Route element={<RequireAuth allow={ROLE.Admin} />}>
         <Route path='/Admin/Dashboard' exact element={<Dashboard />} />
         <Route path='/Homepage' exact element={<Homepage />} />
-        <Route path='/Admin/CourseList' exact element={<CourseList />} />
         <Route path='/Admin/ClassList' exact element={<ClassList />} />
         <Route path='/Admin/TeacherList' exact element={<TeacherList />} />
         <Route path='/Admin/UserList' exact element={<UserList />} />
@@ -93,10 +96,10 @@ const TheRouter = () => {
         <Route path={ROUTES.common.login} exact element={<Login />} />
       </Route>
       <Route path={ROUTES.common.register} exact element={<Register />} />
-      <Route path="/commonUser/usermanagement" exact element={<UserManagement />} />
-      <Route path="/commonUser/FotgotPassword" exact element={<FotgotPassword />} />
-      <Route path="/commonUser/ResetPassword" exact element={<ResetPassword />} />
-      <Route path="/commonUser/ChangePassword" exact element={<ChangePassword />} />
+      <Route path="/usermanagement" exact element={<UserManagement />} />
+      <Route path="/ForgotPassword" exact element={<FotgotPassword />} />
+      <Route path="/ResetPassword" exact element={<ResetPassword />} />
+      <Route path="/ChangePassword" exact element={<ChangePassword />} />
       <Route path={ROUTES.common.login} exact element={<Login />} />
       <Route path={ROUTES.common.register} exact element={<Register />} />
       <Route path={ROUTES.common.login} exact element={<Login />} />

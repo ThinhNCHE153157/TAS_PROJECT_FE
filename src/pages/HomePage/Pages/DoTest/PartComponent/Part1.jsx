@@ -1,9 +1,8 @@
 import React from 'react'
 import FirstPartCard from '../PartCardComponent/FirstPartCard'
-import testAudio from '../../../../../Assets/img/ThisLove.mp3'
 const Part1 = ({
   testPart = null,
-  listAnswer,
+  listAnswer = JSON.parse(localStorage.getItem('listObj')),
   hanldeAddAnswer
 }) => {
   return (

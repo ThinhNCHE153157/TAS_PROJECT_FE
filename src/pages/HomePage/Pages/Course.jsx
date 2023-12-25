@@ -14,63 +14,16 @@ import { GetCourseById } from "../../../Services/HomepageService";
 import OrderCourse from "../Component/OrderCourse";
 import { useSelector } from "react-redux";
 import { API } from '../../../component/callApi'
+import { GetUserCourse } from "../../../Services/UserProfileService";
 
-const testm = '<ul><li>Được học kiến thức miễn phí với nội dung chất lượng hơn mất phí</li><li>Các kiến thức nâng cao của Javascript giúp code trở nên tối ưu hơn</li><li>Hiểu được cách tư duy nâng cao của các lập trình viên có kinh nghiệm</li><li>Hiểu được các khái niệm khó như từ khóa this, phương thức bind, call, apply &amp; xử lý bất đồng bộ</li><li>Có nền tảng Javascript vững chắc để làm việc với mọi thư viện, framework viết bởi Javascript</li><li>Nâng cao cơ hội thành công khi phỏng vấn xin việc nhờ kiến thức chuyên môn vững chắc</li></ul><p><br></p>'
-const Topics = [
-    {
-        topicId: 1, topicName: 'There is topic 1', topicDescription: 'Topic desciption here Topic desciption here Topic desciption here Topic desciption here Topic desciption here Topic desciption here'
-    },
-    {
-        topicId: 2, topicName: 'There is topic 2', topicDescription: 'Topic desciption here Topic desciption here Topic desciption here Topic desciption here Topic desciption here Topic desciption here'
-    },
-    {
-        topicId: 3, topicName: 'There is topic 3', topicDescription: 'Topic desciption here Topic desciption here Topic desciption here Topic desciption here Topic desciption here Topic desciption here'
-    },
-    {
-        topicId: 4, topicName: 'There is topic 4', topicDescription: 'Topic desciption here Topic desciption here Topic desciption here Topic desciption here Topic desciption here Topic desciption here'
-    },
-]
-// const renderTeacher = (teachers, maxTeacher) => {
-//     const visibleTeachers = teachers.slice(0, maxTeacher);
-//     const remainingTeachersCount = teachers.length - maxTeacher;
-
-//     return (
-//         <Box display='flex' alignItems='center'>
-//             <Typography fontSize='22px' ml='6px' fontWeight='bold'>
-//                 Instructors:
-//             </Typography>
-//             {visibleTeachers.map((teacher, index) => (
-//                 <Button variant="text" sx={{ textTransform: 'none', padding: 0, minWidth: 0 }}>
-//                     <Typography
-//                         fontSize='22px'
-//                         color="textSecondary"
-//                         ml='6px'
-//                         sx={{
-//                             textDecorationLine: 'underline',
-//                             display: 'inline-block'
-//                         }}
-//                     >
-//                         {teacher}
-//                     </Typography>
-//                 </Button>
-
-//             ))}
-//             {remainingTeachersCount > 0 && (
-//                 <Typography fontSize='22px' color="textSecondary" ml='6px' fontWeight='bold'>
-//                     +{remainingTeachersCount} more
-//                 </Typography>
-//             )}
-//         </Box>
-//     );
-// };
 const Course = () => {
     const nav = useNavigate();
     const { id } = useParams();
     const [tabValue, setTabValue] = useState(0)
     const contentRefs = [useRef(), useRef(), useRef(), useRef()]; // Mỗi ref tương ứng với một tab
-    const [course, setCourse] = useState({ discount: 20, courseCost: 100000000 })
-    const maxTeacher = 2;
-    const [teachers, setTeachet] = useState(['Alice', 'Jayce', 'Annie', 'Mobby']);
+    const [registed, setRegisted] = useState([])
+    const navigate = useNavigate();
+    const [teachers,] = useState(['Alice', 'Jayce', 'Annie', 'Mobby']);
     const [expandTopic, setExpandTopic] = useState([]);
     const handleTopicExpand = (topicId) => {
         setExpandTopic((prevExpandedTopics) => {
@@ -122,6 +75,7 @@ const Course = () => {
         }
     }, [tabValue]);
 
+
     const [courses, setCourses] = useState({})
     useEffect(() => {
         GetCourseById(id).then((res) => {
@@ -129,15 +83,19 @@ const Course = () => {
             console.log(res)
             setPrice(res?.courseCost - res?.courseCost * res?.discount / 100)
             setDescription(`Mua Khoá Học ${user?.accountId} ${res?.courseId}`)
+        }).catch((err) => {
+            nav('/NotFound')
         })
-            .catch((err) => {
-                nav('/NotFound')
-            })
-    }
-        , [id])
-
+    }, [id])
 
     const user = useSelector((state) => state.user?.User);
+    useEffect(() => {
+        GetUserCourse(user?.accountId).then((res) => {
+            setRegisted(res.data)
+        })
+
+    }, [])
+
     const [orderType, setOrderType] = useState('Mua Khoá Học');
     const [customerName, setCustomerName] = useState(`${user?.firstName} ${user?.lastName}`);
     const [price, setPrice] = useState('');
@@ -305,12 +263,29 @@ const Course = () => {
                                 </Button>
                             </DialogContent>
                         </Dialog>
-                        <Button variant="contained" sx={{ mt: '5%', textTransform: 'none', width: '180px' }} onClick={handleOpenOrderForm}>
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <Typography width='100%' fontSize='20px' fontWeight='bold'>Enroll</Typography>
-                                <Typography fontSize='22px'>Starts {format(new Date(), 'MMM dd')}</Typography>
-                            </div>
-                        </Button>
+                        {
+                            registed.includes(id) ? (
+                                <Button
+                                    variant="contained"
+                                    sx={{
+                                        mt: '5%',
+                                        textTransform: 'none',
+                                        width: '180px'
+                                    }}
+                                    onClick={() => navigate(`/CourseLearning/${id}`)}
+                                >
+                                    <Typography width='100%' fontSize='20px' fontWeight='bold'>Tiếp Tục</Typography>
+                                </Button>
+                            ) : (
+                                <Button variant="contained" sx={{ mt: '5%', textTransform: 'none', width: '180px' }} onClick={handleOpenOrderForm}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                        <Typography width='100%' fontSize='20px' fontWeight='bold'>Enroll</Typography>
+                                        <Typography fontSize='22px'>Starts {format(new Date(), 'MMM dd')}</Typography>
+                                    </div>
+                                </Button>
+                            )
+                        }
+
                         <Typography mt='3%' fontSize='15px' color='textSecondary'>Sponsored by 'Enterprise Name'</Typography>
                         <Box display='flex' mt='3%'>
                             <Typography fontSize='18px' fontWeight='bold' mr='5px'>50</Typography>
@@ -379,7 +354,7 @@ const Course = () => {
 
                         </CardContent>
                     </Card >
-                </div>
+                </div >
                 <div
                     ref={contentRefs[2]}
                     style={{

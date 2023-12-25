@@ -59,7 +59,7 @@ const FirstStep = ({
       })
   }
   return (
-    <Box width='100%'>
+    <Box width='100%' >
       <Typography fontSize='30px' fontWeight='500'>
         Giới thiệu khóa học
       </Typography>

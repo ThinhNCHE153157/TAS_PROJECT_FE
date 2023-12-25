@@ -90,11 +90,11 @@ const StickyComponent = (listQuestion, listAnswer, listPart, id) => {
         </Button>
         <Grid container sx={{ ml: '5%', mt: '50px' }}>
           {
-            listPart?.map((part) => {
+            listPart?.map((part, index) => {
 
               return (
                 <>
-                  <Typography fontSize='25px' mb='15px' fontWeight={500}>Part {part.partId}</Typography>
+                  <Typography fontSize='25px' mb='15px' fontWeight={500}>Part {index + 1}</Typography>
                   <Box width='100%'>
                     <Grid container columns={15} mb='30px' rowSpacing='10px' >
                       {
@@ -145,6 +145,7 @@ const StartTest = () => {
   const [listQuestion, setListQuestion] = useState([])
   const [listAnswer, setListAnswer] = useState([])
   const [test, setTest] = useState({})
+  const [testName, setTestName] = useState('')
   // const [TestPart, setTestPart] = useState([])
   useEffect(() => {
     const unload = (e) => {
@@ -183,6 +184,7 @@ const StartTest = () => {
         console.log('partsWithIndex: ', partsWithIndex)
         console.log('updatedList: ', updatedList)
         console.log(updatedList)
+        setTestName(res.data.testName)
         setListQuestion(updatedList);
       })
       .catch(err => {
@@ -222,7 +224,7 @@ const StartTest = () => {
       <Header />
       <Box sx={{ marginTop: '2%', display: 'flex', justifyContent: 'center', }}>
         <Typography fontSize='30px' fontWeight='bold'>
-          {test.testName}
+          {testName}
         </Typography>
       </Box>
       <Box

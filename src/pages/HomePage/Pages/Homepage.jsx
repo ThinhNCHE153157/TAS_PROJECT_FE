@@ -39,15 +39,15 @@ const Homepage = () => {
                         </p>
                     </div>
                     <div className="col-12" style={{ marginTop: "20px" }}>
-                        <h2>Top 4 khoá học nổi bật:</h2>
+                        <h2>Top khoá học nổi bật:</h2>
                         <Grid container spacing={2}>
                             {courses.map((course) => (
                                 <Grid item key={course.courseId} xs={12} sm={12} md={6} lg={3}>
                                     <CourseCard
                                         id={course.courseId}
-                                        image="https://picsum.photos/300/400"
+                                        image={course.image}
                                         name={course.courseName}
-                                        description={course.courseDescription}
+                                        description={course.shortDescription}
                                         level={course.courseLevel}
                                         price={course.courseCost}
                                         discount={course.discount}
@@ -63,9 +63,9 @@ const Homepage = () => {
                                 <Grid item key={course.courseId} xs={12} sm={12} md={6} lg={3}>
                                     <CourseCard
                                         id={course.courseId}
-                                        image="https://picsum.photos/300/400"
+                                        image={course.image}
                                         name={course.courseName}
-                                        description={course.courseDescription}
+                                        description={course.shortDescription}
                                         level={course.courseLevel}
                                         price={course.courseCost}
                                         discount={course.discount}
@@ -81,9 +81,9 @@ const Homepage = () => {
                                 <Grid item key={course.courseId} xs={12} sm={12} md={6} lg={3}>
                                     <CourseCard
                                         id={course.courseId}
-                                        image="https://picsum.photos/300/400"
+                                        image={course.image}
                                         name={course.courseName}
-                                        description={course.courseDescription}
+                                        description={course.shortDescription}
                                         level={course.courseLevel}
                                         price={course.courseCost}
                                         discount={course.discount}

@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import NavBar from '../layout/NavBar'
 import { Box, Button, InputAdornment, TextField, Typography } from '@mui/material'
 import Sidebar from '../layout/Sidebar'
 import SearchIcon from '@mui/icons-material/Search';
 import { Table, Tag } from 'antd';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import API from '../../../component/callApi';
 
 const formatMoneyVND = (number) => {
   return number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
@@ -42,6 +44,8 @@ const ViewCourse = () => {
       filters,
       ...sorter,
     });
+
+
 
     // const fetchData = () => {
     //   setLoading(true);
@@ -114,6 +118,16 @@ const ViewCourse = () => {
       },
     },
   ]
+
+  const user = useSelector((state) => state.user?.User);
+  useEffect(() => {
+    API.get(`/Course/GetCourseByEnterprise?accountId=${user.accountId}`)
+      .then(res => {
+        console.log(res.data);
+        setData(res.data);
+      })
+      .catch(err => console.log(err))
+  }, [user]);
 
   const renderTab = () => {
     const temp = tabValue === 1 ? data.filter(item => item.status === 1) : data.filter(item => item.status !== 1)
@@ -205,16 +219,6 @@ const ViewCourse = () => {
                 Khóa Học Chờ Duyệt
               </Button>
 
-              <Button
-                onClick={() => setTabValue(3)}
-                variant={tabValue == 3 ? 'contained' : 'text'}
-                sx={{
-                  textTransform: 'none',
-                  fontSize: '20px',
-                }}
-              >
-                Giảm Giá
-              </Button>
             </Box>
             {
               (tabValue === 1 || tabValue === 2) && renderTab()

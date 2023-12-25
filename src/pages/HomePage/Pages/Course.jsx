@@ -27,7 +27,7 @@ const Course = () => {
     const [expandTopic, setExpandTopic] = useState([]);
     const handleTopicExpand = (topicId) => {
         setExpandTopic((prevExpandedTopics) => {
-            if (prevExpandedTopics.includes(topicId)) {
+            if (prevExpandedTopics?.includes(topicId)) {
                 return prevExpandedTopics.filter((id) => id !== topicId);
             } else {
                 return [...prevExpandedTopics, topicId];
@@ -264,7 +264,7 @@ const Course = () => {
                             </DialogContent>
                         </Dialog>
                         {
-                            registed.includes(id) ? (
+                            registed?.includes(id) ? (
                                 <Button
                                     variant="contained"
                                     sx={{
@@ -428,14 +428,14 @@ const Course = () => {
                                                         onClick={() => handleTopicExpand(topic.topicId)}
                                                     >
                                                         <Typography display='inline-block' fontSize='20px' fontWeight='500' >Course details</Typography>
-                                                        {expandTopic.includes(topic.topicId) ? <ExpandLess fontSize="large" /> : <ExpandMoreIcon fontSize="large" />}
+                                                        {expandTopic?.includes(topic.topicId) ? <ExpandLess fontSize="large" /> : <ExpandMoreIcon fontSize="large" />}
 
                                                     </Button>
                                                 </div>
 
                                                 <Typography fontSize='22px' mt='1%'>Topic {index + 1} - 5 videos - 1 testing</Typography>
 
-                                                {expandTopic.includes(topic.topicId) ? (
+                                                {expandTopic?.includes(topic.topicId) ? (
                                                     <div>
                                                         <Typography fontSize='22px' fontWeight='bold' mt='2%'>Nội dung topic</Typography>
                                                         <Typography fontSize='22px' mt='1%' mb='2%'>

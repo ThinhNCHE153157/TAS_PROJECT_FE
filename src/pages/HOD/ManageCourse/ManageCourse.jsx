@@ -1,21 +1,35 @@
 import React, { useEffect } from 'react'
 import NavBar from '../layout/NavBar'
-import { Box, Button, InputAdornment, TextField, Typography } from '@mui/material'
+import { Box, Button, IconButton, InputAdornment, TextField, Tooltip, Typography, tooltipClasses } from '@mui/material'
 import Sidebar from '../layout/Sidebar'
 import { useState } from 'react'
-import { Popover, Table, Tag } from 'antd'
+import { Popover, Space, Table, Tag } from 'antd'
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import PreviewIcon from '@mui/icons-material/Preview';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import './css/ManageCourse.css'
+import styled from '@emotion/styled'
 import { GetAllCourse, changeStatus } from '../../../Services/ManageCourseService'
 import { alertError, alertSuccess } from '../../../component/AlertComponent'
 import { ToastContainer } from 'react-toastify'
 const formatMoneyVND = (number) => {
   return number?.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
 }
-
+const BootstrapTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} arrow classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.arrow}`]: {
+    color: 'black',
+  },
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: 'black',
+    fontSize: '16px',
+  },
+}));
 const datas = [
   {
+    courseId: 14,
     courseName: "title1",
     shortDescription: "desc1",
     courseCost: 2000000,
@@ -26,6 +40,7 @@ const datas = [
     status: 1
   },
   {
+    courseId: 2,
     courseName: "title2",
     shortDescription: "desc2",
     courseCost: 2000000,
@@ -36,6 +51,7 @@ const datas = [
     status: 2
   },
   {
+    courseId: 3,
     courseName: "title3",
     shortDescription: "desc3",
     discount: 15,
@@ -46,6 +62,7 @@ const datas = [
     status: 3
   },
   {
+    courseId: 4,
     courseName: "title4",
     shortDescription: "desc4",
     discount: 5,
@@ -56,6 +73,7 @@ const datas = [
     status: 1
   },
   {
+    courseId: 5,
     courseName: "title5",
     shortDescription: "desc5",
     discount: 15,
@@ -66,6 +84,7 @@ const datas = [
     status: 2
   },
   {
+    courseId: 6,
     courseName: "title6",
     shortDescription: "desc6",
     discount: 30,
@@ -76,6 +95,7 @@ const datas = [
     status: 3
   },
   {
+    courseId: 7,
     courseName: "title7",
     shortDescription: "desc7",
     discount: 10,
@@ -86,6 +106,7 @@ const datas = [
     status: 1
   },
   {
+    courseId: 8,
     courseName: 'title8',
     shortDescription: 'desc8',
     discount: 15,
@@ -96,6 +117,7 @@ const datas = [
     status: 2
   },
   {
+    courseId: 9,
     courseName: "title9",
     shortDescription: "desc9",
     discount: 15,
@@ -106,6 +128,7 @@ const datas = [
     status: 3
   },
   {
+    courseId: 10,
     courseName: "title10",
     shortDescription: "desc10",
     discount: 25,
@@ -236,7 +259,39 @@ const ManageCourse = () => {
         );
       },
     },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <Space size="middle">
+          <BootstrapTooltip title='Thống kê' placement="top">
+            <IconButton onClick={() => handleOpenDetail(record.courseId)}>
+              <AssignmentIcon />
+            </IconButton>
+          </BootstrapTooltip>
+
+          <BootstrapTooltip title="Preview" placement="top">
+            <IconButton onClick={() => handleOpenPreview(record.courseId)}>
+              <PreviewIcon />
+            </IconButton>
+          </BootstrapTooltip>
+        </Space>
+      ),
+    },
   ]
+
+  const handleOpenPreview = (id) => {
+    console.log('courseId: ', id)
+    const newTabUrl = new URL(`/Preview/${id}`, window.location.origin);
+    // newTabUrl.searchParams.append('id', id);
+    const newTab = window.open(newTabUrl.href, '_blank');
+  }
+
+  const handleOpenDetail = (id) => {
+    const newTabUrl = new URL('/', window.location.origin);
+    newTabUrl.searchParams.append('id', id);
+    const newTab = window.open(newTabUrl.href, '_blank');
+  }
   const handleStatusChange = (record, key) => {
     const data = {
       courseId: record.courseId,

@@ -18,34 +18,7 @@ const SecondStep = ({
 }) => {
   const [refresh, setRefresh] = useState(false);
   const [listVideo, setListVideo] = useState([]);
-  const [data, setData] = useState(
-    [
-      {
-        topicId: 1,
-        topicName: 'This is topic name',
-        videos: [
-          {
-            videoTitle: 'This is videoName 1'
-          },
-          {
-            videoTitle: 'This is videoName 2'
-          }
-        ],
-      },
-      {
-        topicId: 2,
-        topicName: 'This is topic name',
-        videos: [
-          {
-            videoTitle: 'This is videoName 1'
-          },
-          {
-            videoTitle: 'This is videoName 3'
-          }
-        ],
-      }
-    ],
-  );
+  const [data, setData] = useState([]);
   useEffect(() => {
     getTopicBycourseId(id).then(res => {
       console.log(res.data)

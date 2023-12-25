@@ -6,7 +6,8 @@ import SaveIcon from '@mui/icons-material/Save';
 
 const FouthStep = ({
   onClickNext,
-  onClickBack
+  onClickBack,
+  id
 
 }) => {
   const [price, setPrice] = useState(0)

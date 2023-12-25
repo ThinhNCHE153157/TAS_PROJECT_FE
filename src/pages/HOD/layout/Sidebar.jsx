@@ -99,38 +99,19 @@ export default function Sidebar() {
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
             <Box height={30} />
-            {/* <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={() => setOpen(!open)}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
-          </Typography>
-        </Toolbar>
-      </AppBar> */}
             <Drawer variant="permanent" open={open}>
                 <DrawerHeader>
                     <IconButton>{theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}</IconButton>
                 </DrawerHeader>
                 <Divider />
 
-                <List>
+                <List sx={{ mt: '10px' }}>
                     {/* Dashboard */}
                     <ListItem
                         disablePadding
                         sx={{ display: 'block' }}
                         onClick={() => {
-                            navigate('/Admin/Dashboard');
+                            navigate('/Admin/Enterprise');
                         }}
                     >
                         <ListItemButton
@@ -149,7 +130,7 @@ export default function Sidebar() {
                             >
                                 <DashboardIcon />
                             </ListItemIcon>
-                            <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0 }} />
+                            <ListItemText primary="Enterprise Management" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
                     </ListItem>
 
@@ -180,109 +161,35 @@ export default function Sidebar() {
                                 <ManageAccountsIcon />
                             </ListItemIcon>
                             <ListItemText primary="User Management" sx={{ opacity: open ? 1 : 0 }} />
-                            {open ? (
-                                subMenuOpen ? (
-                                    <ExpandLess sx={{ opacity: open ? 1 : 0 }} />
-                                ) : (
-                                    <ExpandMore sx={{ opacity: open ? 1 : 0 }} />
-                                )
-                            ) : (
-                                ''
-                            )}
-                            {/* {subMenuOpen ? <ExpandLess sx={{ opacity: open ? 1 : 0 }} /> : <ExpandMore sx={{ opacity: open ? 1 : 0 }} />} */}
                         </ListItemButton>
+                    </ListItem>
 
-                        {/* Submenu for User Management */}
-                        <Collapse in={subMenuOpen} timeout="auto" unmountOnExit>
-                            <List component="div" disablePadding>
-                                {/* Student Management */}
-                                <ListItem
-                                    disablePadding
-                                    sx={{ display: 'block', paddingLeft: 4 }}
-                                    onClick={() => {
-                                        navigate('/Admin/StudentList');
-                                    }}
-                                >
-                                    <ListItemButton
-                                        sx={{
-                                            minHeight: 48,
-                                            justifyContent: open ? 'initial' : 'center',
-                                            px: 2.5,
-                                        }}
-                                    >
-                                        <ListItemIcon
-                                            sx={{
-                                                minWidth: 0,
-                                                mr: open ? 3 : 'auto',
-                                                justifyContent: 'center',
-                                            }}
-                                        >
-                                            {/* Add the appropriate icon for Student Management */}
-                                            {/* <StudentIcon /> */}
-                                        </ListItemIcon>
-                                        <ListItemText primary="Student Management" sx={{ opacity: open ? 1 : 0 }} />
-                                    </ListItemButton>
-                                </ListItem>
-
-                                {/* Teacher Management */}
-                                <ListItem
-                                    disablePadding
-                                    sx={{ display: 'block', paddingLeft: 4 }}
-                                    onClick={() => {
-                                        navigate('/Admin/TeacherList');
-                                    }}
-                                >
-                                    <ListItemButton
-                                        sx={{
-                                            minHeight: 48,
-                                            justifyContent: open ? 'initial' : 'center',
-                                            px: 2.5,
-                                        }}
-                                    >
-                                        <ListItemIcon
-                                            sx={{
-                                                minWidth: 0,
-                                                mr: open ? 3 : 'auto',
-                                                justifyContent: 'center',
-                                            }}
-                                        >
-                                            {/* Add the appropriate icon for Teacher Management */}
-                                            {/* <TeacherIcon /> */}
-                                        </ListItemIcon>
-                                        <ListItemText primary="Teacher Management" sx={{ opacity: open ? 1 : 0 }} />
-                                    </ListItemButton>
-                                </ListItem>
-
-                                {/* enterprise Management */}
-                                <ListItem
-                                    disablePadding
-                                    sx={{ display: 'block', paddingLeft: 4 }}
-                                    onClick={() => {
-                                        navigate('/Admin/Enterprise');
-                                    }}
-                                >
-                                    <ListItemButton
-                                        sx={{
-                                            minHeight: 48,
-                                            justifyContent: open ? 'initial' : 'center',
-                                            px: 2.5,
-                                        }}
-                                    >
-                                        <ListItemIcon
-                                            sx={{
-                                                minWidth: 0,
-                                                mr: open ? 3 : 'auto',
-                                                justifyContent: 'center',
-                                            }}
-                                        >
-                                            {/* Add the appropriate icon for Teacher Management */}
-                                            {/* <TeacherIcon /> */}
-                                        </ListItemIcon>
-                                        <ListItemText primary="Enterprise Management" sx={{ opacity: open ? 1 : 0 }} />
-                                    </ListItemButton>
-                                </ListItem>
-                            </List>
-                        </Collapse>
+                    {/* Course Management */}
+                    <ListItem
+                        disablePadding
+                        sx={{ display: 'block' }}
+                        onClick={() => {
+                            navigate('/Admin/ManageCourse');
+                        }}
+                    >
+                        <ListItemButton
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <ChromeReaderModeIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Course Management" sx={{ opacity: open ? 1 : 0 }} />
+                        </ListItemButton>
                     </ListItem>
                     {/* Class Management */}
                     <ListItem
@@ -312,33 +219,7 @@ export default function Sidebar() {
                         </ListItemButton>
                     </ListItem>
 
-                    {/* Course Management */}
-                    <ListItem
-                        disablePadding
-                        sx={{ display: 'block' }}
-                        onClick={() => {
-                            navigate('/Admin/CourseList');
-                        }}
-                    >
-                        <ListItemButton
-                            sx={{
-                                minHeight: 48,
-                                justifyContent: open ? 'initial' : 'center',
-                                px: 2.5,
-                            }}
-                        >
-                            <ListItemIcon
-                                sx={{
-                                    minWidth: 0,
-                                    mr: open ? 3 : 'auto',
-                                    justifyContent: 'center',
-                                }}
-                            >
-                                <ChromeReaderModeIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Course Management" sx={{ opacity: open ? 1 : 0 }} />
-                        </ListItemButton>
-                    </ListItem>
+
 
                     <ListItem
                         disablePadding

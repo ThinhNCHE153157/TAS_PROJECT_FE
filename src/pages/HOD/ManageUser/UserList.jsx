@@ -184,7 +184,7 @@ const UserList = () => {
             <IconButton
               color="primary"
               cursor="pointer"
-              sx={{ position: 'absolute', top: '25%', right: '6%', cursor: 'pointer', zIndex: 1 }}
+              sx={{ position: 'absolute', top: '19%', right: '6%', cursor: 'pointer', zIndex: 1 }}
               onClick={() => {
                 setIsAddModalOpen(true);
               }}

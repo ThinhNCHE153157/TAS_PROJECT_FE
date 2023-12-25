@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom'
 import TestResultCard from './PartCardComponent/TestResultCard'
 import { useSelector } from 'react-redux'
 import { API } from '../../../../component/callApi'
+import Footer from '../../../../layout/Footer'
 
 
 const list2 = [
@@ -13,18 +14,7 @@ const list2 = [
     questionId: 2,
     userAnswer: "Enders Game",
   },
-  {
-    questionId: 3,
-    userAnswer: "The Martian",
-  },
-  {
-    questionId: 4,
-    userAnswer: "The Hunger Games",
-  },
-  {
-    questionId: 5,
-    userAnswer: "2001",
-  },
+
 ]
 const list1 = [
   {
@@ -32,36 +22,6 @@ const list1 = [
     correctAnswer: "Dune",
     question: "What science fiction book, originally published in 1965, is set in a future where interstellar travel is common and noble houses vie for control of a desert planet?",
     options: ['Dune', 'Foundation', '1984', 'The Hitchhikers Guide to the Galaxy']
-  },
-  {
-    questionId: 2,
-    correctAnswer: "Brave New World",
-    question: "Which science fiction novel, written by Orson Scott Card, follows a young boy named Ender Wiggin as he trains at a space military academy to prepare for an alien invasion?",
-    options: ['Enders Game', 'Brave New World', 'Neuromancer', 'The War of the Worlds']
-  },
-  {
-    questionId: 3,
-    correctAnswer: "The Martian",
-    question: "What science fiction novel, written by Andy Weir, tells the story of an astronaut stranded alone on Mars and his struggle to survive?",
-    options: ['The Martian', 'Ready Player One', 'Snow Crash', 'The Left Hand of Darkness']
-  },
-  {
-    questionId: 4,
-    correctAnswer: "The Hunger Games",
-    question: "What science fiction series, written by Suzanne Collins, is set in a dystopian future where teenagers are forced to fight to the death in an annual televised event?",
-    options: ['The Hunger Games', 'Divergent', 'The Maze Runner', 'The Giver']
-  },
-  {
-    questionId: 5,
-    correctAnswer: "Enders Game",
-    question: "What science fiction comedy series, written by Douglas Adams, follows the adventures of an ordinary human and his alien friend as they travel through space?",
-    options: ['The Hitchhikers Guide to the Galaxy', 'Starship Troopers', 'Enders Game', '2001']
-  },
-  {
-    questionId: 6,
-    correctAnswer: "Brave New World",
-    question: "What science fiction novel, written by Aldous Huxley, is set in a future where society is divided into genetically engineered classes and people are controlled by drugs and technology?",
-    options: ['Brave New World', '1984', 'Fahrenheit 451', 'The Handmaids Tale']
   },
 ]
 const TestResultDetail = () => {
@@ -78,6 +38,8 @@ const TestResultDetail = () => {
         localStorage.removeItem('startTime');
         localStorage.removeItem('countdownTimerTime');
         localStorage.removeItem('countdownTimerTimestamp');
+        localStorage.removeItem('countdownTimerStamp');
+        localStorage.removeItem('countDownTimer');
         setResponse(res.data)
         setListQuestion(res.data.questionDtos)
         setListAnswer(res.data.userAnswers)
@@ -147,6 +109,7 @@ const TestResultDetail = () => {
           </Box>
         </Box>
       </Box>
+      <Footer />
     </Box>
   )
 }

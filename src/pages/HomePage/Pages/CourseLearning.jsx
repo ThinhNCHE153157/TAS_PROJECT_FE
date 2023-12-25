@@ -8,10 +8,6 @@ import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import { Button, Collapse, Stack } from '@mui/material';
@@ -24,8 +20,11 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Header from '../../../layout/Header';
 import VideoPlayer from '../Component/VideoPlayer'
 import { BASE_URL } from '../../../Utils/Constants';
-import { getTopicBycourseId } from '../../../Services/AddCourseService'
+import { getQuestionByCourseId, getTopicBycourseId } from '../../../Services/AddCourseService'
 import { useParams } from 'react-router-dom';
+import GenderTest from '../Component/GenderTest';
+import QuizIcon from '@mui/icons-material/Quiz';
+import Footer from '../../../layout/Footer';
 
 const drawerWidth = 300;
 
@@ -68,34 +67,12 @@ export default function TestSideBar({
 }) {
   const { id } = useParams();
   const theme = useTheme();
-  const [open, setOpen] = useState(true);
   const [expandedTopics, setExpandedTopics] = useState([]);
   const [currentTopic, setCurrentTopic] = useState('');
-  const [currentVideo, setCurrentVideo] = useState('')
-  const [Topics, setTopics] = useState(
-    [
-      {
-        topicId: '1',
-        topicName: 'There is topic 1 name',
-        videos: [
-
-          { videoTitle: 'Video 1', videoId: '1', videoUrl: `${BASE_URL}Video/PreviewVideo?fileName=Miles Away - Bring Me Back (Official Lyric Video) ft. Claire Ridgely.mp4` },
-          { videoTitle: 'Video 2', videoId: '2', videoUrl: 'https://www.youtube.com/watch?v=jNgP6d9HraI' },
-          { videoTitle: 'Video 3', videoId: '3', videoUrl: 'https://www.youtube.com/watch?v=oUFJJNQGwhk' },
-        ]
-      },
-      {
-        topicId: '2',
-        topicName: 'There is topic 2 name',
-        videos: [
-
-          { videoTitle: 'Video 4', videoId: '4', videoUrl: 'https://www.youtube.com/watch?v=jNgP6d9HraI' },
-          { videoTitle: 'Video 5', videoId: '5', videoUrl: 'https://www.youtube.com/watch?v=oUFJJNQGwhk' },
-          { videoTitle: 'Video 6', videoId: '6', videoUrl: 'https://www.youtube.com/watch?v=oUFJJNQGwhk' },
-        ]
-      },
-    ]
-  )
+  const [currentVideo, setCurrentVideo] = useState('1')
+  const [currentTest, setCurrentTest] = useState('')
+  const [Topics, setTopics] = useState([])
+  const [listQuesTest, setListQuesTest] = useState([])
   useEffect(() => {
     getTopicBycourseId(id).then((res) => {
       console.log('res: ', res.data)
@@ -104,17 +81,12 @@ export default function TestSideBar({
       setCurrentVideo(res.data[0].videos[0])
       setExpandedTopics([res.data[0].topicId])
     })
+    getQuestionByCourseId(id).then(res1 => {
+      setListQuesTest(res1.data)
+    })
   }, [id])
 
 
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
   const handleTopicToggle = (topicId) => {
     setExpandedTopics((prevExpandedTopics) => {
       if (prevExpandedTopics.includes(topicId)) {
@@ -149,7 +121,7 @@ export default function TestSideBar({
           }}
           variant="persistent"
           anchor="left"
-          open={open}
+          open={true}
         >
           <DrawerHeader>
             <Toolbar >
@@ -198,6 +170,7 @@ export default function TestSideBar({
                       <ListItemButton onClick={() => {
                         setCurrentTopic(topic)
                         setCurrentVideo(video)
+                        setCurrentTest('')
                       }}>
 
                         <Box
@@ -220,6 +193,50 @@ export default function TestSideBar({
                       </ListItemButton>
                     </ListItem>
                   ))}
+                  {
+                    topic.tests.map((test, index) => {
+                      var i = listQuesTest.findIndex(x => x.testId == test.testId)
+                      if (i !== -1) {
+                        return (
+                          <ListItem
+                            key={test.testId}
+                            disablePadding
+                            sx={{
+                              display: 'block',
+                              backgroundColor: test.testId === currentTest.testId ? '#f7f7f7' : 'inherit',
+                              borderLeft: '',
+                              borderLeftColor: ''
+                            }}>
+                            <ListItemButton onClick={() => {
+                              setCurrentTopic(topic)
+                              setCurrentTest(test)
+                              setCurrentVideo('')
+                            }}>
+
+                              <Box
+                                display='flex'
+                                width='90%'
+
+                              >
+
+                                <QuizIcon fontSize='medium' />
+                                <Typography
+                                  variant='body1' sx={{ ml: '5%', fontWeight: 'bold' }}
+                                  width='100%'
+                                >
+                                  Test:
+                                  <Typography display='inline' variant='body1' sx={{ ml: '2%', width: 'auto' }}>{test.testName}</Typography>
+                                </Typography>
+                              </Box>
+                            </ListItemButton>
+                          </ListItem>
+                        )
+                      } else {
+                        return ('')
+                      }
+
+                    })
+                  }
                 </Collapse>
               </>
 
@@ -229,28 +246,51 @@ export default function TestSideBar({
           <Divider />
 
         </Drawer>
-        <Main open={open}>
-          <Box
-            sx={{
-              width: '100%',
-              height: '100%',
+        {
+          currentVideo ? (
+            <Main open={true}>
+              <Box
+                sx={{
+                  width: '100%',
+                  height: '100%',
 
-            }}
-          >
-            <Box display='flex'>
-              <AccountBalanceIcon sx={{ mr: '8px' }} />
-              <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
-              <Typography variant='body1' sx={{ mr: '8px' }}>{currentTopic.topicName} </Typography>
-              <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
-              <Typography variant='body1' sx={{ mr: '8px' }}>{currentVideo.videoTitle}</Typography>
-            </Box>
-            <VideoPlayer url={currentVideo.videoUrl} title={currentVideo.videoTitle} />
-            {/* <Box mt="3%" ml='10%' height="80vh">
-            <Typography variant='h6'>{currentVideo.videoTitle}</Typography>
-            <ReactPlayer controls={true} url={currentVideo.urlVideo} height="70%" width='90%' />
-          </Box> */}
-          </Box>
-        </Main>
+                }}
+              >
+                <Box display='flex'>
+                  <AccountBalanceIcon sx={{ mr: '8px' }} />
+                  <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
+                  <Typography variant='body1' sx={{ mr: '8px' }}>{currentTopic.topicName} </Typography>
+                  <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
+                  <Typography variant='body1' sx={{ mr: '8px' }}>{currentVideo.videoTitle}</Typography>
+                </Box>
+                <VideoPlayer url={currentVideo.videoUrl} title={currentVideo.videoTitle} />
+                {/* <Box mt="3%" ml='10%' height="80vh">
+              <Typography variant='h6'>{currentVideo.videoTitle}</Typography>
+              <ReactPlayer controls={true} url={currentVideo.urlVideo} height="70%" width='90%' />
+            </Box> */}
+              </Box>
+            </Main>
+          ) : (
+            <Main open={true}>
+              <Box
+                sx={{
+                  width: '100%',
+                  height: '100%',
+
+                }}
+              >
+                <Box display='flex'>
+                  <AccountBalanceIcon sx={{ mr: '8px' }} />
+                  <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
+                  <Typography variant='body1' sx={{ mr: '8px' }}>{currentTopic.topicName} </Typography>
+                  <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
+                  <Typography variant='body1' sx={{ mr: '8px' }}>{currentTest.testName}</Typography>
+                </Box>
+                <GenderTest id={currentTest?.testId} />
+              </Box>
+            </Main>
+          )
+        }
       </Box >
     </>
 

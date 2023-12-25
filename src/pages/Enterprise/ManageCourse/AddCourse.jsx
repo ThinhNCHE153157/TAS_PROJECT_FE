@@ -55,42 +55,44 @@ const AddCourse = () => {
   }
   console.log(courseId);
   return (
-    <Box sx={{ backgroundColor: '#f5f3f0', }} width='100vw' height='300vh'>
-      <ToastContainer />
+    <>
       <NavBar />
-      <Box display='flex' >
-        <Sidebar />
-        <Box component='main' sx={{ flexGrow: 1, p: 3, m: 2, }} >
-          <Box display='flex' mt='5%' height='80px' width='95%' flexDirection='column'>
-            <Box display='flex' width='95%'>
-              <AddCardTwoToneIcon fontSize='large' />
-              <Typography fontSize='25px' ml='1%'>
-                Thêm khóa học mới
-              </Typography>
-            </Box>
-            <Box display='flex' alignItems='center' mt='2%' justifyContent='flex-start'>
-              <IconButton variant='text' >
-                <ErrorOutlineIcon sx={{ color: 'red' }} />
-                <Typography fontSize='18px' color='red' sx={{ ml: 1 }}>
-                  Lưu ý khi thêm khóa học (ấn vào để xem)
+      <Box sx={{ backgroundColor: '#f5f3f0', }} width='99vw' height='auto'>
+        <ToastContainer />
+        <Box display='flex' height='auto'>
+          <Sidebar />
+          <Box component='main' sx={{ width: '100%', p: 3, m: 2, }} >
+            <Box display='flex' flexGrow={1} mt='5%' height='auto' width='95%' flexDirection='column'>
+              <Box display='flex' width='95%'>
+                <AddCardTwoToneIcon fontSize='large' />
+                <Typography fontSize='25px' ml='1%'>
+                  Thêm khóa học mới
                 </Typography>
-              </IconButton>
-            </Box>
-            <Box sx={{ mt: '5%' }}>
-              <RenderStepper currentStep={currentStep} />
-            </Box>
-            <Box width='95%' mt='5%' >
-              {currentStep === 0 ? <FirstStep onClickNext={onClickNext} /> : ''}
-              {currentStep === 1 ? <SecondStep onClickNext={onClickNext} id={courseId} onClickBack={onClickBack} /> : ''}
-              {currentStep === 2 ? <ThirdStep onClickNext={onClickNext} onClickBack={onClickBack} /> : ''}
-              {currentStep === 3 ? <FouthStep onClickNext={onClickNext} onClickBack={onClickBack} /> : ''}
-              {currentStep === 4 ? <FifthStep onClickNext={onClickNext} /> : ''}
-              {/* <FirstStep /> */}
+              </Box>
+              <Box display='flex' alignItems='center' mt='2%' justifyContent='flex-start'>
+                <IconButton variant='text' >
+                  <ErrorOutlineIcon sx={{ color: 'red' }} />
+                  <Typography fontSize='18px' color='red' sx={{ ml: 1 }}>
+                    Lưu ý khi thêm khóa học (ấn vào để xem)
+                  </Typography>
+                </IconButton>
+              </Box>
+              <Box sx={{ mt: '5%' }}>
+                <RenderStepper currentStep={currentStep} />
+              </Box>
+              <Box width='95%' mt='5%'>
+                {currentStep === 0 ? <FirstStep onClickNext={onClickNext} /> : ''}
+                {currentStep === 1 ? <SecondStep onClickNext={onClickNext} id={courseId} onClickBack={onClickBack} /> : ''}
+                {currentStep === 2 ? <ThirdStep onClickNext={onClickNext} id={courseId} onClickBack={onClickBack} /> : ''}
+                {currentStep === 3 ? <FouthStep onClickNext={onClickNext} id={courseId} onClickBack={onClickBack} /> : ''}
+                {currentStep === 4 ? <FifthStep onClickNext={onClickNext} id={courseId} /> : ''}
+                {/* <FirstStep /> */}
+              </Box>
             </Box>
           </Box>
         </Box>
-      </Box>
-    </Box >
+      </Box >
+    </>
   )
 }
 

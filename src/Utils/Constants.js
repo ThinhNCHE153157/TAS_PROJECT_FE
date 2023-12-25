@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://localhost:5000/api/';
+export const BASE_URL = 'http://103.179.173.136:5000/api/';
 export const ROLE = {
     Admin: 'Admin',
     Teacher: 'Teacher',

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import ReactQuill from 'react-quill';
 import '../component/css/customEditText.css'
 import 'react-quill/dist/quill.snow.css';
 const TextEditor = ({
-  handleTextEditor
+  handleTextEditor,
+  isError,
 }) => {
   const [content, setContent] = useState('');
   const handleChange = (value) => {
@@ -18,10 +19,17 @@ const TextEditor = ({
         theme='snow'
         value={content}
         onChange={(value) => handleChange(value)}
-        style={{ height: '100%', marginTop: '1%', fontSize: '20px' }} // Đặt chiều rộng cố định
+        style={{
+          height: '100%',
+          marginTop: '1%',
+          fontSize: '20px',
+          border: isError ? '1px solid red' : ''
+        }} // Đặt chiều rộng cố định
         autoExpand={true} // Cho phép tự động mở rộng chiều cao
         placeholder='Nhập mô tả khóa học của bạn'
+
       />
+
     </Box>
   )
 }

@@ -31,7 +31,6 @@ const SecondStep = ({
   const [topicName, setTopicName] = useState({});
   const [videoTitle, setVideoTitle] = useState({});
   useEffect(() => {
-    console.log('renderer')
     //setRefresh(!refresh)
   }, [topicName, videoTitle])
   const handleOpenModal = () => {

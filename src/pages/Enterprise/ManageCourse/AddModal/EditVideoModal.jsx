@@ -1,25 +1,32 @@
-import { Box, Button, Modal, TextField, Typography } from '@mui/material'
-import React from 'react'
-import { useState } from 'react'
+import React, { useEffect } from 'react'
 import TextEditor from '../../../../component/TextEditor'
+import { Box, Button, Modal, TextField, Typography } from '@mui/material'
+import { useState } from 'react'
 
-const AddVideoTitle = ({
-  topicId,
-  isModalOpen,
-  handleCloseModal,
-  handleAdd,
+const EditVideoModal = ({
+  isOpenEditVideoModal,
+  handleCloseEditVideoModal,
+  handleEditVideo,
+  selectedVideo: { videoId, videoTitle, videoDescription }
 }) => {
-  const [value, setValue] = useState('')
-  const [value1, setValue1] = useState('')
+  console.log(videoId)
+  console.log(videoTitle)
+  console.log(videoDescription)
+  const [value, setValue] = useState(videoTitle)
+  const [value1, setValue1] = useState(videoDescription)
+  useEffect(() => {
+    setValue(videoTitle);
+    setValue1(videoDescription);
+  }, [videoTitle, videoDescription])
   const handleAddButton = () => {
-    const data = { videoTitle: value.target.value, topicId: topicId, videoDescription: value1 }
-    handleAdd(data);
-    handleCloseModal();
+    const data = { videoTitle: value, videoId: videoId, videoDescription: value1 }
+    handleEditVideo(data);
+    handleCloseEditVideoModal();
   }
   return (
     <Modal
-      open={isModalOpen}
-      onClose={handleCloseModal}
+      open={isOpenEditVideoModal}
+      onClose={handleCloseEditVideoModal}
       aria-labelledby='modal-title'
       aria-describedby='modal-description'
     >
@@ -40,13 +47,13 @@ const AddVideoTitle = ({
       >
         {/* Nội dung của modal */}
         <Typography id='modal-title' variant='h4' component='div'>
-          Thêm title cho video
+          Chỉnh sửa thông tin video
         </Typography>
         <Typography id='modal-description' sx={{ mt: 2 }} fontSize='25px'>
           Video title
         </Typography>
         <TextField
-          onChange={(value) => setValue(value)}
+          onChange={(event) => setValue(event.target.value)}
           component='div'
           sx={{
             mt: '1%',
@@ -59,15 +66,17 @@ const AddVideoTitle = ({
             },
           }}
           placeholder='Title'
+          value={value}
         />
         <Typography id='modal-description' sx={{ mt: 2 }} fontSize='25px'>
           Mô tả
         </Typography>
         <TextEditor
           handleTextEditor={value => setValue1(value)}
+          value={value1}
         />
         <Box mt='3%'>
-          <Button sx={{ fontSize: '18px' }} variant='contained' onClick={handleCloseModal}>
+          <Button sx={{ fontSize: '18px' }} variant='contained' onClick={handleCloseEditVideoModal}>
             Cancel
           </Button>
           <Button sx={{ fontSize: '18px', ml: '2%' }} variant='contained' onClick={handleAddButton}>
@@ -79,4 +88,4 @@ const AddVideoTitle = ({
   )
 }
 
-export default AddVideoTitle
+export default EditVideoModal

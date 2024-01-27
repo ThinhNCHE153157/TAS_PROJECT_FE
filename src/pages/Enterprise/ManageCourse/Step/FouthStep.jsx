@@ -11,6 +11,8 @@ const FouthStep = ({
 
 }) => {
   const [price, setPrice] = useState(0)
+  const [error, setError] = useState('')
+  const [isUpdate, setIsUpdate] = useState(false)
   const handleNext = () => {
     onClickNext();
   }
@@ -22,6 +24,35 @@ const FouthStep = ({
   }
   const formatNumberWithCommas = (number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  const isValid = (price) => {
+    console.log('price:', price)
+    console.log('isNaN:', isNaN(price))
+    if (isNaN(price)) {
+      return 'Giá bạn nhập không hợp lệ';
+    }
+    if (price < 50000) {
+      return 'Giá khóa học tối thiểu là 50,000 VND';
+    }
+    return 'true';
+  }
+  const handleSave = () => {
+    const isValidPrice = isValid(price);
+    if (isValidPrice !== 'true') {
+      setError(isValidPrice)
+      setIsUpdate(false)
+    } else {
+      setError('')
+      setIsUpdate(true)
+
+      // call api
+    }
+    var data = {
+      courseId: id,
+      price: price
+    }
+    console.log(data)
   }
 
   return (
@@ -97,13 +128,25 @@ const FouthStep = ({
           </Typography>
         </Box>
         <Divider />
-        <IconButton sx={{ m: '0 auto', bgcolor: 'green', borderRadius: '5px', width: '180px', mb: '5%' }}>
+        <Typography
+          fontSize='20px'
+          fontWeight='500'
+          color='red'
+          fontStyle='italic'
+          m='0 auto'
+        >
+          {error}
+        </Typography>
+        <IconButton sx={{ m: '0 auto', bgcolor: 'green', borderRadius: '5px', width: '180px', mb: '5%' }}
+          onClick={() => handleSave()}
+        >
           <SaveIcon sx={{ color: 'white' }} />
           <Typography fontSize='22px' fontWeight='bold' color='white' ml='1%' >
             Cập nhật
           </Typography>
         </IconButton>
       </Box>
+
       <Box sx={{ ml: '45%', mt: '3%' }}>
         <Button
           variant='contained'
@@ -123,6 +166,7 @@ const FouthStep = ({
             textTransform: 'none'
           }}
           onClick={handleNext}
+          disabled={!isUpdate}
         >
           Next
         </Button>

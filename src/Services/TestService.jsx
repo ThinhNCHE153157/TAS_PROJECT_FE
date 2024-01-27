@@ -32,6 +32,24 @@ export const AddNewTest = async (obj) => {
         .catch(err => console.log(err))
 }
 
+export const UpdateTestByCourseId = async (obj) => {
+    return API_FormFile.post(`/Test/UpdateTestForCourse`, obj)
+        .then(res => res.data)
+        .catch(err => console.log(err))
+}
+
+export const DeleteTest = async (testId) => {
+    return API.put(`/Test/DeleteTest?testId=${testId}`)
+        .then(res => res.data)
+        .catch(err => console.log(err))
+}
+
+export const AddNewQuestion = async (obj) => {
+    return API_FormFile.post(`/Question/CreateQuestion`, obj)
+        .then(res => res.data)
+        .catch(err => console.log(err))
+}
+
 export {
     GetlistpartOfTest,
     GetlistQuestionOfTest,

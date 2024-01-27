@@ -61,6 +61,156 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-start',
 }));
 
+const res = [
+  {
+    courseName: "Thinh",
+    topicId: 1,
+    topicName: "Test",
+    videos: [
+      {
+        videoId: 1,
+        videoTitle: "Test",
+        videoUrl: "https://www.youtube.com/watch?v=3sQEb9TSuYU",
+        videoAttachment: "https://www.youtube.com/watch?v=3sQEb9TSuYU",
+        videoDescription: "Test",
+      },
+      {
+        videoId: 2,
+        videoTitle: "Test",
+        videoUrl: "https://www.youtube.com/watch?v=3sQEb9TSuYU",
+        videoAttachment: "https://www.youtube.com/watch?v=3sQEb9TSuYU",
+        videoDescription: "Test",
+      },
+      {
+        videoId: 3,
+        videoTitle: "Test",
+        videoUrl: "https://www.youtube.com/watch?v=3sQEb9TSuYU",
+        videoAttachment: "https://www.youtube.com/watch?v=3sQEb9TSuYU",
+        videoDescription: "Test",
+      }
+    ],
+    tests: [
+      {
+        testId: 1,
+        testName: "Test",
+      },
+      {
+        testId: 2,
+        testName: "Test",
+      },
+      {
+        testId: 3,
+        testName: "Test",
+      }
+    ],
+    partId: null
+  },
+  {
+    courseName: "Thinh",
+    topicId: 2,
+    topicName: "Test",
+    videos: [
+      {
+        videoId: 4,
+        videoTitle: "Test",
+        videoUrl: "https://www.youtube.com/watch?v=3sQEb9TSuYU",
+        videoAttachment: "https://www.youtube.com/watch?v=3sQEb9TSuYU",
+        videoDescription: "Test",
+      },
+      {
+        videoId: 5,
+        videoTitle: "Test",
+        videoUrl: "https://www.youtube.com/watch?v=3sQEb9TSuYU",
+        videoAttachment: "https://www.youtube.com/watch?v=3sQEb9TSuYU",
+        videoDescription: "Test",
+      },
+      {
+        videoId: 6,
+        videoTitle: "Test",
+        videoUrl: "https://www.youtube.com/watch?v=3sQEb9TSuYU",
+        videoAttachment: "https://www.youtube.com/watch?v=3sQEb9TSuYU",
+        videoDescription: `
+        <div>
+          <h1>Welcome to My Website</h1>
+          <p>This is a longer example of <strong>raw</strong> HTML content.</p>
+          <p>Here are some key features:</p>
+          <ul>
+            <li><a href="#section1">Section 1</a></li>
+            <li><a href="#section2">Section 2</a></li>
+            <li><a href="#section3">Section 3</a></li>
+          </ul>
+          <section id="section1">
+            <h2>Section 1</h2>
+            <p>This is the first section of the content.</p>
+          </section>
+          <section id="section2">
+            <h2>Section 2</h2>
+            <p>Here is the second section with some <em>italicized</em> text.</p>
+          </section>
+          <section id="section3">
+            <h2>Section 3</h2>
+            <p>And finally, the third section to conclude the content.</p>
+          </section>
+        </div>
+        `,
+      }
+    ],
+    tests: [
+      {
+        testId: 1,
+        testName: "Test",
+      },
+      {
+        testId: 2,
+        testName: "Test",
+      },
+      {
+        testId: 3,
+        testName: "Test",
+      }
+    ],
+  }
+]
+
+const res1 = [
+  {
+    testId: 1,
+    url: 'dsa',
+    questions: [
+      {
+        questionId: 1,
+        quesDescription: 'dsa',
+        image: 'dsa',
+        resultA: 'sdf',
+        resultB: 'gdsfg',
+        resultC: 'sdlkfj',
+        resultD: 'sdlfk',
+        correctAnswer: 'dsa',
+      },
+      {
+        questionId: 2,
+        quesDescription: 'dsa',
+        image: 'dsa',
+        resultA: 'sdf',
+        resultB: 'gdsfg',
+        resultC: 'sdlkfj',
+        resultD: 'sdlfk',
+        correctAnswer: 'dsa',
+      },
+      {
+        questionId: 3,
+        quesDescription: 'dsa',
+        image: 'dsa',
+        resultA: 'sdf',
+        resultB: 'gdsfg',
+        resultC: 'sdlkfj',
+        resultD: 'sdlfk',
+        correctAnswer: 'dsa',
+      }
+    ]
+  }
+]
+
 export default function TestSideBar({
   // Topics,
   // Course
@@ -72,18 +222,24 @@ export default function TestSideBar({
   const [currentVideo, setCurrentVideo] = useState('1')
   const [currentTest, setCurrentTest] = useState('')
   const [Topics, setTopics] = useState([])
+  const [tabs, setTabs] = useState(1)
   const [listQuesTest, setListQuesTest] = useState([])
   useEffect(() => {
-    getTopicBycourseId(id).then((res) => {
-      console.log('res: ', res.data)
-      setTopics(res.data)
-      setCurrentTopic(res.data[0])
-      setCurrentVideo(res.data[0].videos[0])
-      setExpandedTopics([res.data[0].topicId])
-    })
-    getQuestionByCourseId(id).then(res1 => {
-      setListQuesTest(res1.data)
-    })
+    // getTopicBycourseId(id).then((res) => {
+    //   console.log('res: ', res.data)
+    //   setTopics(res.data)
+    //   setCurrentTopic(res.data[0])
+    //   setCurrentVideo(res.data[0].videos[0])
+    //   setExpandedTopics([res.data[0].topicId])
+    // })
+    // getQuestionByCourseId(id).then(res1 => {
+    //   setListQuesTest(res1.data)
+    // })
+    setTopics(res)
+    setCurrentTopic(res[0])
+    setCurrentVideo(res[0].videos[0])
+    setExpandedTopics([res[0].topicId])
+    setListQuesTest(res1)
   }, [id])
 
 
@@ -264,6 +420,46 @@ export default function TestSideBar({
                   <Typography variant='body1' sx={{ mr: '8px' }}>{currentVideo?.videoTitle}</Typography>
                 </Box>
                 <VideoPlayer url={currentVideo.videoUrl} title={currentVideo?.videoTitle} />
+                <Box display='flex' flexDirection='column'>
+                  <Box display='flex' >
+                    <Button
+                      sx={{
+                        mt: '2%',
+                        ml: '3%',
+                        bgcolor: tabs === 1 ? '#c8cdd3' : 'white',
+                      }}
+                      onClick={() => setTabs(1)}
+                    >
+                      Thông tin khóa học
+                    </Button>
+                    <Button
+                      sx={{
+                        mt: '2%',
+                        bgcolor: tabs === 2 ? '#c8cdd3' : 'white',
+                      }}
+                      onClick={() => setTabs(2)}
+                    >
+                      Tài liệu khóa học
+                    </Button>
+
+                  </Box>
+                  <Divider sx={{ width: '30%', ml: '3%', bgcolor: 'black' }} />
+                  {
+                    tabs === 1 ? (
+                      <Box ml='3%' minHeight={'200px'} mt='1%'>
+                        <div dangerouslySetInnerHTML={{ __html: currentVideo?.videoDescription }} />
+                      </Box>
+                    ) : (
+                      <Box minHeight={'200px'}>
+                        <a href={currentVideo?.videoAttachment} download='ten file tai ve'>
+                          <img src={currentVideo?.videoAttachment} alt={'chua hien thi'} style={{ width: '100%', height: '100%', objectFit: 'cover', marginLeft: '3%' }} />
+                          <p>Ten hung</p>
+                        </a>
+                      </Box>
+                    )
+                  }
+                </Box>
+
                 {/* <Box mt="3%" ml='10%' height="80vh">
               <Typography variant='h6'>{currentVideo.videoTitle}</Typography>
               <ReactPlayer controls={true} url={currentVideo.urlVideo} height="70%" width='90%' />
@@ -286,7 +482,10 @@ export default function TestSideBar({
                   <ArrowForwardIosIcon fontSize='small' sx={{ mr: '8px' }} />
                   <Typography variant='body1' sx={{ mr: '8px' }}>{currentTest.testName}</Typography>
                 </Box>
-                <GenderTest id={currentTest?.testId} />
+                {
+                  currentTest?.testId && <GenderTest id={currentTest?.testId} />
+                }
+                {/* <GenderTest id={currentTest?.testId} /> */}
               </Box>
             </Main>
           )

@@ -5,9 +5,11 @@ export const AddCourse = async (data) => {
     return res;
 }
 
-export const AddTopic = async (data) => {
-    const res = await API.post('/Topic/AddTopic', data);
+export const AddTopic = (data) => {
+    const res = API.post('/Topic/AddListTopic', data);
+
     return res;
+
 }
 
 export const AddVideo = async (data) => {

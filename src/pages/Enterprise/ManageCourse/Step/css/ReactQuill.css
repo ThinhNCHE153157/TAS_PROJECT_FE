@@ -1,0 +1,7 @@
+.ql-editor {
+    font-size: 20px;
+}
+
+.ql-editor.ql-blank::before {
+    color: rgb(103 98 98 / 60%);
+}

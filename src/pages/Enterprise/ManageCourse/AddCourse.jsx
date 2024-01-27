@@ -39,7 +39,7 @@ const RenderStepper = ({
 }
 const AddCourse = () => {
   const [courseId, setCourseId] = useState('');
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(2);
   const onClickNext = (data) => {
     if (data !== undefined) {
       setCourseId(data);
@@ -57,7 +57,7 @@ const AddCourse = () => {
   return (
     <>
       <NavBar />
-      <Box sx={{ backgroundColor: '#f5f3f0', }} width='99vw' height='auto'>
+      <Box sx={{ backgroundColor: '#f5f3f0', }} width='99vw' minHeight='100vh'>
         <ToastContainer />
         <Box display='flex' height='auto'>
           <Sidebar />
@@ -80,6 +80,7 @@ const AddCourse = () => {
               <Box sx={{ mt: '5%' }}>
                 <RenderStepper currentStep={currentStep} />
               </Box>
+
               <Box width='95%' mt='5%'>
                 {currentStep === 0 ? <FirstStep onClickNext={onClickNext} /> : ''}
                 {currentStep === 1 ? <SecondStep onClickNext={onClickNext} id={courseId} onClickBack={onClickBack} /> : ''}

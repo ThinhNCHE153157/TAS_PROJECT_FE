@@ -2,21 +2,25 @@ import { Box, Button, Modal, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useState } from 'react'
 
-const AddTopicModel = ({
-  isModalOpen,
-  handleCloseModal,
-  handleAdd,
-
+const EditTopicModal = ({
+  isOpenEditTopicModal,
+  handleCloseEditTopicModal,
+  handleEditTopic,
+  topicName,
+  topicDescription,
+  topicId
 }) => {
-  const [value, setValue] = useState('')
-  const [value1, setValue1] = useState('')
-  const handleAddButton = () => {
-    handleAdd(value.target.value, value1.target.value);
+  const [value, setValue] = useState(topicName)
+  const [value1, setValue1] = useState(topicDescription)
+  const handleSave = () => {
+    const data = { topicName: value, topicDescription: value1, topicId: topicId }
+    handleEditTopic(data)
+    handleCloseEditTopicModal()
   }
   return (
     <Modal
-      open={isModalOpen}
-      onClose={handleCloseModal}
+      open={isOpenEditTopicModal}
+      onClose={handleCloseEditTopicModal}
       aria-labelledby='modal-title'
       aria-describedby='modal-description'
     >
@@ -35,7 +39,6 @@ const AddTopicModel = ({
           maxHeight: '900px'
         }}
       >
-        {/* Nội dung của modal */}
         <Typography id='modal-title' variant='h4' component='div'>
           Thêm topic mới
         </Typography>
@@ -43,7 +46,7 @@ const AddTopicModel = ({
           Tên topic
         </Typography>
         <TextField
-          onChange={(value) => setValue(value)}
+          onChange={(event) => setValue(event.target.value)}
           component='div'
           sx={{
             mt: '1%',
@@ -56,12 +59,14 @@ const AddTopicModel = ({
             },
           }}
           placeholder='Topic'
+          value={value}
         />
         <Typography id='modal-description' sx={{ mt: 2 }} fontSize='25px'>
           Mô tả
         </Typography>
         <TextField
-          onChange={(value) => setValue1(value)}
+          onChange={(event) => setValue1(event.target.value)}
+          value={value1}
           component='div'
           rows={2}
           sx={{
@@ -77,16 +82,16 @@ const AddTopicModel = ({
           placeholder='Mô tả'
         />
         <Box mt='3%'>
-          <Button sx={{ fontSize: '18px' }} variant='contained' onClick={handleCloseModal}>
+          <Button sx={{ fontSize: '18px' }} variant='contained' onClick={handleCloseEditTopicModal}>
             Cancel
           </Button>
-          <Button sx={{ fontSize: '18px', ml: '2%' }} variant='contained' onClick={handleAddButton}>
-            Add
+          <Button sx={{ fontSize: '18px', ml: '2%' }} variant='contained' onClick={() => handleSave()}>
+            Save
           </Button>
         </Box>
       </Box>
-    </Modal>
+    </Modal >
   )
 }
 
-export default AddTopicModel
+export default EditTopicModal

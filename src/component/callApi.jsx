@@ -1,4 +1,5 @@
 import axios from 'axios'
+axios.defaults.timeout = 100000;
 
 export const API = axios.create({
   baseURL: 'http://103.179.173.136:5000/api',
@@ -162,6 +163,18 @@ export const AddClass = (data) => {
   });
 };
 
+export const AddTopic = (data) => {
+  return new Promise((resolve, reject) => {
+    API.post('/Topic/AddListTopic', data)
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export const FetchAllTeacher = () => {
   return new Promise((resolve, reject) => {
     API.get('/Account/GetAllTeacher')
@@ -212,3 +225,4 @@ export default API;
 //       setError(error);
 //     });
 // }, []);
+

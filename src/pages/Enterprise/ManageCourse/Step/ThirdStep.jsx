@@ -5,20 +5,20 @@ import { useState } from 'react';
 import QuestionCard from '../Component/QuestionCard';
 import AddQuestion from '../AddModal/AddQuestion';
 import SaveIcon from '@mui/icons-material/Save';
-import { AddNewQuestion, getQuestionByCourseId, getTopicBycourseId } from '../../../../Services/AddCourseService';
+import { getQuestionByCourseId, getTopicBycourseId } from '../../../../Services/AddCourseService';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AddTest from '../AddModal/AddTest';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { AddNewTest } from '../../../../Services/TestService';
+import { AddNewQuestion, AddNewTest, DeleteTest } from '../../../../Services/TestService';
 import { alertError, alertSuccess } from '../../../../component/AlertComponent';
 
 
 const ThirdStep = ({
   onClickNext,
   onClickBack,
-  id,
+  id = 4,
 }) => {
   const [openAddTestModal, setOpenAddTestModal] = useState(false);
   const [openAddQuestionModal, setOpenAddQuestionModal] = useState(false);
@@ -30,10 +30,10 @@ const ThirdStep = ({
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    getTopicBycourseId(id).then(res => {
+    getTopicBycourseId(3).then(res => {
       setDatas(res.data)
     })
-    getQuestionByCourseId(id).then(res => {
+    getQuestionByCourseId(3).then(res => {
       setListQuesTest(res.data)
     })
 
@@ -66,21 +66,37 @@ const ThirdStep = ({
     setOpenAddTestModal(false);
   }
   const handleAddTest = (object) => {
-    AddNewTest(object).catch(
-      err => alertError({ message: 'Không thành công ' })
-    )
-    alertSuccess({ message: 'Thêm thành công bài thi' })
-    setRefresh(!refresh)
-    handleCloseTest()
+    AddNewTest(object).then(res => {
+      console.log(res)
+      alertSuccess({ message: 'Thêm thành công bài thi' })
+      setRefresh(!refresh)
+      handleCloseTest()
+    })
+      .catch(
+        err => alertError({ message: 'Không thành công ' })
+      )
+
   }
 
   const handleAddQuestion = (object) => {
-    AddNewQuestion(object).catch(
-      err => alertError({ message: 'Không thành công ' })
-    )
-    alertSuccess({ message: 'Thêm thành công câu hỏi' })
-    setRefresh(!refresh)
-    handleCloseTest()
+    var form = new FormData()
+    const newQuestionAnswer = object.questionAnswer.map(item => ({
+      answer: item.answer,
+      iscorrect: item.correct,
+    }));
+    form.append('testId', object.testId)
+    form.append('description', object.description)
+    form.append('image', object.image)
+    form.append('questionAnswers', JSON.stringify(newQuestionAnswer))
+    console.log('form: ', form)
+    AddNewQuestion(form).then(res => {
+      console.log(res)
+      alertSuccess({ message: 'Thêm thành công câu hỏi' })
+      setRefresh(!refresh)
+      handleCloseQuestion()
+    }).catch(err => {
+      alertError({ message: 'Thêm không thành công' })
+    })
   }
   const handleCloseQuestion = () => {
     setIsLoading(true)
@@ -91,6 +107,20 @@ const ThirdStep = ({
   }
   const handleBack = () => {
     onClickBack();
+  }
+  const handleDeleteTest = (testId) => {
+    console.log('testId: ', testId)
+    DeleteTest(testId).then(res => {
+      console.log(res)
+      alertSuccess({ message: 'Xóa thành công bài thi' })
+      setRefresh(!refresh)
+    }).catch(err => {
+      alertError({ message: 'Xóa không thành công' })
+    })
+  }
+
+  const handleEditTest = (testId) => {
+
   }
   return (
     <Box width='100%'>
@@ -165,10 +195,18 @@ const ThirdStep = ({
                             </Typography>
                           </Box>
                           <Box display='flex' mr='3%'>
-                            <IconButton>
+                            <IconButton
+                              onClick={() => {
+                                console.log('test196: ', test)
+                              }}
+                            >
                               <EditIcon />
                             </IconButton>
-                            <IconButton>
+                            <IconButton
+                              onClick={() => {
+                                handleDeleteTest(test.testId)
+                              }}
+                            >
                               <DeleteIcon />
                             </IconButton>
                           </Box>

@@ -18,7 +18,7 @@ var a =
       note: 'hello world'
     },
     {
-      id: 1,
+      id: 2,
       newWord: 'hello',
       defination: 'xin chào',
       example: 'hello world',

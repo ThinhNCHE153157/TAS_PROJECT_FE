@@ -4,17 +4,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
 
-var a = {
-  flascardId: 1,
-  itemCardId: 1,
-  newWord: 'hello',
-  defination: 'xin chào',
-  example: 'hello world',
-  note: 'hello world',
-  image: 'https://i.pinimg.com/564x/6f/9e/9e/6f9e9e2b9b5b6b5f5f5f5f5f5f5f5f5f.jpg',
-  type: 'N',
-  spelling: 'helo',
-}
 const AddNewWord = ({
   isOpenAddNewWordModal,
   flashcardName,

@@ -451,9 +451,7 @@ export default function TestSideBar({
                       </Box>
                     ) : (
                       <Box minHeight={'200px'}>
-                        <a href={currentVideo?.videoAttachment} download={currentVideo?.videoAttachment}
-
-                        >
+                        <a href={currentVideo?.videoAttachment} download='ten file tai ve'>
                           <img src={currentVideo?.videoAttachment} alt={'chua hien thi'} style={{ width: '100%', height: '100%', objectFit: 'cover', marginLeft: '3%' }} />
                           <p>Ten hung</p>
                         </a>

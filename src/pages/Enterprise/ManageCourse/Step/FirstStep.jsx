@@ -17,6 +17,7 @@ const FirstStep = ({
   const [courseImage, setCourseImage] = useState(null);
   const [courseGoal, setCourseGoal] = useState('');
   const [courseLevel, setCourseLevel] = useState(0);
+  const [isUpdate, setIsUpdate] = useState(false);
   const [errors, setErrors] = useState({
     courseName: false,
     courseShortDescription: false,
@@ -136,6 +137,7 @@ const FirstStep = ({
     API_FormFile.post('/Course/AddCourse', formData)
       .then(res => {
         console.log(res);
+        setIsUpdate(true);
       })
       .catch(err => {
         console.log(err);
@@ -318,7 +320,7 @@ const FirstStep = ({
           }
           <Button
             disabled={isDisabled()}
-            onClick={saveChange}
+            onClick={() => saveChange()}
             startIcon={<SaveIcon sx={{ color: 'white' }} />}
             sx={{
               m: '0 auto',
@@ -343,6 +345,7 @@ const FirstStep = ({
             mr: '8%',
             textTransform: 'none'
           }}
+          disabled
         >
           Back
         </Button>
@@ -353,6 +356,7 @@ const FirstStep = ({
             textTransform: 'none'
           }}
           onClick={handleNext}
+          disabled={!isUpdate}
         >
           Next
         </Button>

@@ -3,9 +3,9 @@ import { isFulfilled } from '@reduxjs/toolkit'
 import React from 'react'
 import { useState } from 'react'
 
-const AddTest = ({
-  isOpenAddTestModal,
-  handleCloseAddModal,
+const EditTest = ({
+  isOpenEditTestModal,
+  handleCloseEditTestModal,
   handleAdd,
   topicId,
 }) => {
@@ -75,8 +75,8 @@ const AddTest = ({
   }
   return (
     <Modal
-      open={isOpenAddTestModal}
-      onClose={handleCloseAddModal}
+      open={isOpenEditTestModal}
+      onClose={handleCloseEditTestModal}
       aria-labelledby='modal-title'
       aria-describedby='modal-description'
     >
@@ -200,7 +200,7 @@ const AddTest = ({
         }
         <Typography ml='1%' color='red' fontSize='18px'>{error} </Typography>
         <Box mt='3%'>
-          <Button sx={{ fontSize: '18px' }} variant='contained' onClick={handleCloseAddModal}>
+          <Button sx={{ fontSize: '18px' }} variant='contained' onClick={handleCloseEditTestModal}>
             Cancel
           </Button>
           <Button sx={{ fontSize: '18px', ml: '2%' }} variant='contained' onClick={handleAddButton}>
@@ -212,4 +212,4 @@ const AddTest = ({
   )
 }
 
-export default AddTest
+export default EditTest

@@ -6,8 +6,9 @@ import 'react-quill/dist/quill.snow.css';
 const TextEditor = ({
   handleTextEditor,
   isError,
+  value = ''
 }) => {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState(value);
   const handleChange = (value) => {
     console.log(value)
     handleTextEditor(value);

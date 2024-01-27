@@ -1,0 +1,27 @@
+.border-right {
+    border-right: 1px solid #000;
+}
+
+.MuiDataGrid-columnHeader {
+    background-color: #f3f3f3;
+    border-right: 1px solid black;
+}
+.MuiDataGrid-cell.unnamed-column {
+    background-color: #f3f3f3;
+    border-right: 1px solid #ccc;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    /* Thêm các thuộc tính CSS khác tùy thuộc vào yêu cầu của bạn */
+}
+/* Đặt class cho header */
+.MuiDataGrid-columnHeaders {
+    position: sticky;
+    z-index: 1000;
+}
+.MuiDataGrid-virtualScroller {
+    margin-top: 0 !important;
+}
+.MuiDataGrid-main {
+    overflow: visible !important;
+}

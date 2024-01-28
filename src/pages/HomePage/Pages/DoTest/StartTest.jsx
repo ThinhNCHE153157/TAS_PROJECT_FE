@@ -266,7 +266,7 @@ const StartTest = () => {
           </Box>
           {tabValue === 1 ? (< Part1 testPart={listPart[0]} listAnswer={listAnswer} hanldeAddAnswer={hanldeAddAnswer} />) : ('')}
           {tabValue === 2 ? (< Part2 testPart={listPart[1]} listAnswer={listAnswer} hanldeAddAnswer={hanldeAddAnswer} />) : ('')}
-          {tabValue === 4 ? (< Part3 testPart={listPart[2]} listAnswer={listAnswer} hanldeAddAnswer={hanldeAddAnswer} />) : ('')}
+          {tabValue === 3 ? (< Part3 testPart={listPart[2]} listAnswer={listAnswer} hanldeAddAnswer={hanldeAddAnswer} />) : ('')}
 
         </Box>
         {StickyComponent(listQuestion, listAnswer, listPart, id, testDuration)}

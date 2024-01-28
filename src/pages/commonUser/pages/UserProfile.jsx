@@ -52,6 +52,13 @@ const UserProfile = () => {
         })
         console.log(user);
     }, [refesh])
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = date.getMonth() + 1; // Lưu ý rằng tháng bắt đầu từ 0
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    };
 
     return (
         <>
@@ -63,7 +70,7 @@ const UserProfile = () => {
                         <Typography variant="h5" component="span">
                             Hồ sơ cá nhân
                         </Typography>
-                        <Button onClick={() => nav("/userprofile/edit")} variant="contained" color="primary" style={{ marginLeft: '20px' }}>
+                        <Button onClick={() => nav(`/userprofile/edit/${AuthId}`)} variant="contained" color="primary" style={{ marginLeft: '20px' }}>
                             Chỉnh sửa hồ sơ
                         </Button>
                     </Box>
@@ -172,7 +179,7 @@ const UserProfile = () => {
                                     Giới tính
                                 </Typography>
                                 <Typography variant='body1' component="span">
-                                    {user.gender == null ? "Vui lòng điền thông tin" : user.gender}
+                                    {user.gender == null ? "Vui lòng điền thông tin" : (user.gender ? "Nam" : "Nữ")}
                                 </Typography>
                             </Box>
                             <Box sx={{
@@ -180,10 +187,10 @@ const UserProfile = () => {
                                 justifyContent: 'space-between',
                             }}>
                                 <Typography variant='body1' component="span">
-                                    Ngày sinh
+                                    Trạng thái tài khoản
                                 </Typography>
                                 <Typography variant='body1' component="span">
-                                    {user.birthday == null ? "Vui lòng điền thông tin" : user.birthday}
+                                    {user.isVerified == false ? "Chưa xác thực" : "Đã xác thực"}
                                 </Typography>
                             </Box>
                             <Box sx={{

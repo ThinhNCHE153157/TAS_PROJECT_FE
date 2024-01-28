@@ -7,7 +7,7 @@ import { Popover, Table, Tag } from 'antd'
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import './css/ManageEnterprise.css'
-import { changeStatus } from '../../../Services/ManageCourseService'
+import { changeEnterpriseStatus, changeStatus } from '../../../Services/ManageCourseService'
 import { GetAllEnterprise } from '../../../Services/ManageEnterprise'
 import { alertError, alertSuccess } from '../../../component/AlertComponent'
 import { ToastContainer } from 'react-toastify'
@@ -17,20 +17,19 @@ const formatMoneyVND = (number) => {
 
 const datas = [
     {
-        courseName: "title1",
-        shortDescription: "desc1",
-        courseCost: 2000000,
-        discount: 30,
-        courseLevel: 1,
-        createDate: "2020-01-01",
-        createUser: "user1",
+        enterpriseCode: "title1",
+        enterpriseName: "desc1",
+        foreignName: "desc1",
+        shortName: "desc1",
+        representativeName: "user1",
+        officeAddress: "2020-01-01",
         status: 1
-    },
+    }
 ]
 
 
 const ManageEnterprise = () => {
-    const [tabValue, setTabValue] = useState(1)
+    const [tabValue, setTabValue] = useState(2)
     const [data, setData] = useState(datas);
     const [loading, setLoading] = useState(false);
     const [tableParams, setTableParams] = useState({
@@ -41,12 +40,13 @@ const ManageEnterprise = () => {
     });
 
     const [refresh, setRefresh] = useState(false);
-
+    var temp;
     useEffect(() => {
         setLoading(true);
         GetAllEnterprise().then(res => {
             console.log(res.data)
             setData(res.data)
+            console.log(data)
         })
         setLoading(false);
     }, [refresh]);
@@ -65,8 +65,6 @@ const ManageEnterprise = () => {
         {
             title: 'Tên nước ngoài',
             dataIndex: 'foreignName',
-            render: (value) => formatMoneyVND(value),
-            sorter: (a, b) => a.courseCost - b.courseCost,
         },
         {
             title: 'Tên viết tắt',
@@ -86,26 +84,25 @@ const ManageEnterprise = () => {
             dataIndex: 'status',
             render: (status, record) => {
                 console.log(`status: ${status} , record: ${record}`)
-                console.log(record)
                 const content = (
                     <div>
-                        <Button variant='text' onClick={() => handleStatusChange(record, 1)}>Đang hoạt động</Button>
-                        <Button variant='text' onClick={() => handleStatusChange(record, 2)}>Chờ xét duyệt</Button>
-                        <Button variant='text' onClick={() => handleStatusChange(record, 3)}>Không hoạt động</Button>
+                        <Button variant='text' onClick={() => handleStatusChange(record.accountId, 2)}>Đang hoạt động</Button>
+                        <Button variant='text' onClick={() => handleStatusChange(record.accountId, 1)}>Chờ xét duyệt</Button>
+                        <Button variant='text' onClick={() => handleStatusChange(record.accountId, 0)}>Không hoạt động</Button>
                     </div>
                 );
 
                 let color, statusText;
                 switch (status) {
-                    case 1:
+                    case 2:
                         color = 'green';
                         statusText = 'Đang hoạt động';
                         break;
-                    case 2:
+                    case 1:
                         color = 'gray';
                         statusText = 'Chờ xét duyệt';
                         break;
-                    case 3:
+                    case 0:
                         color = 'red';
                         statusText = 'Không hoạt động';
                         break;
@@ -123,20 +120,17 @@ const ManageEnterprise = () => {
             },
         },
     ]
-    const handleStatusChange = (record, key) => {
-        const data = {
-            courseId: record.courseId,
-            status: key
-        }
-        changeStatus(data).then(res => {
+    const handleStatusChange = (temp, key) => {
+        console.log(temp)
+        changeEnterpriseStatus(temp, key).then(res => {
             console.log(res.data)
-            alertSuccess({ message: 'Thay đổi trạng thái thành công' })
             setRefresh(!refresh)
+            alertSuccess({ message: 'Thay đổi trạng thái thành công' })
         }).catch(err => {
             console.log(err)
             alertError({ message: 'Thay đổi trạng thái thất bại' })
         })
-        console.log(`Change status of record ${record.courseId} to ${key}`);
+        //console.log(`Change status of record ${record.courseId} to ${key}`);
         // Gọi API hoặc thực hiện các xử lý khác tùy ý
     };
     const handleTableChange = (pagination, filters, sorter) => {
@@ -155,13 +149,15 @@ const ManageEnterprise = () => {
 
 
     const renderTab = (statusValue) => {
+        console.log(data)
         // const temp = tabValue === 1 ? data.filter(item => item.status === 1) : data.filter(item => item.status !== 1)
-        const temp = data.filter(item => item.status === statusValue)
+        var temp = data.filter(item => item.status === statusValue)
+        console.log(temp)
         return (
             <>
                 <TextField
                     lable='Search'
-                    placeholder='Tìm kiếm khóa học theo tên'
+                    placeholder='Tìm kiếm doanh nghiệp theo tên'
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position='end'>
@@ -217,8 +213,8 @@ const ManageEnterprise = () => {
                     >
                         <Box display='flex'>
                             <Button
-                                onClick={() => setTabValue(1)}
-                                variant={tabValue === 1 ? 'contained' : 'text'}
+                                onClick={() => setTabValue(2)}
+                                variant={tabValue === 2 ? 'contained' : 'text'}
                                 sx={{
                                     textTransform: 'none',
                                     fontSize: '20px',
@@ -228,8 +224,8 @@ const ManageEnterprise = () => {
                             </Button>
 
                             <Button
-                                onClick={() => setTabValue(2)}
-                                variant={tabValue === 2 ? 'contained' : 'text'}
+                                onClick={() => setTabValue(1)}
+                                variant={tabValue === 1 ? 'contained' : 'text'}
                                 sx={{
                                     textTransform: 'none',
                                     fontSize: '20px',
@@ -239,8 +235,8 @@ const ManageEnterprise = () => {
                             </Button>
 
                             <Button
-                                onClick={() => setTabValue(3)}
-                                variant={tabValue === 3 ? 'contained' : 'text'}
+                                onClick={() => setTabValue(0)}
+                                variant={tabValue === 0 ? 'contained' : 'text'}
                                 sx={{
                                     textTransform: 'none',
                                     fontSize: '20px',
@@ -250,7 +246,7 @@ const ManageEnterprise = () => {
                             </Button>
                         </Box>
                         {
-                            (tabValue === 1 || tabValue === 2 || tabValue === 3) && renderTab(tabValue)
+                            (tabValue === 2 || tabValue === 1 || tabValue === 0) && renderTab(tabValue)
                         }
                     </Box>
                 </Box>

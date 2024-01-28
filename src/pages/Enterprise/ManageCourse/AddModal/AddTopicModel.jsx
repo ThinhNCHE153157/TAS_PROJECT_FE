@@ -9,8 +9,9 @@ const AddTopicModel = ({
 
 }) => {
   const [value, setValue] = useState('')
+  const [value1, setValue1] = useState('')
   const handleAddButton = () => {
-    handleAdd(value.target.value)
+    handleAdd(value.target.value, value1.target.value);
   }
   return (
     <Modal
@@ -22,14 +23,16 @@ const AddTopicModel = ({
       <Box
         sx={{
           position: 'absolute',
-          top: '50%',
+          top: '10%',
           left: '50%',
-          transform: 'translate(-50%, -50%)',
+          transform: 'translate(-50%, 0%)',
           width: '30%',
           bgcolor: 'background.paper',
           border: '2px solid #000',
           boxShadow: 24,
           p: 2,
+          overflowY: 'auto',
+          maxHeight: '900px'
         }}
       >
         {/* Nội dung của modal */}
@@ -58,7 +61,7 @@ const AddTopicModel = ({
           Mô tả
         </Typography>
         <TextField
-          onChange={(value) => setValue(value)}
+          onChange={(value) => setValue1(value)}
           component='div'
           rows={2}
           sx={{

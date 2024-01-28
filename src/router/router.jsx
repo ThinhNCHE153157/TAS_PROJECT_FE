@@ -30,32 +30,48 @@ import ChooseTestPart from '../pages/HomePage/Pages/ChooseTestPart';
 import CourseLearning from '../pages/HomePage/Pages/CourseLearning';
 import Order from '../pages/Payment/Order';
 import StudyProgress from '../pages/HomePage/Pages/StudyProgress';
-import FlashCard from '../pages/HomePage/Pages/FlashCard';
+import FlashCard from '../pages/HomePage/Pages/FlashCard/FlashCard';
 import ViewCourse from '../pages/Enterprise/ManageCourse/ViewCourse';
 import AddCourse from '../pages/Enterprise/ManageCourse/AddCourse';
 import StartTest from '../pages/HomePage/Pages/DoTest/StartTest';
-import TestComponent from '../pages/HomePage/Pages/DoTest/PartComponent/TestCom';
 import TestResultDetail from '../pages/HomePage/Pages/DoTest/TestResultDetail';
+import RequestEnterprise from '../pages/HomePage/Pages/RequestEnterprise';
 import ManageCourse from '../pages/HOD/ManageCourse/ManageCourse';
 import Preview from '../pages/HOD/ManageCourse/Preview';
 import ManageEnterprise from '../pages/HOD/ManageEnterprise/ManageEnterprise';
 import PaymentCallback from '../pages/Payment/PaymentCallback';
 import VerifyOTP from '../pages/commonUser/pages/VerifyOTP';
 import NotFound from '../pages/commonUser/pages/NotFound';
+import AddFlashCard from '../pages/HomePage/Pages/FlashCard/Component/AddFlashCard';
+import FlashCardDetail from '../pages/HomePage/Pages/FlashCard/FlashCardDetail';
+import FlipingCard from '../pages/HomePage/Pages/FlashCard/Component/FlipingCard';
+import TestHistory from '../pages/HomePage/Pages/DoTest/TestHistory';
+import Demo from '../pages/HomePage/Pages/FlashCard/Demo';
+import AddNewWord from '../pages/HomePage/Pages/FlashCard/Component/AddNewWord';
+import LearningFlashCard from '../pages/HomePage/Pages/FlashCard/LearningFlashCard';
+import ChangeMode from '../pages/HomePage/Pages/FlashCard/Component/ChangeMode';
 const TheRouter = () => {
   return (
     <Routes>
+      <Route path='/TestHistory' exact element={<TestHistory />} />
+      <Route path='/RequestEnterprise' exact element={<RequestEnterprise />} />
+      <Route path='/ChangeMode' exact element={<ChangeMode />} />
+      <Route path='/LearningFlashCard/:id' exact element={<LearningFlashCard />} />
+      <Route path='/Demo' exact element={<Demo />} />
       <Route path='/NotFound' exact element={<NotFound />} />
       <Route path='/Order' exact element={<Order />} />
-      <Route path='/TestComponent' exact element={<TestComponent />} />
-      <Route path='/VerifyOTP' exact element={<VerifyOTP />} />
 
+      <Route path='/FlashCardDetail/:id' exact element={<FlashCardDetail />} />
+      <Route path='/VerifyEmail' exact element={<VerifyOTP />} />
+      <Route path='/FlashCardDetail' exact element={<FlashCardDetail />} />
       <Route path="/Preview/:id" exact element={<Preview />} />
       <Route path='/TestResultDetail/:id' exact element={<TestResultDetail />} />
       <Route path='/PaymentCallback' exact element={<PaymentCallback />} />
-
+      <Route path='/FlipingCard' exact element={<FlipingCard />} />
+      <Route path='/AddNewWord' exact element={<AddNewWord />} />
       {/* Homepage */}
       <Route path="/" exact element={<Homepage />} />
+      <Route path="/AddFlashCard" exact element={<AddFlashCard />} />
       <Route path="/Course/:id" exact element={<Course />} />
       <Route path="/StartTest/:id" exact element={<StartTest />} />
       <Route path="/Test" exact element={<Tests />} />
@@ -88,7 +104,7 @@ const TheRouter = () => {
       {/* Login */}
       <Route element={<RequireAuth allow={[ROLE.Student, ROLE.Admin, ROLE.Enterprise, ROLE.Student]} />}>
         <Route path="/userprofile" exact element={<UserProfile />} />
-        <Route path="/userprofile/edit" exact element={<EditUserProfile />} />
+        <Route path="/userprofile/edit/:id" exact element={<EditUserProfile />} />
       </Route>
 
       {/* Common */}

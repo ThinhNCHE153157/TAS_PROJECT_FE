@@ -8,7 +8,7 @@ const VideoPlayer = ({
 }) => {
   return (
     <div>
-      <Box mt="2%" ml='5% ' alignContent='center'>
+      <Box mt="2%" ml='3% ' alignContent='center'>
         <Typography variant='h6'>{title}</Typography>
         <ReactPlayer
           url={url} // Replace with your video URL

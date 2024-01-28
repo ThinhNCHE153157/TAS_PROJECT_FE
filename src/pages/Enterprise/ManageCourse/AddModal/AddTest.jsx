@@ -40,13 +40,14 @@ const AddTest = ({
 
   const handleTextChange = (event) => {
     var text = event.target.value
-    var updateData = { ...object, 'testName': text }
+    var name = event.target.name
+    var updateData = { ...object, [name]: text }
     console.log('updateData:', updateData)
     setObject(updateData)
   }
 
   const isValidObject = (object) => {
-    if (Object.keys(object).length !== 4) {
+    if (Object.keys(object).length !== 5) {
       return false;
     }
 
@@ -103,6 +104,7 @@ const AddTest = ({
         </Typography>
         <TextField
           onChange={(event) => handleTextChange(event)}
+          name='testName'
           component='div'
           sx={{
             mt: '1%',
@@ -116,9 +118,29 @@ const AddTest = ({
           }}
           placeholder='Tên bài thi'
         />
+        <Typography id='modal-description' sx={{ mt: 2 }} fontSize='25px'>
+          Mô tả*
+        </Typography>
+        <TextField
+          onChange={(event) => handleTextChange(event)}
+          component='div'
+          name='testDescription'
+          sx={{
+            mt: '1%',
+            width: '90%',
+            '& .MuiInputBase-input': {
+              fontSize: '20px', // Tăng kích thước của chữ trong TextField
+            },
+            '& .MuiFormHelperText-root': {
+              fontSize: '18px', // Tăng kích thước của chữ trong helperText
+            },
+          }}
+          placeholder='Mô tả'
+        />
+
         <FormControl>
           <Typography id='modal-description' sx={{ mt: 2 }} fontSize='25px'>
-            Tên bài thi*
+            Chọn dạng đề
           </Typography>
           <RadioGroup
             row
@@ -161,7 +183,7 @@ const AddTest = ({
                 />
               )}
               <input
-                accept="mp3"
+                accept=".mp3"
                 style={{ display: 'none' }}
                 id="audio-input"
                 type="file"

@@ -13,55 +13,43 @@ const DetailTopicCard = ({
   handleAddVideo,
   handleDeleteVideo
 }) => {
-  const [isBox2Visible, setIsBox2Visible] = useState([]);
-  const [selectedVideoSrc, setSelectedVideoSrc] = useState({});
-  const [videoName, setVideoName] = useState({});
-  const [selectedVideoId, setSelectedVideoId] = useState(0)
-  const [videoFile, setVideoFile] = useState(null)
-  const handleSettingsClick = (value) => {
-    console.log(value)
-    setIsBox2Visible((prevIsBox2Visible) => {
-      if (prevIsBox2Visible.includes(value)) {
-        return prevIsBox2Visible.filter((id) => id !== value);
-      } else {
-        return [...prevIsBox2Visible, value];
-      }
-    });
-    setSelectedVideoId(value)
-  };
+  const [isOpenCollapse, setIsOpenCollapse] = useState([]);
+  const [videos, setVideos] = useState([]);
+  const [files, setFiles] = useState([]);
 
-  const handleVideoChange = (event, videoId) => {
-    console.log('videoId: ', selectedVideoId)
-    const selectedVideo = event.target.files[0];
-    setVideoFile(selectedVideo)
-    // const video = { [selectedVideoId]: selectedVideo }
-    const video = { 'videoId': selectedVideoId, 'videoUrl': selectedVideo }
-    console.log(video)
-    handleAddVideo(video)
-    const videoUrl = URL.createObjectURL(selectedVideo);
-    const updateVideoName = { ...videoName, [selectedVideoId]: selectedVideo.name }
-    const updateVideoUrl = { ...videoName, [selectedVideoId]: videoUrl }
-    setVideoName(updateVideoName)
-    setSelectedVideoSrc(updateVideoUrl);
 
-  };
-  const handleSaveVideo = (videoId) => {
-    console.log(videoFile)
-    const formdata = new FormData();
-    formdata.append('videoId', selectedVideoId)
-    formdata.append('video', videoFile)
-    API_FormFile.put("/Video/UpdateVideo", formdata)
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  //Set collapse
+  const handleSettingsClick = (videoId) => {
+    console.log(videoId)
+    console.log(isOpenCollapse)
+    if (isOpenCollapse.includes(videoId)) {
+      setIsOpenCollapse(isOpenCollapse.filter(id => id !== videoId));
+    } else {
+      var temp = [...isOpenCollapse, videoId];
+      console.log(temp)
+      setIsOpenCollapse(temp);
+    }
+  }
+
+  //Add or change video 
+  const onVideoChange = (event, videoId) => {
+    const file = event.target.files[0];
+    const videoUrl = URL.createObjectURL(file);
+    console.log('file', file)
+    console.log('videoId', videoId)
+    console.log('videoUrl', videoUrl)
+    const isExist = videos.find(video => video.videoId === videoId);
+    if (isExist) {
+      setVideos(videos.map(video => video.videoId === videoId ? { ...video, videoAttachment: file } : video));
+    }
+    else {
+      setVideos([...videos, { videoId: videoId, videoAttachment: file }]);
+    }
   }
   return (
     <>
       {
-        Videos.map((video, index) => (
+        Videos?.map((video, index) => (
           <Box ml='3%' width='95%' bgcolor='#edeff5' mt='1%' mb='1% ' key={index}>
             <Box display='flex' justifyContent='space-between' minHeight='80px' id='Box1'>
               <Box width='40%' display='flex' alignItems='center'>
@@ -79,9 +67,9 @@ const DetailTopicCard = ({
                 </Box>
               </Box>
               <Box display='flex' alignItems='center' alignContent='center' sx={{ mr: '3%' }}>
-                <IconButton>
+                {/* <IconButton>
                   <SaveIcon sx={{ color: 'green' }} onClick={() => handleSaveVideo(video.videoId)} />
-                </IconButton>
+                </IconButton> */}
                 <IconButton onClick={() => handleSettingsClick(video.videoId)}>
                   <SettingsOutlinedIcon />
                 </IconButton>
@@ -89,45 +77,51 @@ const DetailTopicCard = ({
               </Box>
 
             </Box>
-            <Collapse in={isBox2Visible.includes(video.videoId)} timeount="auto" unmountOnExit>
+            <Collapse in={isOpenCollapse.includes(video.videoId)} timeount="auto" unmountOnExit>
               <Box display='flex' justifyContent='space-between' id='Box2'>
-                <Box display='flex' alignItems='center' justifyContent='center' width='45%' height='400px' border='1px solid gray' ml='3%' flexDirection='column'>
+                <Box display='flex' alignItems='center' justifyContent='center' width='45%' height='500px' border='1px solid gray' ml='3%' flexDirection='column'>
+                  {/* {selectedVideoSrc[video.videoId] && (
+                    <video
+                      width="100%"
+                      height="380px"
+                      controls
+                      src={selectedVideoSrc[video.videoId]}
+                    />
+                  )} */}
                   <input
                     accept="video/mp4"
                     style={{ display: 'none' }}
                     id="video-input"
                     type="file"
-                    onChange={(event) => handleVideoChange(event, video.videoId)}
-
+                    onChange={(event) => onVideoChange(event, video.videoId)}
                   />
                   <label htmlFor="video-input">
-                    <Button component="span" variant="contained" color="primary" sx={{ fontSize: '15px' }}>
+                    <Button component="span" variant="contained" color="primary" sx={{ fontSize: '15px', mt: '10px' }}>
                       Choose Video
                     </Button>
                   </label>
-                  {videoName[video.videoId] && (
+                  {/* {videoName[video.videoId] && (
                     <Typography fontSize="22px" mt="1%" color="rgba(0, 0, 0, 0.8)">
                       {videoName[video.videoId]}
                     </Typography>
-                  )}
+                  )} */}
 
                 </Box>
-                <Box display='flex' alignItems='center' justifyContent='center' width='45%' height='400px' border='1px solid gray' mr='3%'>
-                  {selectedVideoSrc[video.videoId] && (
-                    <video
-                      width="100%"
-                      height="400px"
-                      controls
-                      src={selectedVideoSrc[video.videoId]}
-                    />
-                  )}
+                <Box display='flex' alignItems='center' justifyContent='center' width='45%' height='500px' border='1px solid gray' mr='3%' flexDirection='column'>
                   {/* <input
-                    accept=".rar/*"
+                    accept=".rar"
                     style={{ display: 'none' }}
                     id="file-input"
                     type="file"
                     onChange={(event) => handleRarFileChange(event)}
                   />
+                  {
+                    rarName[video.videoId] && (
+                      <Typography fontSize="22px" mt="1%" color="rgba(0, 0, 0, 0.8)">
+                        {rarName[video.videoId]}
+                      </Typography>
+                    )
+                  }
                   <label htmlFor="file-input">
                     <Button component="span" variant="contained" color="primary" sx={{ fontSize: '15px' }}>
                       Choose file

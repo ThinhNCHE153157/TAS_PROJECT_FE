@@ -1,6 +1,7 @@
 import { Box, Button, Modal, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useState } from 'react'
+import TextEditor from '../../../../component/TextEditor'
 
 const AddVideoTitle = ({
   topicId,
@@ -9,9 +10,11 @@ const AddVideoTitle = ({
   handleAdd,
 }) => {
   const [value, setValue] = useState('')
+  const [value1, setValue1] = useState('')
   const handleAddButton = () => {
-    const data = { title: value.target.value, topicId: topicId }
+    const data = { videoTitle: value.target.value, topicId: topicId, videoDescription: value1 }
     handleAdd(data);
+    handleCloseModal();
   }
   return (
     <Modal
@@ -23,14 +26,16 @@ const AddVideoTitle = ({
       <Box
         sx={{
           position: 'absolute',
-          top: '50%',
+          top: '10%',
           left: '50%',
-          transform: 'translate(-50%, -50%)',
+          transform: 'translate(-50%, 0%)',
           width: '30%',
           bgcolor: 'background.paper',
           border: '2px solid #000',
           boxShadow: 24,
           p: 2,
+          overflow: 'auto',
+          maxHeight: '900px'
         }}
       >
         {/* Nội dung của modal */}
@@ -55,7 +60,12 @@ const AddVideoTitle = ({
           }}
           placeholder='Title'
         />
-
+        <Typography id='modal-description' sx={{ mt: 2 }} fontSize='25px'>
+          Mô tả
+        </Typography>
+        <TextEditor
+          handleTextEditor={value => setValue1(value)}
+        />
         <Box mt='3%'>
           <Button sx={{ fontSize: '18px' }} variant='contained' onClick={handleCloseModal}>
             Cancel

@@ -22,9 +22,9 @@ export default function Header() {
   // }, [])
   const user = useSelector((state) => state.user?.User?.username);
   const auth = useSelector((state) => state.auth?.user);
-  const token = localStorage.getItem('token');
-  const decoded = jwtDecode(token?.toString());
-  const userRole = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+  // const token = localStorage.getItem('token');
+  // const decoded = jwtDecode(token?.toString());
+  // const userRole = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
   const [userdata, setData] = useState()
   const handleLogout = (e) => {
     e.preventDefault();
@@ -120,6 +120,16 @@ export default function Header() {
                       }> Trang cá nhân</MenuItem>
                       <MenuItem textAlign="center" onClick={() => {
                         setAnchorElUser(null);
+                        nav('/RequestEnterprise')
+                      }
+                      }> Đăng kí doannh nghiệp</MenuItem>
+                      <MenuItem textAlign="center" onClick={() => {
+                        setAnchorElUser(null);
+                        nav('/StudyProgress')
+                      }
+                      }> Tiến trình học</MenuItem>
+                      {/* <MenuItem textAlign="center" onClick={() => {
+                        setAnchorElUser(null);
                         nav('/StudyProgress')
                       }
                       }> Tiến trình học</MenuItem>
@@ -136,7 +146,7 @@ export default function Header() {
                           nav('/Enterprise')
                         }
                         }>Quản lí doanh nghiệp</MenuItem> : ''
-                      }
+                      } */}
                       <MenuItem onClick={handleCloseUserMenu}>
                         <Typography textAlign="center" onClick={handleLogout}>Đăng Xuất</Typography>
                       </MenuItem>

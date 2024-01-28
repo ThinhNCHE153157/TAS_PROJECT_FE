@@ -6,32 +6,12 @@ import './../css/style.css'
 import { useEffect } from "react";
 import { FlashAuto } from "@mui/icons-material";
 
-var a =
-{
-  flascardId: 1,
-  itemCards: [
-    {
-      id: 1,
-      newWord: 'hello',
-      defination: 'xin chào',
-      example: 'hello world',
-      note: 'hello world'
-    },
-    {
-      id: 2,
-      newWord: 'hello',
-      defination: 'xin chào',
-      example: 'hello world',
-      note: 'hello world'
-    }
-  ]
-
-}
 
 export default function AddFlashCard({
   isOpenAddFlashCardModal,
   handleCloseAddFlashCardModal,
-  handleAdd,
+  handleAddMultipleWords,
+  doRefresh
 }) {
   const initialRows = Array.from({ length: 5 }, (_, index) => ({
     id: index + 1,
@@ -165,6 +145,13 @@ export default function AddFlashCard({
 
   const handleSave = () => {
     console.log(rows)
+    var newRows = rows.filter((row) => row.newWord !== '' && row.defination !== '' && row.example !== '' && row.note !== '')
+    const newData = newRows.map(item => {
+      const newItem = { ...item };
+      delete newItem.id;
+      return newItem;
+    });
+    handleAddMultipleWords(newData)
   }
   const handleCellEditStop = React.useCallback(
     (event) => {

@@ -124,7 +124,7 @@ const AddTest = ({
         <TextField
           onChange={(event) => handleTextChange(event)}
           component='div'
-          name='description'
+          name='testDescription'
           sx={{
             mt: '1%',
             width: '90%',

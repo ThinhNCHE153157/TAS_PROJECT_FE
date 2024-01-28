@@ -7,18 +7,22 @@ import AddIcon from '@mui/icons-material/Add';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import Footer from '../../../../layout/Footer';
 import AddListFlashcard from './Component/AddListFlashcard';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { GetFlashcardByAccountId } from '../../../../Services/FlascardService';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 var lf = [
-  { id: 1, accountId: 101, flashcardName: "Travel", description: "Discover different cultures and explore new places.", isOwn: 1, createUser: "vinhtrt12", numberOfWords: 20 },
-  { id: 1, accountId: 101, flashcardName: "School", description: "Learn new subjects and expand your knowledge.", isOwn: 0, createUser: "Other", numberOfWords: 15 },
-  { id: 1, accountId: 101, flashcardName: "Technology", description: "Explore the latest advancements in technology.", isOwn: 1, createUser: "vinhtrt12", numberOfWords: 25 },
-  { id: 1, accountId: 101, flashcardName: "Food", description: "Discover delicious cuisines from around the world.", isOwn: 1, createUser: "vinhtrt12", numberOfWords: 18 },
-  { id: 1, accountId: 101, flashcardName: "History", description: "Learn about significant events and historical figures.", isOwn: 0, createUser: "User5", numberOfWords: 22 },
-  { id: 1, accountId: 101, flashcardName: "Science", description: "Explore the wonders of the natural world.", isOwn: 1, createUser: "vinhtrt12", numberOfWords: 30 },
-  { id: 1, accountId: 101, flashcardName: "Art", description: "Appreciate and understand various forms of art.", isOwn: 0, createUser: "User7", numberOfWords: 12 },
-  { id: 1, accountId: 101, flashcardName: "Music", description: "Enjoy different genres of music and their histories.", isOwn: 1, createUser: "vinhtrt12", numberOfWords: 28 },
-  { id: 1, accountId: 101, flashcardName: "Sports", description: "Learn about sports and their impact on society.", isOwn: 0, createUser: "User9", numberOfWords: 24 },
-  { id: 1, accountId: 101, flashcardName: "Nature", description: "Connect with the beauty of the natural environment.", isOwn: 1, createUser: "vinhtrt12", numberOfWords: 16 },
+  { flashcardId: 1, accountId: 101, flashcardName: "Travel", description: "Discover different cultures and explore new places.", isOwn: 1, createUser: "vinhtrt12", numberOfItem: 20 },
+  { flashcardId: 1, accountId: 101, flashcardName: "School", description: "Learn new subjects and expand your knowledge.", isOwn: 0, createUser: "Other", numberOfItem: 15 },
+  { flashcardId: 1, accountId: 101, flashcardName: "Technology", description: "Explore the latest advancements in technology.", isOwn: 1, createUser: "vinhtrt12", numberOfItem: 25 },
+  { flashcardId: 1, accountId: 101, flashcardName: "Food", description: "Discover delicious cuisines from around the world.", isOwn: 1, createUser: "vinhtrt12", numberOfItem: 18 },
+  { flashcardId: 1, accountId: 101, flashcardName: "History", description: "Learn about significant events and historical figures.", isOwn: 0, createUser: "User5", numberOfItem: 22 },
+  { flashcardId: 1, accountId: 101, flashcardName: "Science", description: "Explore the wonders of the natural world.", isOwn: 1, createUser: "vinhtrt12", numberOfItem: 30 },
+  { flashcardId: 1, accountId: 101, flashcardName: "Art", description: "Appreciate and understand various forms of art.", isOwn: 0, createUser: "User7", numberOfItem: 12 },
+  { flashcardId: 1, accountId: 101, flashcardName: "Music", description: "Enjoy different genres of music and their histories.", isOwn: 1, createUser: "vinhtrt12", numberOfItem: 28 },
+  { flashcardId: 1, accountId: 101, flashcardName: "Sports", description: "Learn about sports and their impact on society.", isOwn: 0, createUser: "User9", numberOfItem: 24 },
+  { flashcardId: 1, accountId: 101, flashcardName: "Nature", description: "Connect with the beauty of the natural environment.", isOwn: 1, createUser: "vinhtrt12", numberOfItem: 16 },
 ];
 
 const FlashCard = () => {
@@ -26,9 +30,18 @@ const FlashCard = () => {
   const [tabValue, setTabValue] = useState('1')
   const [flashcards, setflashcards] = useState(lf)
   const [isOpenAddFlashcard, setIsOpenAddFlashcard] = useState(false)
+  const userId = useSelector((state) => state.user?.User?.accountId);
+  const nav = useNavigate();
   const handleAddFlashcard = (value) => {
 
   }
+  useEffect(() => {
+    GetFlashcardByAccountId(userId).then(res => {
+      setflashcards(res.data)
+    }).catch(err => {
+      console.log(err)
+    })
+  }, [])
   const renderTab1 = () => {
     return (
       <Box
@@ -70,7 +83,7 @@ const FlashCard = () => {
               </Button>
             </Grid>
             {
-              flashcards.filter(card => card.isOwn === 1).map((card, index) => (
+              flashcards?.filter(card => card.isOwn === true).map((card, index) => (
                 <Grid item xs={3} key={index} sx={{
                   minHeight: '0px',
                   mb: '5%',
@@ -81,6 +94,9 @@ const FlashCard = () => {
                     sx={{
                       width: '100%',
                       textTransform: 'none',
+                    }}
+                    onClick={() => {
+                      nav(`/FlashCardDetail/${card.flashcardId}`)
                     }}
                   >
                     <Paper
@@ -100,7 +116,7 @@ const FlashCard = () => {
                             <Box display='flex' color='textSecondary' width='100%' flexDirection='column' justifyItems='left'>
                               <Box display='flex' color='textSecondary' width='100%' alignItems='center'>
                                 <QuizOutlinedIcon sx={{ fontSize: '15px', color: 'textSecondary' }} />
-                                <Typography minWidth='0' color='textSecondary' sx={{ ml: '3%', fontWeight: '450', fontSize: '14px' }}>{card.numberOfWords} từ</Typography>
+                                <Typography minWidth='0' color='textSecondary' sx={{ ml: '3%', fontWeight: '450', fontSize: '14px' }}>{card.numberOfItem} từ</Typography>
                               </Box>
                               <Typography textAlign='left' color='textSecondary' sx={{ fontSize: '13.2px', fontStyle: 'italic', mt: '2%' }}>{card.description}</Typography>
                               <Box display='flex' color='textSecondary' width='100%' alignItems='center' mt='5%'>
@@ -128,7 +144,7 @@ const FlashCard = () => {
             mt='2%'
           >
             {
-              flashcards.filter(card => card.isOwn === 0).map((card, index) => (
+              flashcards?.filter(card => card.isOwn === false).map((card, index) => (
                 <Grid item xs={3} key={index} sx={{
                   minHeight: '0px',
                   mb: '5%',
@@ -139,6 +155,9 @@ const FlashCard = () => {
                     sx={{
                       width: '100%',
                       textTransform: 'none',
+                    }}
+                    onClick={() => {
+                      nav(`/FlashCardDetail/${card.flashcardId}`)
                     }}
                   >
                     <Paper
@@ -158,7 +177,7 @@ const FlashCard = () => {
                             <Box display='flex' color='textSecondary' width='100%' flexDirection='column' justifyItems='left'>
                               <Box display='flex' color='textSecondary' width='100%' alignItems='center'>
                                 <QuizOutlinedIcon sx={{ fontSize: '15px', color: 'textSecondary' }} />
-                                <Typography minWidth='0' color='textSecondary' sx={{ ml: '3%', fontWeight: '450', fontSize: '14px' }}>{card.numberOfWords} từ</Typography>
+                                <Typography minWidth='0' color='textSecondary' sx={{ ml: '3%', fontWeight: '450', fontSize: '14px' }}>{card.numberOfItem} từ</Typography>
                               </Box>
                               <Typography textAlign='left' color='textSecondary' sx={{ fontSize: '13.2px', fontStyle: 'italic', mt: '2%' }}>{card.description}</Typography>
                               <Box display='flex' color='textSecondary' width='100%' alignItems='center' mt='5%'>

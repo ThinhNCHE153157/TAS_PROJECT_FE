@@ -3,9 +3,18 @@ import React from 'react'
 import Header from '../layout/Header'
 import { useState } from 'react';
 import { useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router';
+import { BASE_URL } from '../../../Utils/Constants';
+import { ToastContainer } from 'react-toastify';
+import { alertError, alertSuccess } from '../../../component/AlertComponent';
 
 const VerifyOTP = () => {
+  const location = useLocation();
+  const nav = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+  const email = queryParams.get('email');
   const [otp, setOtp] = useState(['', '', '', '']);
+  const [OtpReal, setOtpReal] = useState('');
   const inputRefs = [useRef(), useRef(), useRef(), useRef()];
   const handleChange = (index, value) => {
     // Ensure that the entered value is a number
@@ -23,11 +32,46 @@ const VerifyOTP = () => {
 
       const fullOtp = newOtp.join('');
       console.log('fullOtp:', fullOtp)
+      setOtpReal(fullOtp);
     }
   };
 
+  const handleResend = () => {
+    fetch(`${BASE_URL}Account/ResendSendVerifyCode?email=${email}`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    }).then((response) => {
+      console.log(response)
+    })
+      .catch((err) => console.log(err))
+      ;
+  }
+
+  const handlesubmit = () => {
+    fetch(`${BASE_URL}Account/VerifyAccount?email=${email}&otp=${OtpReal}`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    }).
+      then((response) => {
+        if (response.status === 200) {
+          alertSuccess({ message: "Xác nhận tài khoản thành công" });
+          nav('/login')
+        } else {
+          alertError({ message: "Xác nhận tài khoản thất bại" });
+        }
+      }
+      )
+      .catch((err) => console.log(err))
+      ;
+  }
+
   return (
     <div>
+      <ToastContainer />
       <Header />
       <Box
         width='100%'
@@ -84,13 +128,13 @@ const VerifyOTP = () => {
                 />
               ))}
             </form>
-            <Button variant='text' sx={{ textTransform: 'none', mt: '6%' }}>
+            <Button variant='text' sx={{ textTransform: 'none', mt: '6%' }} onClick={handleResend}>
               <Typography fontSize='20px' fontStyle='initial'>Bạn không nhận được email </Typography>
             </Button>
-            <Button variant='contained' sx={{ mt: '10%', bgcolor: '#4A3AFF', width: '100%', textTransform: 'none', padding: '20px 0px', borderRadius: '5px' }}>
+            <Button variant='contained' sx={{ mt: '10%', bgcolor: '#4A3AFF', width: '100%', textTransform: 'none', padding: '20px 0px', borderRadius: '5px' }} onClick={handlesubmit}>
               <Typography fontSize='20px' fontStyle='initial'>Đồng Ý </Typography>
             </Button>
-            <Button variant='text' sx={{ textTransform: 'none', mt: '10%', mb: '12%' }}>
+            <Button variant='text' sx={{ textTransform: 'none', mt: '10%', mb: '12%' }} onClick={() => nav('/login')}>
               <Typography fontSize='20px' >Trở về đăng nhập </Typography>
             </Button>
           </Box>

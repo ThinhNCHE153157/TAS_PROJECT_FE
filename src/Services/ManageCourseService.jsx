@@ -16,3 +16,6 @@ export const UpdatePrice = (data) => {
     return API.post(`/Course/UpdateCost`, data)
 }
 
+export const changeEnterpriseStatus = (accountId, status) => {
+    return API.put(`/Account/changeStatusEnterprise?accountId=${accountId}&status=${status}`)
+}

@@ -60,8 +60,11 @@ const TheRouter = () => {
       <Route path='/Demo' exact element={<Demo />} />
       <Route path='/NotFound' exact element={<NotFound />} />
       <Route path='/Order' exact element={<Order />} />
-      <Route path='/VerifyOTP' exact element={<VerifyOTP />} />
+
       <Route path='/FlashCardDetail/:id' exact element={<FlashCardDetail />} />
+      <Route path='/TestComponent' exact element={<TestComponent />} />
+      <Route path='/VerifyEmail' exact element={<VerifyOTP />} />
+      <Route path='/FlashCardDetail' exact element={<FlashCardDetail />} />
       <Route path="/Preview/:id" exact element={<Preview />} />
       <Route path='/TestResultDetail/:id' exact element={<TestResultDetail />} />
       <Route path='/PaymentCallback' exact element={<PaymentCallback />} />
@@ -102,7 +105,7 @@ const TheRouter = () => {
       {/* Login */}
       <Route element={<RequireAuth allow={[ROLE.Student, ROLE.Admin, ROLE.Enterprise, ROLE.Student]} />}>
         <Route path="/userprofile" exact element={<UserProfile />} />
-        <Route path="/userprofile/edit" exact element={<EditUserProfile />} />
+        <Route path="/userprofile/edit/:id" exact element={<EditUserProfile />} />
       </Route>
 
       {/* Common */}

@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom'
 import { GetTestResultByAccount } from '../../../Services/TestService'
 import { GetListCourseByAccountId } from '../../../Services/AddCourseService'
 
+
 const BootstrapTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} arrow classes={{ popper: className }} />
 ))(({ theme }) => ({
@@ -43,17 +44,17 @@ const temp = [
     testId: 1,
     testName: 'sfsdfsdf',
     testFinish: 4333,
-    description: 3,
     testScore: 5
   },
   {
     testId: 2,
     testName: 'sdffms,sdffmsd.f',
     testFinish: 2100,
-    description: 3,
     testScore: 5
   },
 ]
+
+
 const data = [
   {
     courseId: 1,
@@ -170,7 +171,22 @@ const StudyProgress = () => {
   const [refresh, setRefresh] = useState(false)
   const userId = useSelector(state => state.auth?.user?.id)
   const [loading, setLoading] = useState(false);
+  const [historyTest, setHistoryTest] = useState([{}]);
   const navigate = useNavigate();
+  useEffect(() => {
+    API.get(`/Course/GetListCourseByAccountId?accountId=${userId}`)
+      .then(res => {
+        setCourses(res.data)
+      })
+  }, [refresh]);
+
+  useEffect(() => {
+    API.get(`/Test/GetTestResultByAccount?accountId=${userId}`)
+      .then(res => {
+        setHistoryTest(res.data)
+      })
+  }, [refresh]);
+
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -296,6 +312,7 @@ const StudyProgress = () => {
     )
   }
   const renderTab0 = () => {
+
     return (
       <Box display='flex' flexDirection='column' alignItems='start' width='100%'>
         <Typography fontSize='26px' fontWeight='500' mb='3%'>Khóa học của tôi</Typography>
@@ -338,6 +355,7 @@ const StudyProgress = () => {
               {course.topics?.some((topic) => topic.topicId === selectedTopic) && (
                 renderTopicComp()
               )}
+
             </Paper>
           ))
         }
@@ -419,6 +437,7 @@ const StudyProgress = () => {
                 }}
               >
                 <Tab value='0' label='Đang học' ></Tab>
+
                 <Tab value='2' label='Kết quả luyện thi'></Tab>
 
               </TabList>

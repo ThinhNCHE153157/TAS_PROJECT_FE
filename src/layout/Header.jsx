@@ -123,6 +123,11 @@ export default function Header() {
                         nav('/RequestEnterprise')
                       }
                       }> Đăng kí doannh nghiệp</MenuItem>
+                      <MenuItem textAlign="center" onClick={() => {
+                        setAnchorElUser(null);
+                        nav('/StudyProgress')
+                      }
+                      }> Tiến trình học</MenuItem>
                       {/* <MenuItem textAlign="center" onClick={() => {
                         setAnchorElUser(null);
                         nav('/StudyProgress')

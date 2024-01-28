@@ -1,78 +1,79 @@
 import { Box, Button, FormControl, FormControlLabel, FormLabel, Modal, Radio, RadioGroup, TextField, Typography } from '@mui/material'
 import { isFulfilled } from '@reduxjs/toolkit'
 import React from 'react'
+import { useEffect } from 'react'
 import { useState } from 'react'
 
 const EditTest = ({
   isOpenEditTestModal,
   handleCloseEditTestModal,
-  handleAdd,
-  topicId,
+  handleEditTest,
+  test,
 }) => {
-  const [type, setType] = useState(0);
-  const [audioFile, setAudioFile] = useState(null)
-  const [audioUrl, setAudioUrl] = useState({})
-  const [error, setError] = useState('')
-  const [object, setObject] = useState({ 'topicId': topicId, 'type': 0, 'url': null })
+
+  const [type, setType] = useState(test?.parts[0]?.type);
+  const [testName, setTestName] = useState(test?.testName)
+  const [testDescription, setTestDescription] = useState(test?.testDescription)
+  const [url, setUrl] = useState(test?.parts[0]?.url)
+  const [response, setResponse] = useState({})
+
+  // useEffect(() => {
+  //   setType(test?.parts[0]?.type)
+  //   setTestName(test?.testName)
+  //   setTestDescription(test?.testDescription)
+  //   setUrl(test?.parts[0]?.url)
+  //   setResponse({})
+  // }, [test])
+  // const [object, setObject] = useState(test)
+
   const handleAudioChange = (event) => {
     const selectedAudio = event.target.files[0];
-    setAudioFile(selectedAudio)
-    var updateData = { ...object, 'url': selectedAudio }
-    setObject(updateData)
-    const url = URL.createObjectURL(selectedAudio);
-    setAudioUrl(url)
+    console.log('line 20:', selectedAudio)
+    setResponse({ ...response, url: selectedAudio });
+    setUrl(URL.createObjectURL(selectedAudio));
   };
-  const handleRadioChange = (event) => {
-    setType(event.target.value);
-    var updateData = { ...object, 'type': event.target.value }
 
-    if (event.target.value == 0) {
-      if (object.hasOwnProperty('url')) {
-        // delete updateData['url']
-        updateData['url'] = null
-        console.log('update:', updateData)
-      }
-      setAudioFile(null)
-      setAudioUrl(null)
-    }
-    setObject(updateData)
+  const handleRadioChange = (event) => {
+    console.log('line 37:', event.target.value)
+    console.log('line 38:', event.target.value == 'true')
+    setType(event.target.value);
   }
 
+  const handleTextChange1 = (event) => {
+    var text = event.target.value
+    setTestName(text)
+  }
   const handleTextChange = (event) => {
     var text = event.target.value
-    var name = event.target.name
-    var updateData = { ...object, [name]: text }
-    console.log('updateData:', updateData)
-    setObject(updateData)
+    setTestDescription(text)
   }
+  // const isValidObject = (object) => {
+  //   if (Object.keys(object).length !== 5) {
+  //     return false;
+  //   }
 
-  const isValidObject = (object) => {
-    if (Object.keys(object).length !== 5) {
-      return false;
-    }
-
-    if ((object['type'] === 1 || object['type'] === '1') && object['url'] === null) {
-      return false;
-    }
-    for (const key in object) {
-      if (object[key] === '') {
-        return false;
-      }
-    }
-    return true;
-  }
+  //   if ((object['type'] === 1 || object['type'] === '1') && object['url'] === null) {
+  //     return false;
+  //   }
+  //   for (const key in object) {
+  //     if (object[key] === '') {
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // }
 
   const handleAddButton = () => {
-    console.log('line 71:', object)
-    if (isValidObject(object)) {
-      setError('');
-      console.log('result:', object)
-      handleAdd(object)
-    } else {
-      setError('*Bạn cần nhập đủ các trường');
-      console.log('result:', object)
+    var object = {
+      testId: test.testId,
+      testName: testName,
+      testDescription: testDescription,
+      type: type,
+      url: response.url || null,
     }
+    console.log('line 73:', object)
   }
+
   return (
     <Modal
       open={isOpenEditTestModal}
@@ -97,13 +98,13 @@ const EditTest = ({
       >
         {/* Nội dung của modal */}
         <Typography id='modal-title' variant='h4' component='div'>
-          Thêm bài thi mới
+          Chỉnh sửa bài thi
         </Typography>
         <Typography id='modal-description' sx={{ mt: 2 }} fontSize='25px'>
           Tên bài thi*
         </Typography>
         <TextField
-          onChange={(event) => handleTextChange(event)}
+          onChange={(event) => handleTextChange1(event)}
           name='testName'
           component='div'
           sx={{
@@ -117,6 +118,7 @@ const EditTest = ({
             },
           }}
           placeholder='Tên bài thi'
+          defaultValue={testName}
         />
         <Typography id='modal-description' sx={{ mt: 2 }} fontSize='25px'>
           Mô tả*
@@ -136,6 +138,7 @@ const EditTest = ({
             },
           }}
           placeholder='Mô tả'
+          defaultValue={testDescription}
         />
 
         <FormControl>
@@ -147,41 +150,38 @@ const EditTest = ({
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="row-radio-buttons-group"
             value={type}
-            onChange={handleRadioChange}
+            onChange={(event) => handleRadioChange(event)}
           >
             <FormControlLabel
-              value={0}
+              value={'false'}
               control={<Radio />}
               label={<span style={{ fontSize: '20px' }}>Thi đọc</span>}
             />
             <FormControlLabel
-              value={1}
+              value={'true'}
               control={<Radio />}
               label={<span style={{ fontSize: '20px' }}>Thi nghe</span>}
             />
           </RadioGroup>
         </FormControl>
-        {/* <input type='file' accept='.mp3' /> */}
 
         {
-          type == 1 ? (
+          (type == 'true' || type == true) ? (
             <>
-              {audioFile && (
-                <Typography fontSize="22px" mt="1%" color="rgba(0, 0, 0, 0.8)">
-                  {audioFile.name}
+              {response.url && (
+                <Typography fontSize="20px" mt="1%" color="rgba(0, 0, 0, 0.8)" fontStyle='italic'>
+                  {response.url.name}
                 </Typography>
               )}
-              {audioFile && (
-                <video
-                  width="100%"
-                  height="60px"
-                  controls
-                  src={audioUrl}
-                  style={{
-                    marginBottom: '10px'
-                  }}
-                />
-              )}
+              <video
+                width="100%"
+                height="60px"
+                controls
+                src={url}
+                style={{
+                  marginBottom: '10px'
+                }}
+              />
               <input
                 accept=".mp3"
                 style={{ display: 'none' }}
@@ -198,13 +198,15 @@ const EditTest = ({
             </>
           ) : ('')
         }
-        <Typography ml='1%' color='red' fontSize='18px'>{error} </Typography>
+        {/* <Typography ml='1%' color='red' fontSize='18px'>{error} </Typography> */}
         <Box mt='3%'>
           <Button sx={{ fontSize: '18px' }} variant='contained' onClick={handleCloseEditTestModal}>
-            Cancel
+            Hủy bỏ
           </Button>
-          <Button sx={{ fontSize: '18px', ml: '2%' }} variant='contained' onClick={handleAddButton}>
-            Add
+          <Button sx={{ fontSize: '18px', ml: '2%' }} variant='contained'
+            onClick={handleAddButton}
+          >
+            Lưu
           </Button>
         </Box>
       </Box>

@@ -13,12 +13,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { AddNewQuestion, AddNewTest, DeleteTest } from '../../../../Services/TestService';
 import { alertError, alertSuccess } from '../../../../component/AlertComponent';
+import EditTest from '../AddModal/EditTest';
 
 
 const ThirdStep = ({
   onClickNext,
   onClickBack,
-  id = 4,
+  id,
 }) => {
   const [openAddTestModal, setOpenAddTestModal] = useState(false);
   const [openAddQuestionModal, setOpenAddQuestionModal] = useState(false);
@@ -28,18 +29,26 @@ const ThirdStep = ({
   const [chooseTopic, setChooseTopic] = useState()
   const [chooseTest, setChooseTest] = useState()
   const [isLoading, setIsLoading] = useState(true)
+  const [selectedTest, setSelectedTest] = useState();
+  const [isOpenEditTestModal, setIsOpenEditTestModal] = useState(false);
+  const [isOpenEditquestionModal, setIsOpenEditQuestionModal] = useState(false);
 
   useEffect(() => {
-    getTopicBycourseId(3).then(res => {
+    getTopicBycourseId(id).then(res => {
       setDatas(res.data)
     })
-    getQuestionByCourseId(3).then(res => {
+    getQuestionByCourseId(id).then(res => {
       setListQuesTest(res.data)
     })
 
   }, [refresh, chooseTopic, chooseTest])
+
+  useEffect(() => {
+    if (isOpenEditTestModal === false) {
+      setSelectedTest()
+    }
+  }, [isOpenEditTestModal])
   const renderQuestion = (test) => {
-    console.log(test)
     var i = listQuesTest.findIndex(x => x.testId === test.testId)
     var temp = []
     if (i !== -1) {
@@ -50,9 +59,8 @@ const ThirdStep = ({
         {
           temp.length != 0 ? (
             temp.map((question, index) => {
-              console.log('description: ', question.description)
               return (
-                <QuestionCard question={question} number={index + 1} />
+                <QuestionCard question={question} number={index + 1} handleReload={handleReload} />
               )
             })
           ) : ('')
@@ -64,6 +72,9 @@ const ThirdStep = ({
   const handleCloseTest = () => {
     setIsLoading(true)
     setOpenAddTestModal(false);
+  }
+  const handleReload = () => {
+    setRefresh(!refresh)
   }
   const handleAddTest = (object) => {
     AddNewTest(object).then(res => {
@@ -121,6 +132,9 @@ const ThirdStep = ({
 
   const handleEditTest = (testId) => {
 
+  }
+  const handleCloseEditTestModal = () => {
+    setIsOpenEditTestModal(false)
   }
   return (
     <Box width='100%'>
@@ -196,8 +210,11 @@ const ThirdStep = ({
                           </Box>
                           <Box display='flex' mr='3%'>
                             <IconButton
-                              onClick={() => {
-                                console.log('test196: ', test)
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setSelectedTest(test)
+                                setIsOpenEditTestModal(true)
+                                // setIsLoading(false)
                               }}
                             >
                               <EditIcon />
@@ -276,6 +293,12 @@ const ThirdStep = ({
         >
           Next
         </Button>
+        {
+          selectedTest ? (
+            <EditTest isOpenEditTestModal={isOpenEditTestModal} handleCloseEditTestModal={handleCloseEditTestModal} handleEditTest={handleEditTest} test={selectedTest} />
+          ) : ('')
+        }
+
       </Box>
     </Box >
   )

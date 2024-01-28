@@ -159,7 +159,7 @@ const FlipingCard = ({
                     {item.example}
                   </Typography>
                 </Box>
-                <img src='https://64.media.tumblr.com/3fbece9adda209b8f1a4e2598bb1c6f1/tumblr_o7kyhsNPA01qggfwio1_1280.jpg' style={{ maxWidth: '33%' }} height='auto' />
+                <img src={item.image} alt='Không hiển thị' style={{ maxWidth: '33%' }} height='auto' />
               </Box>
             </Box>
 

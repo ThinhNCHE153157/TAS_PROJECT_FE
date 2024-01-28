@@ -3,9 +3,22 @@ import React from 'react'
 import PublishIcon from '@mui/icons-material/Publish';
 import { alertInfo } from '../../../../component/AlertComponent';
 import importCourse from '../../../../../src/Assets/img/dd.png'
-const FifthStep = () => {
+import { requestPending } from '../../../../Services/AddCourseService';
+const FifthStep = ({
+  id
+}) => {
   const notify = () => {
-    alertInfo({ message: "Khóa học của bạn đang chờ phê duyệt" });
+    var rData = {
+      courseId: id,
+      status: 2
+    }
+    requestPending(rData).then(res => {
+      console.log(res)
+      alertInfo({ message: "Khóa học của bạn đang chờ phê duyệt" });
+    }).catch(err => {
+      console.log(err)
+    })
+
   }
   return (
     <Box width='100%'>

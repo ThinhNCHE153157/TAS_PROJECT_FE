@@ -1,15 +1,36 @@
 import { Box, Button, IconButton, Modal, TextField, Typography } from '@mui/material'
 import React from 'react'
 import CloseIcon from '@mui/icons-material/Close';
+import { UpdateFlashcard } from '../../../../../Services/FlascardService';
 const EditFlashCard = (
   {
     isOpenEditFlashCardModal,
     handleCloseEditFlashCardModal,
-    handleEdit,
     flashcardName,
     description,
+    doRefresh,
+    flashcardId
   }
 ) => {
+  const [rDescription, setRDescription] = React.useState(description);
+  const [rFlashcardName, setRFlashcardName] = React.useState(flashcardName);
+  const handleEdit = () => {
+    var newFlashcard = {
+      'flashcardName': rFlashcardName,
+      'description': rDescription
+    }
+    UpdateFlashcard(flashcardId, newFlashcard).then(res => {
+      console.log(res)
+      alert('Cập nhật flashcard thành công')
+      doRefresh()
+      handleCloseEditFlashCardModal()
+    }
+    ).catch(err => {
+      console.log(err)
+      alert('Cập nhật flashcard thất bại')
+    })
+
+  }
   return (
     <Modal
       open={isOpenEditFlashCardModal}
@@ -43,11 +64,16 @@ const EditFlashCard = (
           <Typography fontSize='18px' >
             Tiêu đề *
           </Typography>
-          <TextField sx={{ mt: '1%' }} defaultValue={flashcardName} />
+          <TextField sx={{ mt: '1%' }}
+            defaultValue={flashcardName}
+            onChange={(e) => setRFlashcardName(e.target.value)}
+          />
           <Typography fontSize='18px' mt='2%'>
             Mô tả *
           </Typography>
-          <TextField sx={{ mt: '1%' }} multiline rows={2} defaultValue={description} />
+          <TextField sx={{ mt: '1%' }} multiline rows={2} defaultValue={description}
+            onChange={(e) => setRDescription(e.target.value)}
+          />
         </Box>
         <Box display='flex' justifyContent='space-between' mt='3%'>
           <Button

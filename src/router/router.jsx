@@ -62,7 +62,6 @@ const TheRouter = () => {
       <Route path='/Order' exact element={<Order />} />
 
       <Route path='/FlashCardDetail/:id' exact element={<FlashCardDetail />} />
-      <Route path='/TestComponent' exact element={<TestComponent />} />
       <Route path='/VerifyEmail' exact element={<VerifyOTP />} />
       <Route path='/FlashCardDetail' exact element={<FlashCardDetail />} />
       <Route path="/Preview/:id" exact element={<Preview />} />
@@ -78,9 +77,9 @@ const TheRouter = () => {
       <Route path="/Test" exact element={<Tests />} />
       <Route path="/TakeTest" exact element={<TakeTest />} />
       <Route path="/TestDetail" exact element={<ChooseTestPart />} />
-      {/* <Route element={<RequireCourse />}> */}
-      <Route path="/CourseLearning/:id" exact element={<CourseLearning />} />
-      {/* </Route> */}
+      <Route element={<RequireCourse />}>
+        <Route path="/CourseLearning/:id" exact element={<CourseLearning />} />
+      </Route>
       <Route path="/TestDetail/:id" exact element={<ChooseTestPart />} />
       <Route path="/StudyProgress" exact element={<StudyProgress />} />
       <Route path="/Flashcards" exact element={<FlashCard />} />

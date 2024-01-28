@@ -1,6 +1,6 @@
 import { Box, Button, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import React from 'react'
-const optionLecter = ['A', 'B', 'C', 'D']
+const optionLecter = ['A', 'B', 'C', 'D', 'E']
 const SecondPartCard = ({
   ques,
   indexQues,
@@ -40,9 +40,9 @@ const SecondPartCard = ({
           {
             ques.answers.map((answer, index) => (
               <FormControlLabel
-                value={answer}
+                value={answer.answer}
                 control={<Radio />}
-                label={<span style={{ fontSize: '20px' }}>{optionLecter[index] + '. ' + answer}</span>}
+                label={<span style={{ fontSize: '20px' }}>{optionLecter[index] + '. ' + answer.answer}</span>}
               />
             ))
           }

@@ -3,18 +3,29 @@ import React from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
+import { CreateFlashCardItem } from '../../../../../Services/FlascardService';
 
 const AddNewWord = ({
   isOpenAddNewWordModal,
   flashcardName,
   handleCloseAddNewWordModal,
+  flashcardId,
+  doRefresh
 }) => {
   const [isOpenCollapse, setIsOpenCollapse] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [newWord, setNewWord] = useState('')
+  const [defination, setDefination] = useState('')
+  const [example, setExample] = useState('')
+  const [note, setNote] = useState('')
+  const [type, setType] = useState('')
+  const [spelling, setSpelling] = useState('')
+  const [Image, setImage] = useState(null)
   const handleImageChange = (event) => {
     event.preventDefault();
     // setCourseImage(event.target.files[0]);
     const file = event.target.files[0];
+    setImage(file);
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -23,6 +34,32 @@ const AddNewWord = ({
       reader.readAsDataURL(file);
     }
   };
+
+  const handleAddNewWord = () => {
+    if (!newWord || !defination) return alert('Vui lòng nhập đầy đủ thông tin');
+    else {
+      const form = new FormData();
+      form.append('flashcardId', flashcardId);
+      form.append('newWord', newWord);
+      form.append('defination', defination);
+      form.append('example', example);
+      form.append('note', note);
+      form.append('type', type);
+      form.append('spelling', spelling);
+      form.append('image', Image);
+      console.log(form);
+      CreateFlashCardItem(form).then(res => {
+        console.log(res)
+        alert('Thêm từ mới thành công')
+        handleCloseAddNewWordModal();
+      }).catch(err => {
+        console.log(err)
+        alert('Thêm từ mới thất bại')
+      })
+      // handleAddFlashcard(newFlashcard);
+      // onCloseAddFlashcard();
+    }
+  }
   return (
     <Modal
       open={isOpenAddNewWordModal}
@@ -59,11 +96,19 @@ const AddNewWord = ({
           <Typography fontSize='18px' >
             Từ mới
           </Typography>
-          <TextField sx={{ mt: '1%' }} />
+          <TextField sx={{ mt: '1%' }}
+            name='newWord'
+            onChange={(e) => setNewWord(e.target.value)}
+            defaultValue={newWord}
+          />
           <Typography fontSize='18px' mt='3%'>
             Định nghĩa
           </Typography>
-          <TextField sx={{ mt: '1%' }} multiline rows={2} />
+          <TextField sx={{ mt: '1%' }} multiline rows={2}
+            name='defination'
+            onChange={(e) => setDefination(e.target.value)}
+            defaultValue={defination}
+          />
         </Box>
 
         <Box border='2px solid rgb(215 214 214)' borderRadius='10px' mt='2%'>
@@ -105,29 +150,47 @@ const AddNewWord = ({
                   <Typography fontSize='18px' >
                     Loại từ (N, V, ADJ,..)
                   </Typography>
-                  <TextField sx={{ mt: '1%' }} />
+                  <TextField sx={{ mt: '1%' }}
+                    name='type'
+                    onChange={(e) => setType(e.target.value)}
+                    defaultValue={type}
+                  />
                 </Box>
                 <Box display='flex' flexDirection='column' width='48%'>
                   <Typography fontSize='18px' >
                     Phiên âm
                   </Typography>
-                  <TextField sx={{ mt: '1%' }} />
+                  <TextField sx={{ mt: '1%' }}
+                    name='spelling'
+                    onChange={(e) => setSpelling(e.target.value)}
+                    defaultValue={spelling}
+                  />
                 </Box>
               </Box>
               <Typography fontSize='18px' mt='3%'>
                 Ví dụ
               </Typography>
-              <TextField sx={{ mt: '1%' }} multiline rows={2} />
+              <TextField sx={{ mt: '1%' }} multiline rows={2}
+                name='example'
+                onChange={(e) => setExample(e.target.value)}
+                defaultValue={example}
+              />
 
               <Typography fontSize='18px' mt='3%'>
                 Ghi chú
               </Typography>
-              <TextField sx={{ mt: '1%' }} multiline rows={2} />
+              <TextField sx={{ mt: '1%' }} multiline rows={2}
+                name='note'
+                onChange={(e) => setNote(e.target.value)}
+                defaultValue={note}
+              />
             </Box>
           </Collapse>
 
         </Box>
-        <Button sx={{ width: '70px', textTransform: 'none', mt: '4%', fontSize: '18px' }} variant='contained'>
+        <Button sx={{ width: '70px', textTransform: 'none', mt: '4%', fontSize: '18px' }} variant='contained'
+          onClick={() => handleAddNewWord()}
+        >
           Thêm
         </Button>
       </Box>

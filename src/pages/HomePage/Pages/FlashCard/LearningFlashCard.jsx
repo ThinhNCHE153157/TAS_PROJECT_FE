@@ -10,6 +10,9 @@ import { useState } from 'react';
 import Footer from '../../../../layout/Footer';
 import { useEffect } from 'react';
 import ChangeMode from './Component/ChangeMode';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { GetFlashCardByFlashcardId } from '../../../../Services/FlascardService';
 const temp = {
   id: 1,
   accountId: 101,
@@ -144,17 +147,34 @@ const temp = {
 }
 
 const LearningFlashCard = () => {
+  const accountId = useSelector((state) => state.user?.User?.accountId);
+  const { id } = useParams()
   const [data, setData] = useState(temp)
   const [index, setIndex] = useState(0)
   const [isShuffle, setIsShuffle] = useState(false)
   const [mode, setMode] = useState([0, 1, 2]) // 0: not done, 1: done, 2: star
   const [isOpenChangeMode, setIsOpenChangeMode] = useState(false)
-  let filteredItemCards = data.itemCards;
-  if (mode.length > 0) {
-    filteredItemCards = data.itemCards.filter(item => mode.includes(item.status))
-  }
-  const item = filteredItemCards[index];
-
+  const [filteredItemCards, setFilteredItemCards] = useState([])
+  const [item, setItem] = useState()
+  useEffect(() => {
+    GetFlashCardByFlashcardId(id, accountId).then(res => {
+      console.log(res)
+      res.data.itemCards.forEach(item => {
+        if (item.status === null) {
+          item.status = 0
+        }
+      })
+      setData(res.data)
+      setFilteredItemCards(res.data.itemCards)
+      setItem(res.data.itemCards[index])
+      if (mode.length > 0) {
+        setFilteredItemCards(res.data.itemCards.filter(item => mode.includes(item.status)))
+      }
+    }
+    ).catch(err => {
+      console.log(err)
+    })
+  }, [mode, index])
   useEffect(() => {
     setIndex(0)
   }, [mode])
@@ -257,9 +277,6 @@ const LearningFlashCard = () => {
           <Button sx={{ textTransform: 'none', fontSize: '18px' }} startIcon={<SettingsIcon />} onClick={() => setIsOpenChangeMode(true)}>
             Chọn chế độ
           </Button>
-          <Button sx={{ textTransform: 'none', fontSize: '18px' }} startIcon={<ShuffleIcon />}>
-            Xáo trộn
-          </Button>
         </Box>
         <Box
           width='800px'
@@ -270,9 +287,14 @@ const LearningFlashCard = () => {
           flexDirection='column'
           mt='10px'
         >
-          <Box>
-            <FlipingCard item={item} isFliped={true} />
-          </Box>
+          {
+            filteredItemCards.length > 0 ? (
+              <Box>
+                <FlipingCard item={item} isFliped={true} />
+              </Box>
+            ) : ('')
+          }
+
           <Box display='flex' alignItems='center' mt='3%'>
             <IconButton
               disabled={index === 0}

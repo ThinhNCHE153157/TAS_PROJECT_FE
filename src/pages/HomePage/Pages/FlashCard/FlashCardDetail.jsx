@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../../../../layout/Header'
 import { Box, Button, IconButton, Typography } from '@mui/material'
 import bgPic from '../../../../Assets/img/flashcard.png'
@@ -10,10 +10,13 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
 import EditFlashCard from './Component/EditFlashCard'
 import EditItemCard from './Component/EditItemCard'
+import { useNavigate, useParams } from 'react-router-dom'
+import { CreateItemCard, GetFlashCardByFlashcardId, GetFlashcardByAccountId } from '../../../../Services/FlascardService'
+import { alertSuccess } from '../../../../component/AlertComponent'
+import { useSelector } from 'react-redux'
 const itemsPerPage = 10;
 const temp = {
   id: 1,
-  accountId: 101,
   flashcardName: "Travel",
   description: "Discover different cultures and explore new places.",
   isOwn: 1,
@@ -144,16 +147,35 @@ const temp = {
   ]
 }
 const FlashCardDetail = () => {
+  const accountId = useSelector((state) => state.user?.User?.accountId);
+  const { id } = useParams();
+  const nav = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpenAddFlashCardModal, setIsOpenAddFlashCardModal] = useState(false);
   const [isOpenEditFlashCardModal, setIsOpenEditFlashCardModal] = useState(false);
   const [isOpenAddNewWordModal, setIsOpenAddNewWordModal] = useState(false);
   const [isOpenEditItemCardModal, setIsOpenEditItemCardModal] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [selectedItemCard, setSelectedItemCard] = useState(null);
+  const [currentDataOnPage, setCurrentDataOnPage] = useState([])
   const [data, setData] = useState(temp)
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentDataOnPage = data.itemCards.slice(indexOfFirstItem, indexOfLastItem);
+  useEffect(() => {
+    GetFlashCardByFlashcardId(id, accountId).then(res => {
+      console.log(res)
+      setCurrentDataOnPage(res.data.itemCards.slice(indexOfFirstItem, indexOfLastItem))
+      setData(res.data)
+    }
+    ).catch(err => {
+      console.log(err)
+    })
+  }, [refresh, currentPage])
+
+
+  const doRefresh = () => {
+    setRefresh(!refresh)
+  }
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
     const flagElement = document.getElementById('flag');
@@ -209,6 +231,20 @@ const FlashCardDetail = () => {
     utterance.rate = 1.0; // Tốc độ đọc, 1.0 là tốc độ bình thường
     window.speechSynthesis.speak(utterance);
   }
+  const handleAddMultipleWords = (data) => {
+    const newData = data.map(item => ({
+      ...item,
+      flashcardId: id,
+    }));
+    console.log('newData', newData)
+    CreateItemCard(newData).then(res => {
+      alertSuccess('Thêm từ thành công')
+      setIsOpenAddFlashCardModal(false)
+      setRefresh(!refresh)
+    }).catch(err => {
+      console.log(err)
+    })
+  }
   return (
     <Box >
       <Header />
@@ -236,7 +272,7 @@ const FlashCardDetail = () => {
                 Flashcard: {data.flashcardName}
               </Typography>
               {
-                data.isOwn === 1 && (
+                data.isOwn === true && (
                   <>
                     <Button
                       variant='contained'
@@ -276,7 +312,9 @@ const FlashCardDetail = () => {
             </Box>
 
             <Box mt='2%' width='90%' id="flag">
-              <Button sx={{ width: '100%', color: '#1e2022', bgcolor: '#e8f2ff', border: '1px solid #35509a' }}>
+              <Button sx={{ width: '100%', color: '#1e2022', bgcolor: '#e8f2ff', border: '1px solid #35509a' }}
+                onClick={() => nav(`/LearningFlashCard/${id}`)}
+              >
                 Luyện tập flashcard
               </Button>
             </Box>
@@ -356,11 +394,11 @@ const FlashCardDetail = () => {
                       </Typography>
                     </Box>
                     <Box width='30%' display='flex' justifyContent='space-between' alignItems='center'>
-                      <img src='https://source.unsplash.com/800x600/random' width='100%' height='auto' />
+                      <img src={item.image} width='100%' height='auto' />
                     </Box>
                   </Box>
                   {
-                    data.isOwn === 1 && (
+                    data.isOwn === true && (
                       <Box width='100%' display='flex' alignItems='center' justifyContent='end' >
                         <IconButton onClick={() => {
                           setIsOpenEditItemCardModal(true)
@@ -407,12 +445,21 @@ const FlashCardDetail = () => {
         </Box>
       </Box>
       <Footer />
-      <AddFlashCard isOpenAddFlashCardModal={isOpenAddFlashCardModal} handleCloseAddFlashCardModal={handleCloseAddFlashCardModal} />
-      <AddNewWord isOpenAddNewWordModal={isOpenAddNewWordModal} handleCloseAddNewWordModal={handleCloseAddNewWordModal} flashcardName={data.flashcardName} />
-      <EditFlashCard isOpenEditFlashCardModal={isOpenEditFlashCardModal} flashcardName={data.flashcardName} description={data.description} handleCloseEditFlashCardModal={handleCloseEditFlashCardModal} />
+      <AddFlashCard isOpenAddFlashCardModal={isOpenAddFlashCardModal} handleCloseAddFlashCardModal={handleCloseAddFlashCardModal}
+        handleAddMultipleWords={handleAddMultipleWords}
+        doRefresh={doRefresh}
+      />
+      <AddNewWord isOpenAddNewWordModal={isOpenAddNewWordModal} handleCloseAddNewWordModal={handleCloseAddNewWordModal} flashcardName={data.flashcardName} flashcardId={id}
+        doRefresh={doRefresh}
+      />
+      <EditFlashCard isOpenEditFlashCardModal={isOpenEditFlashCardModal} flashcardName={data.flashcardName} description={data.description} handleCloseEditFlashCardModal={handleCloseEditFlashCardModal} flashcardId={id}
+        doRefresh={doRefresh}
+      />
       {
         selectedItemCard && (
-          <EditItemCard isOpenEditItemCardModal={isOpenEditItemCardModal} ItemCard={selectedItemCard} handleCloseEditItemCardModal={handleCloseEditItemCardModal} flashcardName={data.flashcardName} />
+          <EditItemCard isOpenEditItemCardModal={isOpenEditItemCardModal} ItemCard={selectedItemCard} handleCloseEditItemCardModal={handleCloseEditItemCardModal} flashcardName={data.flashcardName}
+            doRefresh={doRefresh}
+          />
         )
       }
     </Box >

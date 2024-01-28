@@ -8,6 +8,9 @@ const TestResultCard = ({
   indexQues,
   userAnswer = '',
 }) => {
+  console.log('ques: ', ques)
+  const correctAnswer = ques.questionAnswers?.find((item) => item.iscorrect === true)
+  console.log('correctAnswer: ', correctAnswer)
   return (
     <Box display='flex' mt='1%' ml='4%'>
       {
@@ -33,7 +36,7 @@ const TestResultCard = ({
               {ques.description}
             </Typography>
             {
-              ques.correctAnswer === userAnswer ? (
+              correctAnswer.answer === userAnswer ? (
                 <CheckOutlinedIcon sx={{ color: 'green', mr: '3%', fontSize: '30px' }} />
               ) : (
                 <CloseOutlinedIcon sx={{ color: 'red', mr: '3%', fontSize: '30px' }} />
@@ -53,12 +56,12 @@ const TestResultCard = ({
           }}
         >
           {
-            ques.answers &&
-            ques.answers.map((data, index) => (
+            ques.questionAnswers &&
+            ques.questionAnswers.map((data, index) => (
               <FormControlLabel
-                value={data}
+                value={data.answer}
                 control={<Radio readOnly />}
-                label={<span style={{ fontSize: '20px' }}>{optionLecter[index] + '. ' + data}</span>}
+                label={<span style={{ fontSize: '20px' }}>{optionLecter[index] + '. ' + data.answer}</span>}
               />
             ))
           }

@@ -8,6 +8,7 @@ const EditItemCard = ({
   handleCloseEditItemCardModal,
   ItemCard,
   flashcardName,
+  doRefresh
 
 }) => {
   const [isOpenCollapse, setIsOpenCollapse] = useState(false);

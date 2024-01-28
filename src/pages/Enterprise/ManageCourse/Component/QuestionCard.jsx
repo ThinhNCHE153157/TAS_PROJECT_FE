@@ -8,15 +8,45 @@ import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import { useState } from 'react';
+import EditQuestion from '../AddModal/EditQuestion';
+import { useEffect } from 'react';
+import { UpdateQuestion } from '../../../../Services/ManageCourseService';
+import { alertError, alertSuccess } from '../../../../component/AlertComponent';
 
 const options = ['A', 'B', 'C', 'D', 'E'];
 const QuestionCard = ({
   question = {},
   number,
-  handleDeleteQuestion
+  handleDeleteQuestion,
+  handleReload
 }) => {
   const [isOpenCollapse, setIsOpenCollapse] = useState(false)
+  const [isOpenEditQuestionModal, setIsOpenEditQuestionModal] = useState(false);
+  const handleCloseModal = () => {
+    setIsOpenEditQuestionModal(false)
+  }
+  const editQuestion = (data) => {
+    var form = new FormData()
+    form.append('questionId', data.questionId)
+    form.append('description', data.description)
+    form.append('image', data.image)
+    form.append('questionAnswers', data.questionAnswers)
+    console.log('form: ', form)
+    UpdateQuestion(form).then(res => {
+      console.log(res)
+      alertSuccess('Sửa câu hỏi thành công')
+      handleReload()
+      setIsOpenEditQuestionModal(false)
+    }).catch(err => {
+      alertError('Sửa câu hỏi thất bại')
+    })
+  }
 
+  useEffect(() => {
+    if (isOpenCollapse) {
+      setIsOpenEditQuestionModal(false)
+    }
+  }, [isOpenCollapse])
   return (
     <Box display='flex' flexDirection='column'>
       <Box mt='1%' bgcolor='white' display='flex' justifyContent='space-between' minHeight='80px' alignItems='center'>
@@ -36,7 +66,11 @@ const QuestionCard = ({
           </IconButton>
         </Box>
         <Box mr='3%'>
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              setIsOpenEditQuestionModal(true)
+            }}
+          >
             <EditIcon />
           </IconButton>
           <IconButton
@@ -91,6 +125,9 @@ const QuestionCard = ({
 
       </Collapse >
       <Divider sx={{ bgcolor: 'black' }} />
+      <EditQuestion isOpenModal={isOpenEditQuestionModal} question={question} handleCloseModal={handleCloseModal}
+        editQuestion={editQuestion}
+      />
     </Box >
 
   )

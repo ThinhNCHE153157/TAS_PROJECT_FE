@@ -62,7 +62,6 @@ const TheRouter = () => {
       <Route path='/Order' exact element={<Order />} />
 
       <Route path='/FlashCardDetail/:id' exact element={<FlashCardDetail />} />
-      <Route path='/TestComponent' exact element={<TestComponent />} />
       <Route path='/VerifyEmail' exact element={<VerifyOTP />} />
       <Route path='/FlashCardDetail' exact element={<FlashCardDetail />} />
       <Route path="/Preview/:id" exact element={<Preview />} />

@@ -3,6 +3,9 @@ import React from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { Create } from '@mui/icons-material';
+import { CreateFlascard } from '../../../../../Services/FlascardService';
+import { alertSuccess } from '../../../../../component/AlertComponent';
 const AddListFlashcard = ({
   isOpenAddFlashcard,
   onCloseAddFlashcard,
@@ -21,6 +24,13 @@ const AddListFlashcard = ({
         flashcardName,
         description,
       }
+      CreateFlascard(newFlashcard).then(res => {
+        console.log(res);
+        alertSuccess({ message: 'Thêm thành công' });
+      }).catch(err => {
+        console.log(err);
+      })
+
       console.log(newFlashcard);
       handleAddFlashcard(newFlashcard);
       onCloseAddFlashcard();

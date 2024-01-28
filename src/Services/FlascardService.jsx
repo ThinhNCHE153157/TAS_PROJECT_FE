@@ -5,8 +5,8 @@ export const GetFlashcardByAccountId = async (accountId) => {
   return res;
 }
 
-export const CreateFlascard = async (data) => {
-  const res = await API.post('/FlashCard/CreateFlashCard', data);
+export const CreateFlascard = (data) => {
+  const res = API.post('/FlashCard/CreateFlashCard', data);
   return res;
 }
 

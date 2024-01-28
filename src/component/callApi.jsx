@@ -115,7 +115,7 @@ export const AddUser = (data) => {
 
 export const EditUser = (accountId, data) => {
   return new Promise((resolve, reject) => {
-    API.put(`https://localhost:5000/api/Account/EditAccount?accountId=${accountId}`, data)
+    API.put(`http://103.179.173.136:5000/api/Account/EditAccount?accountId=${accountId}`, data)
       .then((response) => {
         resolve(response.data); // Trả về dữ liệu từ API
       })

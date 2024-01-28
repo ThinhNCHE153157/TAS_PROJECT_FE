@@ -137,7 +137,7 @@ const CourseDetail = () => {
                         </Grid>
                         <Grid item xs={6}>
                             <Typography sx={{ mt: 2 }} variant="body2" component="p">
-                                Course Description: {Course.courseDescription}
+                                Course Description: {Course.shortDescription}
                             </Typography>
                         </Grid>
                     </Grid>
